@@ -1,5 +1,8 @@
 package EngineElement;
 import EngineMath.*;
+/**
+ * Реализует базовые возможности хитбокса
+ */
 public class BaseHitbox implements Hitbox{
 	protected Point position;
 	protected float angle;
@@ -9,7 +12,10 @@ public class BaseHitbox implements Hitbox{
 		this.vertex = vertex;
 		this.position = position;
 		this.angle = (float)angle;
-		vertexBuffer = vertex.clone();
+		vertexBuffer = new Point[vertex.length];
+		for(int i = 0; i < vertex.length; i++) {
+			vertexBuffer[i] = vertex[i].clone();
+		}
 	}
 	@Override
 	public Point getPosition() {

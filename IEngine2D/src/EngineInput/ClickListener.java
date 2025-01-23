@@ -1,7 +1,7 @@
-package Input;
+package EngineInput;
 
 import java.awt.event.MouseEvent;
 
 public interface ClickListener {
-	public void click(MouseEvent e);
+	public void onClick(MouseEvent e);
 }

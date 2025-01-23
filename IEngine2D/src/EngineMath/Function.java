@@ -1,6 +1,17 @@
 package EngineMath;
 
+/**
+ * Класс, содержащий полезные статичные методы
+ */
 public class Function {
+	/**
+	 * 
+	 * @param a - 1-ая точка 1-го отрезка
+	 * @param b - 2-ая точка 1-го отрезка
+	 * @param c - 1-ая точка 2-го отрезка
+	 * @param d - 2-ая точка 2-отрезка
+	 * @return true если отрезки пересекаются
+	 */
 	public static boolean isLineSegmentCross(Point a, Point b, Point c, Point d) {
 		
 		Vector v1 = a.getVector(b);
@@ -27,6 +38,16 @@ public class Function {
 		}
 		return true;
 	}
+	/**
+	 * 
+	 * @param a - 1-ая точка 1-го отрезка
+	 * @param b - 2-ая точка 1-го отрезка
+	 * @param c - 1-ая точка 2-го отрезка
+	 * @param d - 2-ая точка 2-отрезка
+	 * @return точка пересечения отрезков<br> 
+	 * Если отрезки совпадают, то точку, находящуюся посередине между серединами отрезками<br>
+	 * null если точки пересечения нет
+	 */
 	public static Point getLineSegmentCrossPoint(Point a, Point b, Point c, Point d) {
 		float a1 = a.y - b.y;
 		float b1 = b.x - a.x;
