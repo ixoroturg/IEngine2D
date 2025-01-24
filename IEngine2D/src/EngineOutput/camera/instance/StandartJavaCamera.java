@@ -2,6 +2,7 @@ package EngineOutput.camera.instance;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import EngineElement.*;
+import EngineElement.interfaces.Hitbox;
 import EngineMath.Point;
 import EngineOutput.camera.*;
 import EngineOutput.camera.CameraProperty.Property;
@@ -21,7 +22,11 @@ public class StandartJavaCamera extends BaseCamera{
 		frame.translate((int)position.x, (int)(-position.y));
 	}
 	@Override
-	protected void renderObject(Renderable renderObject) {
+	protected RenderInfo beforeRenderObjectAction(Renderable renderObject) {
+		return renderObject.getRenderInfo();
+	}
+	@Override
+	protected void renderObject(Renderable renderObject, RenderInfo info) {
 		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
 			frame.setColor(new Color(properties.get(Property.showHitbox)));	
 			Point[] ps = hitbox.getVertex();

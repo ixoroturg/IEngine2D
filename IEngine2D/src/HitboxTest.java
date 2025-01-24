@@ -1,4 +1,4 @@
-import EngineElement.BaseHitbox;
+import EngineElement.interfaces.baseInstance.BaseHitbox;
 import EngineMath.Point;
 import EngineOutput.camera.RenderInfo;
 import EngineOutput.camera.Renderable;

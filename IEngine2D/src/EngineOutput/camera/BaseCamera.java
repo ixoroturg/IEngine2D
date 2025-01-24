@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Map;
 
-import EngineElement.World;
+import EngineElement.interfaces.World;
 import EngineMath.Point;
 import EngineMath.Vector;
 
@@ -14,7 +14,7 @@ public abstract class BaseCamera implements Camera{
 	protected float scale = 1;
 	protected World world = null;
 	protected int width = 0, height = 0;
-	protected Map<Integer,List<Renderable>> renderMap = null;
+	protected List<Renderable> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
 	public BaseCamera() {
 		
@@ -74,7 +74,7 @@ public abstract class BaseCamera implements Camera{
 	@Override
 	public Camera setWorld(World world) {
 		this.world = world;
-		setRenderMap(this.world.renderObjects);
+		setRenderList(this.world.getStorage().getRenderList());
 		return this;
 	}
 	@Override
@@ -82,18 +82,18 @@ public abstract class BaseCamera implements Camera{
 		return world;
 	}
 	@Override
-	public Camera addRenderList(int key, List<Renderable> list) {
-		renderMap.put(key, list);
+	public Camera addRenderList(List<Renderable> list) {
+		renderList.addAll(list);
 		return this;
 	}
 	@Override
-	public Camera setRenderMap(Map<Integer, List<Renderable>> map) {
-		renderMap = map;
+	public Camera setRenderList(List<Renderable> list) {
+		renderList = list;
 		return this;
 	}
 	@Override
-	public Map<Integer, List<Renderable>> getRenderLists() {
-		return renderMap;
+	public List<Renderable> getRenderList() {
+		return renderList;
 	}
 	@Override
 	public CameraProperty getProperties() {
@@ -112,15 +112,15 @@ public abstract class BaseCamera implements Camera{
 	@Override
 	public Image render() {
 		renderStart();
-		renderMap.values().forEach(list -> {
-			list.forEach(renderObject -> {
-				renderObject(renderObject);
+			renderList.forEach(renderObject -> {
+				renderObject(renderObject ,beforeRenderObjectAction(renderObject));
 			});
-		});
+
 		return renderComplete();
 	}
 	protected abstract void renderStart();
-	protected abstract void renderObject(Renderable renderObject);
+	protected abstract RenderInfo beforeRenderObjectAction(Renderable renderObject);
+	protected abstract void renderObject(Renderable renderObject, RenderInfo info);
 	protected abstract Image renderComplete();
 	
 }

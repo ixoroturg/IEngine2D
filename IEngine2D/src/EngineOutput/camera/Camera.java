@@ -5,6 +5,7 @@ import java.util.Map;
 
 import EngineMath.*;
 import EngineElement.*;
+import EngineElement.interfaces.World;
 /**
  * Интерфейс для камеры
  */
@@ -98,18 +99,18 @@ public interface Camera{
 	 * @param list
 	 * @return
 	 */
-	public Camera addRenderList(int key,List<Renderable> list);
+	public Camera addRenderList(List<Renderable> list);
 	/**
 	 * Устанавливает все списки объектов для рендеринга
 	 * @param map
 	 * @return
 	 */
-	public Camera setRenderMap(Map<Integer,List<Renderable>> map);
+	public Camera setRenderList(List<Renderable> list);
 	/**
 	 * Возвращает списки объектов для рендеринга
 	 * @return
 	 */
-	public Map<Integer,List<Renderable>> getRenderLists();
+	public List<Renderable> getRenderList();
 	/**
 	 * @return особые настройки камеры
 	 */

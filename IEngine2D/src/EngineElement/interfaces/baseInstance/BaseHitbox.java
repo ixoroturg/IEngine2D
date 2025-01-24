@@ -1,4 +1,5 @@
-package EngineElement;
+package EngineElement.interfaces.baseInstance;
+import EngineElement.interfaces.Hitbox;
 import EngineMath.*;
 /**
  * Реализует базовые возможности хитбокса

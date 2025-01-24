@@ -5,7 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
-import EngineElement.World;
+import EngineElement.interfaces.World;
 import EngineOutput.camera.Camera;
 import EngineOutput.camera.CameraProperty.Property;
 

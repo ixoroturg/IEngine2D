@@ -1,4 +1,4 @@
-package EngineElement;
+package EngineElement.interfaces;
 import EngineMath.*;
 /**
  * Интерфейс для хитбоксов

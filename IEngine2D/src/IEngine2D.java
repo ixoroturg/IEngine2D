@@ -3,6 +3,8 @@ import EngineMath.*;
 import java.util.List;
 
 import EngineElement.*;
+import EngineElement.interfaces.World;
+import EngineElement.interfaces.baseInstance.BaseWorld;
 import EngineOutput.Window;
 public class IEngine2D {
 
@@ -16,9 +18,9 @@ public class IEngine2D {
 		p[3] = new Point(-200,-100);
 		p[4] = new Point(-400,100);
 		
-		World w = new World();	
-		Hitbox h = new HitboxTest(p, new Point(960,540), 0);
-		w.renderObjects.put(0,List.of((HitboxTest)h));
+		World w = new BaseWorld();	
+		//Hitbox h = new HitboxTest(p, new Point(960,540), 0);
+		//w.renderObjects.put(0,List.of((HitboxTest)h));
 		new Window(w);
 		
 	}
