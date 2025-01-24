@@ -9,12 +9,15 @@ public class BaseHitbox implements Hitbox{
 	protected float angle;
 	private Point[] vertexBuffer;
 	protected Point[] vertex;
+	protected float radius = 0;
 	public BaseHitbox(Point[] vertex, Point position, double angle) {
 		this.vertex = vertex;
 		this.position = position;
 		this.angle = (float)angle;
 		vertexBuffer = new Point[vertex.length];
 		for(int i = 0; i < vertex.length; i++) {
+			if(this.position.getDistance(vertex[i]) > radius)
+				radius = this.position.getDistance(vertex[i]);
 			vertexBuffer[i] = vertex[i].clone();
 		}
 	}
@@ -57,7 +60,10 @@ public class BaseHitbox implements Hitbox{
 	public void setVertex(Point[] p) {
 		vertex = p;
 	}
-
+	@Override
+	public float getRadius() {
+		return radius;
+	}
 	@Override
 	public boolean isCollisied(Hitbox h) {
 		Point[] p1 = getVertex();

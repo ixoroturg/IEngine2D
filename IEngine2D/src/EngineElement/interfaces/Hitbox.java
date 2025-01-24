@@ -43,6 +43,7 @@ public interface Hitbox {
 	 * @param p
 	 */
 	public void setVertex(Point[] p);
+	public float getRadius();
 	/**
 	 * 
 	 * @param h
