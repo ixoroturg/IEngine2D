@@ -10,7 +10,8 @@ import EngineOutput.camera.Camera;
 import EngineOutput.camera.CameraProperty.Property;
 
 public class Window extends JFrame{
-	private Panel frame;// = new Panel(new EngineOutput.camera.instance.StandartJavaCamera().setResolution(getWidth(), getHeight()));
+	public Panel frame;// = new Panel(new EngineOutput.camera.instance.StandartJavaCamera().setResolution(getWidth(), getHeight()));
+	
 	public Window(World w) {
 		this("IEngine2D", w);
 	}

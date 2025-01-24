@@ -1,5 +1,6 @@
 package EngineElement.interfaces;
 
+@FunctionalInterface
 public interface WorldBuilder {
-	public void Build();
+	public World build();
 }

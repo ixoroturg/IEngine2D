@@ -1,12 +1,19 @@
 package EngineElement.interfaces;
 
-public interface World {
+import EngineInput.Controller;
+
+public interface World extends Controlable{
 	public Storage getStorage();
-	public void setWorld(Storage storage);
-	public void previosWorld();
-	public void saveWorld(int index);
-	public void restoreWorld(int index);
+	public World setWorld(Storage storage);
+	
+	public World previosWorld();
+	public World saveWorld(int index);
+	public World restoreWorld(int index);
+	
+	public World setController(Controller controller);
 	
 	public World setTickrate(int tickrate);
 	public void doTick();
+	
+	
 }

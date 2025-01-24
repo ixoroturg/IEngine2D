@@ -78,6 +78,15 @@ public class Vector {
 		this.y -= y;
 		return this;
 	}
+	public Vector mul(float a) {
+		x *= a;
+		y *= a;
+		return this;
+	}
+	public Vector getUnitVector() {
+		float angle = getAngle();
+		return new Vector((float)Math.cos(angle), (float)Math.sin(angle));
+	}
 	/**
 	 * @return длина вектора
 	 */

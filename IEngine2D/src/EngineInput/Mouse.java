@@ -5,13 +5,19 @@ import java.util.*;
 import EngineMath.*;
 import EngineMath.Vector;
 import EngineOutput.camera.Camera;
-public class Mouse implements MouseListener, MouseMotionListener{
-	public enum MouseButton{
-		Mouse1, Mouse2, Mouse3, Mouse4, Mouse5, WheelUp, WheelDown
-	}
+public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
+	public static int 
+			MOUSE1 = 1,
+			MOUSE2 = 2,
+			MOUSE3 = 3,
+			MOUSE4 = 4,
+			MOUSE5 = 5,
+			WHEEL_UP = 6,
+			WHEEL_DOWN = 7;
+			
 	public Point position = new Point(0,0);
 	public boolean drag = false;
-	public Map<MouseButton, Boolean> button = new TreeMap<MouseButton, Boolean>();
+	public Map<Integer, Boolean> button = new TreeMap<Integer, Boolean>();
 	public Vector lastMovement = new Vector(0,0);
 	private List<ClickListener> listener = new LinkedList<ClickListener>();
 	public Camera camera = null;
@@ -20,15 +26,16 @@ public class Mouse implements MouseListener, MouseMotionListener{
 	
 	private Point buffer = new Point(0,0);
 	
-	public Mouse(Camera camera) {
+	public Mouse() {
+		button.put(1, false);
+		button.put(2, false);
+		button.put(3, false);
+		button.put(4, false);
+		button.put(5, false);
+	}
+	public Mouse setCamera(Camera camera) {
 		this.camera = camera;
-		button.put(MouseButton.Mouse1, false);
-		button.put(MouseButton.Mouse2, false);
-		button.put(MouseButton.Mouse3, false);
-		button.put(MouseButton.Mouse4, false);
-		button.put(MouseButton.Mouse5, false);
-		button.put(MouseButton.WheelUp, false);
-		button.put(MouseButton.WheelDown, false);
+		return this;
 	}
 	public void addClickListener(ClickListener listener) {
 		this.listener.add(listener);
@@ -39,7 +46,7 @@ public class Mouse implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		buffer.set(position);
-		position.set(e.getX(), e.getY()).add(camera.getPosition());
+		position.set(e.getX(), camera.getResolution()[1] - e.getY()).add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
 		drag = true;
 	}
@@ -47,27 +54,27 @@ public class Mouse implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		buffer.set(position);
-		position.set(e.getX(), e.getY()).add(camera.getPosition());
+		position.set(e.getX(), camera.getResolution()[1] - e.getY()).add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
 		drag = false;
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		listener.forEach(l -> {l.onClick(e);});
+		listener.forEach(l -> {l.onClick(e.getButton());});
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int key = e.getButton();
-		button.put(MouseButton.values()[key],true);
+		button.put(key,true);
 		dragStart.set(e.getX(), e.getY()).add(camera.getPosition());	
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		int key = e.getButton();
-		button.put(MouseButton.values()[key],false);
+		button.put(key,false);
 		dragEnd.set(e.getX(), e.getY()).add(camera.getPosition());
 	}
 
@@ -79,6 +86,13 @@ public class Mouse implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
+	}
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		// - от человека вверх, + к человеку вниз
+		int key = e.getWheelRotation() < 0 ? WHEEL_UP : WHEEL_DOWN;
+		listener.forEach(l -> {l.onClick(key);});
+		button.put(key, null);
 	}
 	
 }

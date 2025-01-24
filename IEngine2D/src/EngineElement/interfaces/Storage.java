@@ -6,14 +6,14 @@ import EngineOutput.camera.Renderable;
 public interface Storage {
 	public List<Renderable> getRenderList();
 	public void setRenderList(List<Renderable> renderList);
-	public void addToRenderList(Renderable renderObject);
-	public void removeFromRenderList(Renderable renderObject);
 	
 	public List<Hitbox> getHitboxList();
-	public void addHitbox(Hitbox h);
-	public void removeHitbox(Hitbox h);
+	public Storage setHitboxList(List<Hitbox> hitboxList);
 	
 	public List<Tickable> getTickableList();
-	public void addTickable(Tickable t);
-	public void removeTickable(Tickable t);
+	public Storage setTickableList(List<Tickable> tickableList);
+	
+	public List<Controlable> getControlList();
+	public Storage setControlList(List<Controlable> controlList);
+	
 }

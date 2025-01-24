@@ -10,6 +10,8 @@ public class TickManager implements Tickable{
 	}
 	@Override
 	public void onTick() {
-		
+		world.getStorage().getTickableList().forEach(tick -> {
+			tick.onTick();
+		});
 	}	
 }

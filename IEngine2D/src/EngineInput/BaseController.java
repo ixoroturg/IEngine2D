@@ -9,7 +9,9 @@ public class BaseController implements Controller{
 	private List<ActionListener> listeners = new LinkedList<ActionListener>();
 	protected Mouse mouse = null;
 	
-	public BaseController(int[] actions) {
+	public BaseController(int... actions) {
+		if(actions == null)
+			return;
 		for(int act: actions) {
 			action.put(act, false);
 		}
@@ -35,7 +37,7 @@ public class BaseController implements Controller{
 	}
 	@Override
 	public boolean isActive(int action) {
-		return false;
+		return this.action.get(action);
 	}
 
 	@Override
@@ -61,8 +63,9 @@ public class BaseController implements Controller{
 		this.action.put(action, false);
 	}
 	@Override
-	public void setMouse(Mouse m) {
+	public Controller setMouse(Mouse m) {
 		mouse = m;
+		return this;
 	}
 	@Override
 	public Mouse getMouse() {

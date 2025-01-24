@@ -110,6 +110,7 @@ public class Point{
 	 * @return угол в радианах
 	 */
 	public float getAngle(Point p) {
+		//System.out.println((p.y) +" "+ (p.x - x));
 		double angle = Math.atan( (p.y - y) / (p.x - x) );
 		if(p.x < x)
 			angle += Math.PI;
