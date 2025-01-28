@@ -7,6 +7,7 @@ public abstract class GameObject{
 	protected World world = null;
 	public GameObject setWorld(World world) {
 		this.world = world;
+		world.getStorage().getGameObjectList().add(this);
 		if(this instanceof Renderable canRender) {
 			world.getStorage().getRenderList().add(canRender);
 		}
@@ -16,7 +17,7 @@ public abstract class GameObject{
 		if(this instanceof Controlable canControl) {
 			world.getStorage().getControlList().add(canControl);
 		}
-		onCreate();		
+		onCreate();
 		return this;
 	}
 	protected abstract void onCreate();

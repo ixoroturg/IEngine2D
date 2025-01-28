@@ -1,21 +1,18 @@
 package EngineElement.interfaces.baseInstance;
-
+import EngineElement.interfaces.*;
 import java.util.*;
 
-import EngineElement.TickManager;
-import EngineElement.interfaces.Storage;
-import EngineElement.interfaces.World;
-import EngineElement.interfaces.WorldBuilder;
+import EngineElement.BaseTickManager;
 import EngineInput.BaseController;
-import EngineInput.Controller;
+import EngineInput.interfaces.Controller;
 
 public class BaseWorld implements World{
 	protected Map<Integer, Storage> storageMap = new TreeMap<Integer, Storage>();
 	protected Storage lastStorage;
 	protected Storage storage = new BaseStorage();
 	protected Timer tickTimer = new Timer(true);
-	protected Controller controller = new BaseController(null);
-	protected TickManager tickManager = new TickManager().setWorld(this);
+	protected Controller controller = new BaseWorldController(this);
+	protected Tickable tickManager = new BaseTickManager().setWorld(this);
 	
 	@Override
 	public Storage getStorage() {
@@ -66,5 +63,14 @@ public class BaseWorld implements World{
 	public World setController(Controller controller) {
 		this.controller = controller;
 		return this;
+	}
+	@Override
+	public World setTickManager(Tickable tickManager) {
+		this.tickManager = tickManager;
+		return this;
+	}
+	@Override
+	public Tickable getTickManager() {
+		return tickManager;
 	}
 }

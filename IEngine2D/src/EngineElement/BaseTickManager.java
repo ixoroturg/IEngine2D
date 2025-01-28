@@ -2,9 +2,9 @@ package EngineElement;
 
 import EngineElement.interfaces.*;
 
-public class TickManager implements Tickable{
+public class BaseTickManager implements Tickable{
 	protected World world;
-	public TickManager setWorld(World world) {
+	public BaseTickManager setWorld(World world) {
 		this.world = world;
 		return this;
 	}

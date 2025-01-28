@@ -2,6 +2,10 @@ package EngineInput;
 
 import java.util.*;
 
+import EngineInput.interfaces.ActionListener;
+import EngineInput.interfaces.Controller;
+import EngineInput.interfaces.Mouse;
+
 public class BaseController implements Controller{
 	
 	protected Map<Integer, List<Integer>> keyBind = new TreeMap<Integer, List<Integer>>();
@@ -9,13 +13,13 @@ public class BaseController implements Controller{
 	private List<ActionListener> listeners = new LinkedList<ActionListener>();
 	protected Mouse mouse = null;
 	
-	public BaseController(int... actions) {
+	/*public BaseController(int... actions) {
 		if(actions == null)
 			return;
 		for(int act: actions) {
 			action.put(act, false);
 		}
-	}
+	}*/
 	@Override
 	public Controller bind(int key, int action) {
 		if(keyBind.containsKey(key)) {
@@ -23,6 +27,8 @@ public class BaseController implements Controller{
 		} else {
 			keyBind.put(key, List.of(action));
 		}
+
+		this.action.put(action, false);
 		return this;
 	}
 	@Override
@@ -41,7 +47,8 @@ public class BaseController implements Controller{
 	}
 
 	@Override
-	public void press(int key) {	
+	public void press(int key) {
+		if(keyBind.containsKey(key))
 		keyBind.get(key).forEach(action -> {
 			this.action.put(action, true);
 			triggerAction(action);
@@ -49,6 +56,7 @@ public class BaseController implements Controller{
 	}
 	@Override
 	public void release(int key) {
+		if(keyBind.containsKey(key))
 		keyBind.get(key).forEach(action -> {
 			this.action.put(action, false);
 		});	

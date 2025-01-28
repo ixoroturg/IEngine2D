@@ -1,4 +1,4 @@
-package EngineInput;
+package EngineInput.interfaces;
 
 public interface Controller {
 	

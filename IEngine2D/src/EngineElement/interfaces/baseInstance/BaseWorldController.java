@@ -5,11 +5,12 @@ import java.util.*;
 import EngineElement.interfaces.Controlable;
 import EngineElement.interfaces.World;
 import EngineInput.BaseController;
+import EngineInput.interfaces.Controller;
+import EngineInput.interfaces.Mouse;
 
 public class BaseWorldController extends BaseController{
 	private World world;
 	public BaseWorldController(World world) {
-		super(null);
 		this.world = world;
 	}
 	private List<Controlable> getList(){
@@ -42,5 +43,13 @@ public class BaseWorldController extends BaseController{
 		list.forEach(controller -> {
 			controller.getController().undoAction(action);
 		});
+	}
+	@Override
+	public Controller setMouse(Mouse m) {
+		var list = getList();
+		list.forEach(controller -> {
+			controller.getController().setMouse(m);
+		});
+		return this;
 	}
 }

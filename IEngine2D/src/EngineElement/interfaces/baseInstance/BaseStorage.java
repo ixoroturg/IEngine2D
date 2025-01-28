@@ -2,17 +2,16 @@ package EngineElement.interfaces.baseInstance;
 
 import java.util.*;
 
-import EngineElement.interfaces.Controlable;
-import EngineElement.interfaces.Hitbox;
-import EngineElement.interfaces.Storage;
-import EngineElement.interfaces.Tickable;
-import EngineOutput.camera.Renderable;
+import EngineElement.GameObject;
+import EngineElement.interfaces.*;
+import EngineOutput.camera.*;
 
 public class BaseStorage implements Storage{
 	private List<Renderable> renderList = new LinkedList<Renderable>();
 	private List<Hitbox> hitboxList = new LinkedList<Hitbox>();
 	private List<Tickable> tickableList = new LinkedList<Tickable>();
 	private List<Controlable> controlList = new LinkedList<Controlable>();
+	private List<GameObject> gameObjList = new LinkedList<GameObject>();
 	@Override
 	public List<Renderable> getRenderList() {
 		return renderList;
@@ -47,6 +46,15 @@ public class BaseStorage implements Storage{
 	public Storage setControlList(List<Controlable> controlList) {
 		this.controlList = controlList;
 		return this;
+	}
+	@Override
+	public List<GameObject> getGameObjectList() {
+		return gameObjList;
+	}
+	@Override
+	public Storage setGameObjectList(List<GameObject> gameObjectList) {
+		 gameObjList = gameObjectList;
+		 return this;
 	}
 	
 }

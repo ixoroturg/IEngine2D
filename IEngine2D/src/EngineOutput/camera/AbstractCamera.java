@@ -110,6 +110,5 @@ public abstract class AbstractCamera implements Camera{
 		return new int[]{width, height};
 	}
 	public abstract Image render();
-	/**/
 	
 }

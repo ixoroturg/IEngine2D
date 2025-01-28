@@ -1,6 +1,6 @@
 package EngineElement.interfaces;
 
-import EngineInput.Controller;
+import EngineInput.interfaces.Controller;
 
 public interface Controlable {
 	public Controller getController();

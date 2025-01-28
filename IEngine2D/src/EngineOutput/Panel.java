@@ -7,10 +7,11 @@ import javax.swing.*;
 import EngineOutput.camera.Camera;
 public class Panel extends JPanel {
 	private Timer fps = new Timer(true);
-	public Camera camera;
-	Panel(Camera camera) {
+	private Camera camera;
+	public Panel setCamera(Camera camera) {
 		this.camera = camera;
-		setFPS(1000);
+		camera.setResolution(getWidth(), getHeight());
+		return this;
 	}
 	public void setFPS(int fps) {
 		this.fps.cancel();

@@ -1,10 +1,11 @@
 package EngineElement.interfaces.baseInstance;
+import EngineElement.GameObject;
 import EngineElement.interfaces.Hitbox;
 import EngineMath.*;
 /**
  * Реализует базовые возможности хитбокса
  */
-public class BaseHitbox implements Hitbox{
+public abstract class BaseHitbox extends GameObject implements Hitbox{
 	protected Point position;
 	protected float angle;
 	private Point[] vertexBuffer;

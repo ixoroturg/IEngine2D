@@ -6,7 +6,7 @@ import EngineMath.Function;
 import EngineMath.Point;
 import EngineMath.Vector;
 
-public class PhysicHitbox extends BaseHitbox{
+public abstract class PhysicHitbox extends BaseHitbox{
 	protected float weight;
 	protected Material material;
 	protected Vector movement = new Vector(0,0);

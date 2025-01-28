@@ -1,6 +1,8 @@
 package EngineElement.interfaces;
 
 import java.util.*;
+
+import EngineElement.GameObject;
 import EngineOutput.camera.Renderable;
 
 public interface Storage {
@@ -16,4 +18,6 @@ public interface Storage {
 	public List<Controlable> getControlList();
 	public Storage setControlList(List<Controlable> controlList);
 	
+	public List<GameObject> getGameObjectList();
+	public Storage setGameObjectList(List<GameObject> gameObjectList);
 }

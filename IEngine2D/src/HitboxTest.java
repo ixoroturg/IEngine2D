@@ -12,5 +12,10 @@ public class HitboxTest extends BaseHitbox implements Renderable{
 	public RenderInfo getRenderInfo() {
 		return null;
 	}
+	@Override
+	protected void onCreate() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

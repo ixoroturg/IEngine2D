@@ -1,4 +1,4 @@
-package EngineInput;
+package EngineInput.interfaces;
 
 import java.awt.event.MouseEvent;
 

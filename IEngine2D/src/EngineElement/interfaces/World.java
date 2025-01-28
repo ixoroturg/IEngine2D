@@ -1,6 +1,6 @@
 package EngineElement.interfaces;
 
-import EngineInput.Controller;
+import EngineInput.interfaces.Controller;
 
 public interface World extends Controlable{
 	public Storage getStorage();
@@ -15,5 +15,6 @@ public interface World extends Controlable{
 	public World setTickrate(int tickrate);
 	public void doTick();
 	
-	
+	public World setTickManager(Tickable tickManager);
+	public Tickable getTickManager();
 }
