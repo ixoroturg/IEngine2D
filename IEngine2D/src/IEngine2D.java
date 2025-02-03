@@ -1,18 +1,25 @@
-import EngineMath.*;
 
+import iEngine.element.interfaces.*;
+import iEngine.input.*;
+import iEngine.input.interfaces.*;
+import iEngine.output.Window;
+import iEngine.output.camera.*;
+import iEngine.output.camera.instance.*;
 
-import java.util.*;
-import EngineElement.*;
-import EngineElement.interfaces.*;
-import EngineElement.interfaces.baseInstance.*;
-import EngineInput.*;
-import EngineInput.interfaces.*;
-import EngineOutput.camera.*;
-import EngineOutput.camera.instance.*;
-import EngineOutput.Window;
+import sun.misc.Unsafe;
+
 public class IEngine2D {
 	public static StandartJavaMouse mouse = new StandartJavaMouse();
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
+		
+		//java.io.
+		//javax.sound.sampled.spi.
+		
+		Unsafe pr = Unsafe.getUnsafe();
+		pr.invokeCleaner(null);
+		
+		System.exit(0);
+		
 		World world = new MyWorldBuilder().build();
 		
 		Mouse mouse = new StandartJavaMouse();

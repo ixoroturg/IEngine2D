@@ -3,14 +3,14 @@ import java.io.*;
 
 import javax.imageio.*;
 
-import EngineElement.GameObject;
-import EngineElement.interfaces.*;
-import EngineElement.interfaces.baseInstance.*;
-import EngineInput.*;
-import EngineInput.interfaces.Controller;
-import EngineInput.interfaces.Mouse;
-import EngineMath.Point;
-import EngineOutput.camera.*;
+import iEngine.element.GameObject;
+import iEngine.element.interfaces.*;
+import iEngine.element.interfaces.baseInstance.*;
+import iEngine.input.*;
+import iEngine.input.interfaces.Controller;
+import iEngine.input.interfaces.Mouse;
+import iEngine.math.Point;
+import iEngine.output.camera.*;
 public class MouseFollower extends BaseHitbox implements Tickable, Controlable, Renderable{
 	
 

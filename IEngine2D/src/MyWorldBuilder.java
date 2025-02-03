@@ -1,7 +1,8 @@
 
-import EngineElement.interfaces.*;
-import EngineElement.interfaces.baseInstance.*;
-import EngineMath.Point;
+import iEngine.element.interfaces.*;
+import iEngine.element.interfaces.baseInstance.*;
+import iEngine.math.Point;
+
 import java.awt.event.*;
 public class MyWorldBuilder implements WorldBuilder{
 	private World world = new BaseWorld();

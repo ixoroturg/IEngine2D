@@ -1,7 +1,7 @@
-import EngineElement.interfaces.baseInstance.BaseHitbox;
-import EngineMath.Point;
-import EngineOutput.camera.RenderInfo;
-import EngineOutput.camera.Renderable;
+import iEngine.element.interfaces.baseInstance.BaseHitbox;
+import iEngine.math.Point;
+import iEngine.output.camera.RenderInfo;
+import iEngine.output.camera.Renderable;
 
 public class HitboxTest extends BaseHitbox implements Renderable{
 
