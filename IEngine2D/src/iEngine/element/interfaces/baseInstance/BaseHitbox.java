@@ -3,7 +3,13 @@ import iEngine.element.GameObject;
 import iEngine.element.interfaces.Hitbox;
 import iEngine.math.*;
 /**
- * Реализует базовые возможности хитбокса
+ * Реализует базовые возможности хитбокса<br><br>
+ * Доступно:<br><br>
+ * Point position - центр хитбокса<br>
+ * float angle - угол поворота хитбокса<br>
+ * Point[] vertex - массив вершин хитбокса (относительно (0;0)).
+ * Для получения актуальных вершин вызывайте getVertex() - возвращает Point[]<br>
+ * float radius - максимальный радиус хитбокса<br>
  */
 public abstract class BaseHitbox extends GameObject implements Hitbox{
 	protected Point position;

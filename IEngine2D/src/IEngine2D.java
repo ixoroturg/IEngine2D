@@ -11,15 +11,7 @@ import sun.misc.Unsafe;
 public class IEngine2D {
 	public static StandartJavaMouse mouse = new StandartJavaMouse();
 	public static void main(String[] args) {
-		
-		//java.io.
-		//javax.sound.sampled.spi.
-		
-		Unsafe pr = Unsafe.getUnsafe();
-		pr.invokeCleaner(null);
-		
-		System.exit(0);
-		
+
 		World world = new MyWorldBuilder().build();
 		
 		Mouse mouse = new StandartJavaMouse();
@@ -31,13 +23,15 @@ public class IEngine2D {
 		keyboard.setController(world.getController());
 		
 		Window window = new Window().setCamera(camera);
+		
 		window.addMouseListener((StandartJavaMouse)mouse);
 		window.addMouseMotionListener((StandartJavaMouse)mouse);
 		window.addMouseWheelListener((StandartJavaMouse)mouse);
 		window.addKeyListener((StandartJavaKeyboard)keyboard);
 		
-		world.setTickrate(100);
-		
+		//System.out.println("Установка тикрейта миру");
+		//world.setTickrate(100);
+		world.startTickrate();
 		window.setFPS(1000);
 		
 	}

@@ -13,5 +13,5 @@ public class BaseTickManager implements Tickable{
 		world.getStorage().getTickableList().forEach(tick -> {
 			tick.onTick();
 		});
-	}	
+	}
 }

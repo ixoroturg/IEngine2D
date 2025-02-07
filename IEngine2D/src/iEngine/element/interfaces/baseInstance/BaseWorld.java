@@ -1,7 +1,7 @@
 package iEngine.element.interfaces.baseInstance;
+import java.lang.reflect.*;
 import java.util.*;
-
-import iEngine.element.BaseTickManager;
+import iEngine.element.*;
 import iEngine.element.interfaces.*;
 import iEngine.input.BaseController;
 import iEngine.input.interfaces.Controller;
@@ -13,7 +13,7 @@ public class BaseWorld implements World{
 	protected Timer tickTimer = new Timer(true);
 	protected Controller controller = new BaseWorldController(this);
 	protected Tickable tickManager = new BaseTickManager().setWorld(this);
-	
+	protected int tickrate;
 	@Override
 	public Storage getStorage() {
 		return storage;
@@ -43,18 +43,42 @@ public class BaseWorld implements World{
 	public void doTick() {
 		tickManager.onTick();
 	}
+	
 	@Override
 	public World setTickrate(int tickrate) {
-		tickTimer.cancel();
-		tickTimer = new Timer(true);
-		tickTimer.scheduleAtFixedRate(tickTask, 0, 1000 / tickrate);
+		this.tickrate = tickrate;
+		//Вызов GameObject.setTickrate на всех объектах
+		storage.getTickableList().forEach(tick -> {
+			tick.onTickChange(tickrate);
+		});
+		storage.getGameObjectList().forEach(gameObject -> {
+			for(Method method: GameObject.class.getDeclaredMethods()) {
+				if(method.getAnnotation(BindTickrate.class) != null) {
+					method.setAccessible(true);
+					try {
+						method.invoke(gameObject);
+					} catch (IllegalAccessException | InvocationTargetException e) {
+						System.exit(ErrorCode.BIND_TICKRATE_FAILED);
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		return this;
 	}
-	protected TimerTask tickTask = new TimerTask(){
+	@Override
+	public World startTickrate() {
+		tickTimer.cancel();
+		tickTimer = new Timer(true);
+		tickTimer.scheduleAtFixedRate(getTask(), 0, 1000 / tickrate);
+		return this;
+	}
+	protected TimerTask getTask() { return new TimerTask(){
 		@Override
 		public void run() {
 			doTick();
 		}};
+	}
 	@Override
 	public Controller getController() {
 		return controller;
@@ -72,5 +96,9 @@ public class BaseWorld implements World{
 	@Override
 	public Tickable getTickManager() {
 		return tickManager;
+	}
+	@Override
+	public int getTickrate() {
+		return tickrate;
 	}
 }

@@ -6,5 +6,5 @@ public interface Renderable {
 	/**
 	 * @return информацию для рендеринга объекта
 	 */
-	public RenderInfo getRenderInfo();
+	public RenderInfo getRenderInfo(Camera camera);
 }

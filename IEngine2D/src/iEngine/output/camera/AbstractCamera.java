@@ -109,6 +109,6 @@ public abstract class AbstractCamera implements Camera{
 	public int[] getResolution() {
 		return new int[]{width, height};
 	}
+	@Override
 	public abstract Image render();
-	
 }

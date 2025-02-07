@@ -13,6 +13,8 @@ public interface World extends Controlable{
 	public World setController(Controller controller);
 	
 	public World setTickrate(int tickrate);
+	public int getTickrate();
+	public World startTickrate();
 	public void doTick();
 	
 	public World setTickManager(Tickable tickManager);

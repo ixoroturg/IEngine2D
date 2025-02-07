@@ -25,7 +25,7 @@ public class StandartJavaCamera extends BaseCamera{
 	}
 	@Override
 	protected RenderInfo beforeRenderObjectAction(Renderable renderObject) {
-		return renderObject.getRenderInfo();
+		return renderObject.getRenderInfo(this);
 	}
 	@Override
 	protected void renderObject(Renderable renderObject, RenderInfo info){
@@ -33,10 +33,17 @@ public class StandartJavaCamera extends BaseCamera{
 		AffineTransform saveTransform = frame.getTransform();
 		
 		frame.translate(info.position().x, height - info.position().y);
-		frame.scale(info.scale(), info.scale());	
+		//frame.scale(info.scale(), info.scale());	
 		frame.rotate(-info.angle());
+		float[] m = {1,0,0,1};
+		if(info.matrix() != null)
+			m = info.matrix().get();
+		frame.transform(new AffineTransform(m[0],-m[1],-m[2],m[3],0,0));
 		
-		frame.drawImage(info.sprite(), -info.sprite().getWidth(null)/2, -info.sprite().getHeight(null)/2, null);
+		int w = (int) (width*info.scale() * (1.0 * height / width));
+		int h = (int) (height*info.scale());
+		//System.out.println(w+" "+h);
+		frame.drawImage(info.sprite(), -w/2, -h/2, w/2, h/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
 		
 		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
 			frame.setColor(new Color(properties.get(Property.showHitbox)));	
