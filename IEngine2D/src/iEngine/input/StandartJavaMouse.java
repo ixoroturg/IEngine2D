@@ -16,26 +16,44 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		buffer.set(position);
-		position.set(e.getX(), camera.getResolution()[1] - e.getY()).add(camera.getPosition());
+		float y = (camera.getResolution()[1] - e.getY()) / camera.getDPI()[1];
+		float x = e.getX() / camera.getDPI()[0];
+		x += camera.getPosition().x * camera.getDPI()[0];
+		y += camera.getPosition().y * camera.getDPI()[1];
+		position.set(x, y);
 		lastMovement = buffer.getVector(position);
 		drag = true;
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		buffer.set(position);
-		position.set(e.getX(), camera.getResolution()[1] - e.getY()).add(camera.getPosition());
+		float y = (camera.getResolution()[1] - e.getY()) / camera.getDPI()[1];
+		float x = e.getX() / camera.getDPI()[0];
+		x += camera.getPosition().x * camera.getDPI()[0];
+		y += camera.getPosition().y * camera.getDPI()[1];
+		position.set(x,y);
 		lastMovement = buffer.getVector(position);
 		drag = false;
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		controller.press(e.getButton());
+		int key = e.getButton();
+		if(key == 3)
+			key = 2;
+		else if (key == 2)
+			key = 3;
+		controller.press(key);
 		dragStart.set(e.getX(), e.getY()).add(camera.getPosition());	
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		controller.release(e.getButton());
+		int key = e.getButton();
+		if(key == 3)
+			key = 2;
+		else if (key == 2)
+			key = 3;
+		controller.release(key);
 		dragEnd.set(e.getX(), e.getY()).add(camera.getPosition());
 	}
 

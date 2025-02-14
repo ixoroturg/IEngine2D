@@ -1,4 +1,7 @@
 
+import java.awt.event.KeyEvent;
+
+import iEngine.element.WorldBuilder;
 import iEngine.element.interfaces.*;
 import iEngine.input.*;
 import iEngine.input.interfaces.*;
@@ -12,12 +15,26 @@ public class IEngine2D {
 	public static StandartJavaMouse mouse = new StandartJavaMouse();
 	public static void main(String[] args) {
 
-		World world = new MyWorldBuilder().build();
+		//World world = new MyWorldBuilder().build();
+		
+		
+		MouseFollower m = (MouseFollower)new MouseFollower();
+		m.getController()
+			.bind(KeyEvent.VK_W, MouseFollower.FOLLOW)
+			.bind(KeyEvent.VK_D, 0);
+		
+		MouseFollower f = new MouseFollower2();
+		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
+		
+		World world = WorldBuilder.newBuilder()
+				.create(m)
+				.create(f)
+				.build(100);
 		
 		Mouse mouse = new StandartJavaMouse();
 		Keyboard keyboard = new StandartJavaKeyboard();
 		
-		Camera camera = new StandartJavaCamera().setWorld(world);
+		Camera camera = new StandartJavaCamera().setWorld(world).setDPI(1,1);
 		
 		mouse.setController(world.getController()).setCamera(camera);
 		keyboard.setController(world.getController());

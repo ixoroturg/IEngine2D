@@ -21,7 +21,10 @@ public class StandartJavaCamera extends BaseCamera{
 	protected void renderStart() {
 		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
 		frame = (Graphics2D)image.getGraphics();
-		frame.translate((int)position.x, (int)(-position.y));
+		frame.setColor(Color.GRAY);
+		frame.fillRect(0, 0, width, height);
+		frame.translate(position.x, -position.y);
+		frame.scale(xDPI, yDPI);
 	}
 	@Override
 	protected RenderInfo beforeRenderObjectAction(Renderable renderObject) {
@@ -30,19 +33,21 @@ public class StandartJavaCamera extends BaseCamera{
 	@Override
 	protected void renderObject(Renderable renderObject, RenderInfo info){
 		
+		//System.out.println("Окно: "+width+" "+height);
+		//System.out.println(xDPI+" "+yDPI);
 		AffineTransform saveTransform = frame.getTransform();
 		
-		frame.translate(info.position().x, height - info.position().y);
-		//frame.scale(info.scale(), info.scale());	
+		frame.translate(info.position().x * xDPI, height - info.position().y * yDPI);
+		//frame.scale(info.scale(), info.scale());
 		frame.rotate(-info.angle());
 		float[] m = {1,0,0,1};
 		if(info.matrix() != null)
 			m = info.matrix().get();
 		frame.transform(new AffineTransform(m[0],-m[1],-m[2],m[3],0,0));
-		
-		int w = (int) (width*info.scale() * (1.0 * height / width));
-		int h = (int) (height*info.scale());
-		//System.out.println(w+" "+h);
+		// * (1.0 * height / width) 
+		int w = (int) (width*info.xSize()* xDPI) ;
+		int h = (int) (height*info.ySize() * yDPI) ;
+		//System.out.println("Frame: "+w+" "+h);
 		frame.drawImage(info.sprite(), -w/2, -h/2, w/2, h/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
 		
 		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
@@ -54,6 +59,7 @@ public class StandartJavaCamera extends BaseCamera{
 			frame.drawLine((int)(ps[ps.length - 1].x), (int)(height - ps[ps.length - 1].y), (int)(ps[0].x), (int)(height - ps[0].y));
 		}
 		
+		//frame.setS
 		frame.setTransform(saveTransform);
 	}
 	@Override

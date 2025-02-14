@@ -1,6 +1,6 @@
 package iEngine.element.interfaces;
 
 @FunctionalInterface
-public interface WorldBuilder {
+public interface WorldBuilderOld {
 	public World build();
 }

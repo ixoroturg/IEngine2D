@@ -2,7 +2,7 @@ package iEngine.input;
 
 import java.util.*;
 
-import iEngine.input.interfaces.ActionListener;
+import iEngine.input.interfaces.ControllerListener;
 import iEngine.input.interfaces.Controller;
 import iEngine.input.interfaces.Mouse;
 
@@ -10,7 +10,7 @@ public class BaseController implements Controller{
 	
 	protected Map<Integer, List<Integer>> keyBind = new TreeMap<Integer, List<Integer>>();
 	protected Map<Integer, Boolean> action = new TreeMap<Integer, Boolean>();
-	private List<ActionListener> listeners = new LinkedList<ActionListener>();
+	private List<ControllerListener> listeners = new LinkedList<ControllerListener>();
 	protected Mouse mouse = null;
 	
 	/*public BaseController(int... actions) {
@@ -80,16 +80,17 @@ public class BaseController implements Controller{
 		return mouse;
 	}
 	private void triggerAction(int action) {
+		//System.out.println("triggered on action");
 		listeners.forEach(listener -> {
 			listener.onAction(action);
 		});
 	}
 	@Override
-	public void addActionListener(ActionListener listener) {
+	public void addControllerListener(ControllerListener listener) {
 		listeners.add(listener);
 	}
 	@Override
-	public void removeActionListener(ActionListener listener) {
+	public void removeActionListener(ControllerListener listener) {
 		listeners.remove(listener);
 	}
 }

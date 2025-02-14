@@ -13,7 +13,7 @@ public class BaseWorld implements World{
 	protected Timer tickTimer = new Timer(true);
 	protected Controller controller = new BaseWorldController(this);
 	protected Tickable tickManager = new BaseTickManager().setWorld(this);
-	protected int tickrate;
+	protected int tickrate = 0;
 	@Override
 	public Storage getStorage() {
 		return storage;
@@ -48,21 +48,8 @@ public class BaseWorld implements World{
 	public World setTickrate(int tickrate) {
 		this.tickrate = tickrate;
 		//Вызов GameObject.setTickrate на всех объектах
-		storage.getTickableList().forEach(tick -> {
-			tick.onTickChange(tickrate);
-		});
 		storage.getGameObjectList().forEach(gameObject -> {
-			for(Method method: GameObject.class.getDeclaredMethods()) {
-				if(method.getAnnotation(BindTickrate.class) != null) {
-					method.setAccessible(true);
-					try {
-						method.invoke(gameObject);
-					} catch (IllegalAccessException | InvocationTargetException e) {
-						System.exit(ErrorCode.BIND_TICKRATE_FAILED);
-						e.printStackTrace();
-					}
-				}
-			}
+			gameObject.onTickChange();
 		});
 		return this;
 	}

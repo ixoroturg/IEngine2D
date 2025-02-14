@@ -20,6 +20,12 @@ public class Panel extends JPanel {
 		this.fps.scheduleAtFixedRate(task, 0, 1000 / fps);
 	}
 	@Override
+	public void setBounds(int x, int y, int w, int h) {
+		super.setBounds(x,y,w,h);
+		if(camera != null)
+		camera.setResolution(w, h);
+	}
+	@Override
 	public void paint(Graphics gr) {
 		super.paint(gr);
 		gr.drawImage(camera.render(), 0, 0, null);

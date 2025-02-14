@@ -1,5 +1,5 @@
 package iEngine.input.interfaces;
 
-public interface ActionListener {
+public interface ControllerListener {
 	public void onAction(int action);
 }

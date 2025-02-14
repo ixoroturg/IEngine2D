@@ -10,6 +10,9 @@ import iEngine.math.*;
  * Интерфейс для камеры
  */
 public interface Camera{
+
+	public Camera setDPI(float xDPI, float yDPI);
+	public float[] getDPI();
 	/**
 	 * Устанавливает позицию камеры в мире
 	 * @param p

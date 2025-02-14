@@ -1,60 +1,45 @@
 package iEngine.element.animation;
 
-import iEngine.element.interfaces.Tickable;
 import iEngine.math.Matrix;
-import iEngine.math.Matrix2D;
 
-public class MatrixAnimation extends AbstractAnimation implements Animation, Tickable{
-	protected Matrix[] target, apply, step;
+public class MatrixAnimation extends AbstractAnimation{
+	protected Matrix[] target, saveTarget, apply, step;
 	protected Matrix currentApply;
-	protected int repeat = 1;
-	protected int alreadyRepeated = 0;
-	public Animation setTarget(Matrix... target) {
+	
+	public MatrixAnimation setTarget(Matrix... target) {
 		this.target = target;
+		saveTarget = new Matrix[target.length];
+		for(int i = 0; i < saveTarget.length; i++) {
+			saveTarget[i] = target[i].clone();
+		}
 		return this;
 	}
-	public Animation setApplyMatrix(Matrix... apply) {
-		this.apply = apply;
+	public MatrixAnimation setFunction(Matrix... matrix) {
+		apply = matrix;
 		lastStep = apply.length - 1;
-		step = new Matrix2D[apply.length];
+		step = new Matrix[apply.length];
 		stepCount = new int[apply.length];
 		return this;
 	}
 	@Override
-	public void onTickChange(int tickrate) {
-		super.onTickChange(tickrate);
+	public void tickChanged() {
 		for(int i = 0; i < apply.length; i++) {
 			step[i] = apply[i].clone().mul(1.0 / stepCount[i]);
 		}
 	}
 	@Override
-	public void onTick() {}
-	@Override
 	public boolean step() {
-		currentStepCount--;
-		if(currentStepCount <= 0) {
-			if(currentStep == lastStep) {
-				alreadyRepeated++;
-				if(alreadyRepeated < repeat || repeat == 0)
-					reset();
-				else return false;
+		if(super.step())
+			for(Matrix curr: target) {
+				curr.add(step[currentStep]);
 			}
-			else currentStep++;
-			currentStepCount = stepCount[currentStep];
-		}
-		for(Matrix curr: target) {
-			curr.add(step[currentStep]);
-		}
 		return true;
 	}
 	@Override
-	public Animation reset() {
-		currentStep = 0;
-		return this;
-	}
-	@Override
-	public Animation repeat(int repeatCount) {
-		repeat = repeatCount;
+	public MatrixAnimation resetToInitialState() {
+		for(int i = 0; i < target.length; i++) {
+			target[i].set(saveTarget[i]);
+		}
 		return this;
 	}
 }

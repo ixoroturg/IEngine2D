@@ -1,8 +1,9 @@
 package iEngine.output;
 
 import java.awt.Color;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import javax.swing.JFrame;
 
 import iEngine.element.interfaces.World;
@@ -14,7 +15,7 @@ public class Window extends JFrame{
 
 	public Window() {
 		setBounds(0,0,1920,1080);
-		setExtendedState(MAXIMIZED_BOTH);
+		//setExtendedState(MAXIMIZED_BOTH);
 		
 		//System.out.println();
 		//System.exit(0);
@@ -26,7 +27,7 @@ public class Window extends JFrame{
 		*/
 		frame = new Panel();
 		frame.setBounds(0,0, getWidth(), getHeight());
-		setUndecorated(true);
+		setUndecorated(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);	
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
@@ -36,11 +37,23 @@ public class Window extends JFrame{
 		});
 		add(frame);
 		setVisible(true);
+		addComponentListener(new ComponentAdapter() {
+		    public void componentResized(ComponentEvent componentEvent) {
+		    	int y = 0;
+		    	int x = 0 ;
+		    	if(!isUndecorated()) {
+		    		x -= getInsets().left;
+		    		y -= getInsets().top;
+		    	}
+		        frame.setBounds(x,y, getWidth(), getHeight());
+		    }
+		});
 	}
 	public Window setFPS(int fps) {
 		frame.setFPS(fps);
 		return this;
 	}
+	
 	public Window setCamera(Camera camera) {
 		frame.setCamera(camera);
 		return this;

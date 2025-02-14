@@ -1,5 +1,6 @@
 package iEngine.element;
 import java.lang.reflect.*;
+import java.util.Arrays;
 
 import iEngine.element.interfaces.BindTickrate;
 import iEngine.element.interfaces.Controlable;
@@ -12,7 +13,7 @@ public abstract class GameObject{
 		this.world = world;
 		world.getStorage().getGameObjectList().add(this);
 		
-		setTickrate();
+		//onTickChange();
 		
 		if(this instanceof Renderable canRender) {
 			world.getStorage().getRenderList().add(canRender);
@@ -23,30 +24,20 @@ public abstract class GameObject{
 		if(this instanceof Controlable canControl) {
 			world.getStorage().getControlList().add(canControl);
 		}
-		//System.out.println("До");
 		onCreate();
-		//System.out.println("После");
 		return this;
 	}
 	
-	@BindTickrate
-	public void setTickrate() {
+	public void onTickChange() {
 		if(world.getTickrate() == 0)
 			return;
 		int tickrate = world.getTickrate();
-		//System.out.println(tickrate);
 		try {
-			
-			for(Field field: this.getClass().getFields()){
-				//System.out.println("Проверка: "+field.getName());
+			//System.out.println(Arrays.toString(this.getClass().getDeclaredFields()));
+			for(Field field: this.getClass().getDeclaredFields()){
 				BindTickrate annotation = null;
 				if((annotation = field.getAnnotation(BindTickrate.class)) != null) {
 					field.setAccessible(true);
-					//Field base = this.getClass().getField("_base_"+field.getName());
-					//base.setAccessible(true);
-					
-					//System.out.println("Найденно: "+field.getName());
-					
 					switch(field.getType().getName()) {
 					
 						case "float" -> {field.setFloat(this, annotation.Float() / tickrate);}
@@ -58,7 +49,6 @@ public abstract class GameObject{
 						case "long" -> {field.setLong(this, (long) (annotation.Long() / tickrate));}
 						
 					}
-					//System.out.println(field.getName()+" установленно");
 				}
 			}
 		} catch (Exception e) {

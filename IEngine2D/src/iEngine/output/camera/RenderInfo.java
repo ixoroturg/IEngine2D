@@ -19,4 +19,4 @@ import iEngine.math.Point;
  * @param
  * Matrix matrix - матрица преобразования<br>
  */
-public record RenderInfo(Image sprite, Point position, float angle, double scale, Matrix matrix) {}
+public record RenderInfo(Image sprite, Point position, float angle, float xSize, float ySize, Matrix matrix) {}

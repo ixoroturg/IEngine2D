@@ -16,6 +16,6 @@ public interface Controller {
 	public Controller setMouse(Mouse m);
 	public Mouse getMouse();
 	
-	public void addActionListener(ActionListener listener);
-	public void removeActionListener(ActionListener listener);
+	public void addControllerListener(ControllerListener listener);
+	public void removeActionListener(ControllerListener listener);
 }

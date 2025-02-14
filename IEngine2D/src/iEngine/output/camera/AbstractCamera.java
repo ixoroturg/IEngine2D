@@ -12,13 +12,13 @@ public abstract class AbstractCamera implements Camera{
 	protected Point position = new Point(0,0);
 	protected float angle = 0;
 	protected float scale = 1;
+	protected float xDPI = 1;
+	protected float yDPI = 1;
 	protected World world = null;
 	protected int width = 0, height = 0;
 	protected List<Renderable> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
-	public AbstractCamera() {
-		
-	}
+	public AbstractCamera() {}
 	public AbstractCamera(Point position) {
 		this.position = position;
 	}
@@ -101,6 +101,11 @@ public abstract class AbstractCamera implements Camera{
 	}
 	@Override
 	public Camera setResolution(int w, int h) {
+		if(width != 0 && height != 0) {
+			xDPI *= (float) (1.0* w / width);
+			yDPI *= (float) (1.0* h / height);
+		}
+		
 		width = w;
 		height = h;
 		return this;
@@ -108,6 +113,16 @@ public abstract class AbstractCamera implements Camera{
 	@Override
 	public int[] getResolution() {
 		return new int[]{width, height};
+	}
+	@Override 
+	public Camera setDPI(float xDPI, float yDPI) {
+		this.xDPI = xDPI;
+		this.yDPI = yDPI;
+		return this;
+	}
+	@Override 
+	public float[] getDPI() {
+		return new float[] {xDPI, yDPI};
 	}
 	@Override
 	public abstract Image render();
