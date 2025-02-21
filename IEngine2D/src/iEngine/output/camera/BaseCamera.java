@@ -1,7 +1,9 @@
 package iEngine.output.camera;
 
 import java.awt.Image;
-
+/**
+ * @see AbstractCamera
+ */
 public abstract class BaseCamera extends AbstractCamera{
 	@Override
 	public Image render() {

@@ -11,8 +11,8 @@ import iEngine.math.*;
  */
 public interface Camera{
 
-	public Camera setDPI(float xDPI, float yDPI);
-	public float[] getDPI();
+	public Camera setSize(float width, float height);
+	public float[] getSize();
 	/**
 	 * Устанавливает позицию камеры в мире
 	 * @param p
@@ -103,6 +103,13 @@ public interface Camera{
 	 * @return
 	 */
 	public Camera addRenderList(List<Renderable> list);
+	/**
+	 * Добавляет список объектов для рендеринга с указанной группой
+	 * @param key
+	 * @param list
+	 * @return
+	 */
+//	public Camera removeRenderList(List<Renderable> list);
 	/**
 	 * Устанавливает все списки объектов для рендеринга
 	 * @param map

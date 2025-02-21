@@ -12,7 +12,10 @@ public interface Mouse {
 			MOUSE4 = 4,
 			MOUSE5 = 5,
 			WHEEL_UP = 6,
-			WHEEL_DOWN = 7;
+			WHEEL_DOWN = 7,
+			MOVE = 8,
+			DRAG = 9
+			;
 	
 	public Point getPosition();
 	public Point getDragStart();

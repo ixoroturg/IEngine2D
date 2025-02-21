@@ -35,7 +35,7 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
 		}catch(IOException e) {e.printStackTrace();}	
 		
-		con.addControllerListener(action -> {
+		con.addControllerListener((action, act) -> {
 			switch(action) {
 			case RESTART -> {ani.reset();}
 			case STOP -> {ani.stop();}
@@ -54,16 +54,18 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 		ani.repeat(2);
 		ani.start();
 	}
-	/*@Override
-	public void onTick() {
-		angle = (float) ((position.getAngle(con.getMouse().getPosition()))-Math.PI/2);
-		if(con.isActive(FOLLOW)) {	
-			move(position.getVector(con.getMouse().getPosition()).getUnitVector().mul(speed));
-		}
-	}*/
+//	@Override
+//	public void onTick() {
+//		angle = (float) ((position.getAngle(con.getMouse().getPosition()))
+//				-Math.PI/2
+//				);
+//		if(con.isActive(FOLLOW)) {	
+//			move(position.getVector(con.getMouse().getPosition()).getUnitVector().mul(speed));
+//		}
+//	}
 	@Override
 	public RenderInfo getRenderInfo(Camera camera) {
 		//System.out.println(speed);
-		return new RenderInfo(sprite, position, angle, 0.1f, 0.1f, matrix);
+		return new RenderInfo(sprite, position, angle, 100, 100, matrix);
 	}
 }

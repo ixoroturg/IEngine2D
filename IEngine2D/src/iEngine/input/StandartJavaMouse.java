@@ -1,39 +1,49 @@
 package iEngine.input;
 import java.awt.event.*;
-import java.util.*;
-
 import iEngine.math.*;
 import iEngine.math.Vector;
-import iEngine.output.camera.Camera;
+import iEngine.output.Device;
+
 public class StandartJavaMouse extends AbstractMouse implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
-	protected boolean drag = false;
 	protected Vector lastMovement = new Vector(0,0);
 	protected Point dragStart = new Point(0,0);
 	protected Point dragEnd = new Point(0,0);
 	protected Point buffer = new Point(0,0);
+	protected boolean drag = false;
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		buffer.set(position);
-		float y = (camera.getResolution()[1] - e.getY()) / camera.getDPI()[1];
-		float x = e.getX() / camera.getDPI()[0];
-		x += camera.getPosition().x * camera.getDPI()[0];
-		y += camera.getPosition().y * camera.getDPI()[1];
+		float x = e.getX();
+		float y = camera.getResolution()[1] - e.getY() ;
+		int[] res = Device.getDisplayResolution();
+		int[] camRes = camera.getResolution();
+		x *= (float)res[0] / camRes[0];
+		y *= (float)res[1] / camRes[1];
 		position.set(x, y);
+		
+//		System.out.println("Текущая позиция: "+ buffer);
+//		System.out.println("Следующая позиция: "+ position);
+		position.add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
-		drag = true;
+		
+		
+		controller.press(DRAG);
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		buffer.set(position);
-		float y = (camera.getResolution()[1] - e.getY()) / camera.getDPI()[1];
-		float x = e.getX() / camera.getDPI()[0];
-		x += camera.getPosition().x * camera.getDPI()[0];
-		y += camera.getPosition().y * camera.getDPI()[1];
-		position.set(x,y);
+		float x = e.getX();
+		float y = camera.getResolution()[1] - e.getY() ;
+		int[] res = Device.getDisplayResolution();
+		int[] camRes = camera.getResolution();
+		x *= (float)res[0] / camRes[0];
+		y *= (float)res[1] / camRes[1];
+		position.set(x, y);
+		position.add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
-		drag = false;
+		controller.press(MOVE);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -86,7 +96,7 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	}
 	@Override
 	public boolean isDrag() {
-		return drag;
+		return false;
 	}
 	@Override
 	public Vector getMovement() {

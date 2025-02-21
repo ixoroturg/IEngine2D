@@ -51,7 +51,7 @@ public class BaseController implements Controller{
 		if(keyBind.containsKey(key))
 		keyBind.get(key).forEach(action -> {
 			this.action.put(action, true);
-			triggerAction(action);
+			triggerAction(action,true);
 		});
 	}
 	@Override
@@ -59,16 +59,18 @@ public class BaseController implements Controller{
 		if(keyBind.containsKey(key))
 		keyBind.get(key).forEach(action -> {
 			this.action.put(action, false);
+			triggerAction(action,false);
 		});	
 	}
 	@Override
 	public void doAction(int action) {	
 		this.action.put(action, true);
-		triggerAction(action);
+		triggerAction(action, true);
 	}
 	@Override
 	public void undoAction(int action) {
 		this.action.put(action, false);
+		triggerAction(action,false);
 	}
 	@Override
 	public Controller setMouse(Mouse m) {
@@ -79,10 +81,10 @@ public class BaseController implements Controller{
 	public Mouse getMouse() {
 		return mouse;
 	}
-	private void triggerAction(int action) {
+	private void triggerAction(int action, boolean isActive) {
 		//System.out.println("triggered on action");
 		listeners.forEach(listener -> {
-			listener.onAction(action);
+			listener.onAction(action, isActive);
 		});
 	}
 	@Override

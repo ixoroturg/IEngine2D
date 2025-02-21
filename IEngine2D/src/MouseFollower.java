@@ -29,6 +29,9 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 	@Override
 	protected void onCreate() {
 		
+		
+//		System.out.println(position);
+//		System.exit(0);
 		con.bind(Mouse.MOUSE1, FOLLOW);
 		con.bind(Mouse.MOUSE2, RESTART);
 		con.bind(KeyEvent.VK_1, STOP);
@@ -47,7 +50,7 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 			.start()
 				;
 		
-		con.addControllerListener(action -> {
+		con.addControllerListener((action,act ) -> {
 			switch(action) {
 			case RESTART -> {ani.reset();}
 			case STOP -> {ani.stop();}
@@ -57,7 +60,10 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 	}
 	@Override
 	public void onTick() {
-		angle = (float) ((position.getAngle(con.getMouse().getPosition()))-Math.PI/2);
+		if(true)return;
+		angle = (float) ((position.getAngle(con.getMouse().getPosition()))
+				-Math.PI/2
+				);
 		if(con.isActive(FOLLOW)) {	
 			move(position.getVector(con.getMouse().getPosition()).getUnitVector().mul(speed));
 		}
@@ -70,6 +76,7 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 	}
 	@Override
 	public RenderInfo getRenderInfo(Camera camera) {
-		return new RenderInfo(sprite, position, angle, 0.2f, 0.2f, matrix);
+//		System.out.println(position);
+		return new RenderInfo(sprite, position, angle, 200, 200, matrix);
 	}
 }

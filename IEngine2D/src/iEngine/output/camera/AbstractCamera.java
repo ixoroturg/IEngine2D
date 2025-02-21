@@ -4,18 +4,27 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Map;
 
+import iEngine.element.GameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.Point;
 import iEngine.math.Vector;
 
-public abstract class AbstractCamera implements Camera{
+/**
+ * Доступны:<br>
+ * float angle - поворот камеры<br>
+ * float scale - приближение камеры<br>
+ * float width, height - размеры камеры в мире<br>
+ * float frameWidth, frameHeight - разрешение камеры на экране<br>
+ * List<Renderable> renderList - список объектов для отрисовки (может быть удалено)<br>
+ * CameraProperty properties - свойства камеры
+ */
+public abstract class AbstractCamera extends GameObject implements Camera{
 	protected Point position = new Point(0,0);
 	protected float angle = 0;
 	protected float scale = 1;
-	protected float xDPI = 1;
-	protected float yDPI = 1;
-	protected World world = null;
-	protected int width = 0, height = 0;
+	protected float width = 1;
+	protected float height = 1;
+	protected int frameWidth = 0, frameHeight = 0;
 	protected List<Renderable> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
 	public AbstractCamera() {}
@@ -33,7 +42,7 @@ public abstract class AbstractCamera implements Camera{
 	}
 	@Override
 	public Camera move(Vector v) {
-		position.add(v);
+		position.add(v.x, -v.y);
 		return this;
 	}
 	@Override
@@ -101,28 +110,23 @@ public abstract class AbstractCamera implements Camera{
 	}
 	@Override
 	public Camera setResolution(int w, int h) {
-		if(width != 0 && height != 0) {
-			xDPI *= (float) (1.0* w / width);
-			yDPI *= (float) (1.0* h / height);
-		}
-		
-		width = w;
-		height = h;
+		frameWidth = w;
+		frameHeight = h;
 		return this;
 	}
 	@Override
 	public int[] getResolution() {
-		return new int[]{width, height};
+		return new int[]{frameWidth, frameHeight};
 	}
 	@Override 
-	public Camera setDPI(float xDPI, float yDPI) {
-		this.xDPI = xDPI;
-		this.yDPI = yDPI;
+	public Camera setSize(float width, float height) {
+		this.width = width;
+		this.height = height;
 		return this;
 	}
 	@Override 
-	public float[] getDPI() {
-		return new float[] {xDPI, yDPI};
+	public float[] getSize() {
+		return new float[] {width, height};
 	}
 	@Override
 	public abstract Image render();
