@@ -5,8 +5,12 @@ import java.awt.Image;
  * @see AbstractCamera
  */
 public abstract class BaseCamera extends AbstractCamera{
+	protected float currentSideRatio;
 	@Override
 	public Image render() {
+		currentSideRatio = (float)frameWidth / frameHeight;
+		if(world == null)
+			return null;
 		renderStart();
 			world.getStorage().getRenderList().forEach(renderObject -> {
 				renderObject(renderObject ,beforeRenderObjectAction(renderObject));

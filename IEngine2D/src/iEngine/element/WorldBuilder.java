@@ -9,7 +9,8 @@ public class WorldBuilder {
 	private WorldBuilder() {}
 	
 	public WorldBuilder create(GameObject gameObject) {
-		gameObject.initialize(world);
+//		gameObject.initialize(world);
+		world.initialize(gameObject);
 		return this;
 	}
 	public World build(int tickrate) {

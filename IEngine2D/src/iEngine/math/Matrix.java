@@ -1,6 +1,6 @@
 package iEngine.math;
-
-public interface Matrix {
+import iEngine.element.interfaces.Cloneable;
+public interface Matrix extends Cloneable<Matrix>{
 	
 	public Matrix add(Matrix matrix);
 	public Matrix sub(Matrix matrix);
@@ -16,5 +16,5 @@ public interface Matrix {
 	public float[] get();
 	public Matrix set(Matrix matrix);
 	public Matrix set(float... matrix);
-	public Matrix clone();
+//	public Matrix clone();
 }

@@ -37,17 +37,21 @@ public class Window extends JFrame{
 		});
 		add(frame);
 		setVisible(true);
-		addComponentListener(new ComponentAdapter() {
-		    public void componentResized(ComponentEvent componentEvent) {
-		    	int y = 0;
-		    	int x = 0 ;
-		    	if(!isUndecorated()) {
-		    		x -= getInsets().left;
-		    		y -= getInsets().top;
-		    	}
-		        frame.setBounds(x,y, getWidth(), getHeight());
-		    }
-		});
+//		frame.addComponentListener(new ComponentAdapter() {
+//		    public void componentResized(ComponentEvent componentEvent) {
+//		    	int y = 0;
+//		    	int x = 0 ;
+//		    	if(!isUndecorated()) {
+//		    		x = getInsets().left;
+//		    		y = getInsets().top;
+//		    	}
+//		    	int w = getContentPane().getWidth();
+//		    	int h = getContentPane().getHeight();
+//		    	
+//		    	System.out.println(w+" "+h);
+//		        frame.setBounds(0,0, w, h);
+//		    }
+//		});
 	}
 	public Window setFPS(int fps) {
 		frame.setFPS(fps);

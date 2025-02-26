@@ -1,10 +1,9 @@
 package iEngine.element.interfaces.baseInstance;
-import java.lang.reflect.*;
 import java.util.*;
 import iEngine.element.*;
 import iEngine.element.interfaces.*;
-import iEngine.input.BaseController;
 import iEngine.input.interfaces.Controller;
+import iEngine.output.camera.Renderable;
 
 public class BaseWorld implements World{
 	protected Map<Integer, Storage> storageMap = new TreeMap<Integer, Storage>();
@@ -49,7 +48,7 @@ public class BaseWorld implements World{
 		this.tickrate = tickrate;
 		//Вызов GameObject.setTickrate на всех объектах
 		storage.getGameObjectList().forEach(gameObject -> {
-			gameObject.onTickChange();
+			gameObject.onTickChange(tickrate);
 		});
 		return this;
 	}
@@ -87,5 +86,25 @@ public class BaseWorld implements World{
 	@Override
 	public int getTickrate() {
 		return tickrate;
+	}
+	@Override
+	public World initialize(GameObject gameObject) {
+		storage.getGameObjectList().add(gameObject);
+		
+		if(gameObject instanceof Renderable canRender) {
+			storage.getRenderList().add(canRender);
+		}
+		if(gameObject instanceof Tickable canTick) {
+			storage.getTickableList().add(canTick);
+		}
+		if(gameObject instanceof Controlable canControl) {
+			storage.getControlList().add(canControl);
+		}
+		
+		gameObject.onTickChange(tickrate);
+		gameObject.setWorld(this);
+		gameObject.onCreate();
+		
+		return this;	
 	}
 }

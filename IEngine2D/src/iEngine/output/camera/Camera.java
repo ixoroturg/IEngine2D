@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import iEngine.element.*;
+import iEngine.element.interfaces.GameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.*;
 /**
  * Интерфейс для камеры
  */
-public interface Camera{
+public interface Camera extends GameObject{
 
+	public Camera setSideRatio(float ratio);
+	public float getSideRatio();
 	public Camera setSize(float width, float height);
 	public float[] getSize();
 	/**

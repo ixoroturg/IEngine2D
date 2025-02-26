@@ -1,8 +1,8 @@
 package iEngine.element.interfaces.baseInstance;
 
 import java.util.*;
-
-import iEngine.element.GameObject;
+//
+//import iEngine.element.GameObject;
 import iEngine.element.interfaces.*;
 import iEngine.output.camera.*;
 

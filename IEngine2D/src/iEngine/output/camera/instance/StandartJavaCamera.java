@@ -34,9 +34,14 @@ public class StandartJavaCamera extends BaseCamera{
 		frame.setColor(new Color(100,100,100));	
 		frame.fillRect(0, 0, frameWidth, frameHeight);
 		
-		frame.translate(0, frameHeight);
-		frame.scale(0, -1);
+		frame.translate(frameWidth/2, frameHeight/2);
+		frame.scale(1, -1);
+		frame.rotate(angle);
+		
+//		frame.setColor(Color.RED);
+//		frame.fillRect(0, 0, 100, 100);
 //		System.out.println("start");
+		
 //		System.out.println("кадр: "+frameWidth+" "+frameHeight);
 //		System.out.println("размер камеры: "+width+" "+height);
 //		System.out.println("позиция камеры: "+position.x +" "+position.y);
@@ -47,6 +52,7 @@ public class StandartJavaCamera extends BaseCamera{
 	@Override
 	protected RenderInfo beforeRenderObjectAction(Renderable renderObject) {
 		return renderObject.getRenderInfo(this);
+		//TODO: камера не зависящая от разрешения
 	}
 	@Override
 	protected void renderObject(Renderable renderObject, RenderInfo info){
@@ -55,9 +61,9 @@ public class StandartJavaCamera extends BaseCamera{
 		
 		
 		Point p = info.position().clone();
-//		System.out.println("начальные координаты: "+p.x+" "+p.y);
+
 		p.sub(position);
-		
+//		System.out.println("начальные координаты: "+p.x+" "+p.y);
 		// p.x / (width/2) = p.x / width * 2 => процент от ширины экрана. -1 - левая граница, 1 - правая граница
 		// затем нужно прибавить 1, чтобы координата была от 0 до 2
 		// и умножить на половину ширины экрана
@@ -66,21 +72,24 @@ public class StandartJavaCamera extends BaseCamera{
 		
 //		System.out.println(p);
 		
-		float x = (p.x / width * 2 + 1) * frameWidth / 2 * width / height;
-		float y = (p.y / height * 2 + 1) * frameHeight / 2;
+		float x = (p.x / width * 2 ) ;//* frameWidth / 2;
+		float y = (p.y / height * 2 );// * frameHeight / 2;
 		
+		
+		x *= frameWidth / 2;
+		y *= frameHeight / 2;
 //		float x = (p.x / width * 2);
 //		float y = (p.y / height * 2);
 		
-		
+//		System.out.println(x+" "+y);
 		// теперь у нас есть настоящие x и y координаты спрайта на нашем кадре
 		
-		System.out.println(x+" "+y);
+		
 		
 		frame.translate(x, y);
 		
-		// Math.PI нужно, т.к. из-за scale (0, -1) поворот отображается в зеркально
-		frame.rotate(info.angle() + Math.PI);
+		// Math.PI нужно, т.к. из-за scale (1, -1) поворот отображается в зеркально
+		
 		
 		float[] m = {1,0,0,1};
 		if(info.matrix() != null)
@@ -91,9 +100,56 @@ public class StandartJavaCamera extends BaseCamera{
 		
 //		int w = (int) (width*info.xSize());
 //		int h = (int) (height*info.ySize());
-		int w = 100, h = 100;
-		frame.drawImage(info.sprite(), -w/2, -h/2, w/2, h/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
+//		System.out.println(frame.getTransform());
+//		frame.scale(0.1,0.1);
+//		frame.setColor(Color.RED);
+//		frame.fillRect(0,0,200,200);
 		
+//		int w = 100, h = 100;
+		
+		float w1 = (info.xSize() / width);
+		float h1 =  (info.ySize() / height);
+//		float angle = (float) (info.angle());
+//		frame.rotate(info.angle());
+//		frame.scale(Math.cos(info.angle())*w, Math.sin(info.angle())*h );
+//		frame.scale(w1, h1);
+		
+//		System.out.println(currentSideRatio+" "+sideRatio);
+		float angle = info.angle();
+		float k = currentSideRatio / sideRatio;
+//		double[] M = {Math.cos(angle)*k, Math.sin(angle)/k, -Math.sin(angle)*k, Math.cos(angle)/k};
+		double[] M = {Math.cos(angle)*k, Math.sin(angle)/k, -Math.sin(angle)*k, Math.cos(angle)/k};
+		AffineTransform tr = new AffineTransform(M[0],M[1],M[2],M[3],0,0);
+		frame.transform(tr);
+		w1 *= frameWidth;
+		h1 *= frameHeight;
+//		frame.drawIm
+//		w1 *= 1+(Math.abs(currentSideRatio / sideRatio)-1) * Math.abs(Math.sin(info.angle()));
+//		frame.rotate(0);
+//		w1 = (float) ( (Math.abs(currentSideRatio / sideRatio) - 1 ) * Math.abs(Math.sin(info.angle())));
+//		h1 *= 1+(Math.abs(sideRatio / currentSideRatio)-1) * Math.abs(Math.cos(info.angle()));
+		
+//		int w = (int)(w1 * frameWidth * Math.abs(currentSideRatio / sideRatio));
+//		int h = (int)(h1 * frameHeight * Math.abs(sideRatio / currentSideRatio));
+		
+		int w = (int)(w1);
+		int h = (int)(h1);
+		
+//		frame.scale(Math.abs(1.0 / Math.cos(info.angle())), 1);
+		
+//		frame.scale(w1 * Math.cos(info.angle()), h1 * Math.sin(info.angle()));
+//		System.out.println(Math.toDegrees(info.angle()));
+//		w *= 
+//		frame.scale(w1, h1);
+		
+//		frame.scale(Math.abs(sideRatio / currentSideRatio),1);
+		
+		frame.drawImage(info.sprite(), -w/2, -h/2, w/2, h/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
+//		frame.drawImage(info.sprite(),tr,null);
+		
+//		frame.setColor(Color.RED);
+//		frame.fillRect(-frameWidth/2, -frameHeight/2, frameWidth/2, frameHeight/2);
+//		frame.drawImage(info.sprite(), -frameWidth/2, -frameHeight/2, frameWidth/2, frameHeight/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
 		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
 			frame.setColor(new Color(properties.get(Property.showHitbox)));	
 			Point[] ps = hitbox.getVertex();
@@ -111,6 +167,5 @@ public class StandartJavaCamera extends BaseCamera{
 		return image;
 	}
 	@Override
-	protected void onCreate() {}
-
+	public void onCreate() {}
 }

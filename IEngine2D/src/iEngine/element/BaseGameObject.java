@@ -1,39 +1,34 @@
 package iEngine.element;
 import java.lang.reflect.*;
-import java.util.Arrays;
 
-import iEngine.element.interfaces.BindTickrate;
-import iEngine.element.interfaces.Controlable;
-import iEngine.element.interfaces.Tickable;
-import iEngine.element.interfaces.World;
+import java.util.Arrays;
+import iEngine.element.interfaces.*;
 import iEngine.output.camera.*;
-public abstract class GameObject{
+public abstract class BaseGameObject implements GameObject{
 	protected World world = null;
-	public GameObject initialize(World world) {
-		this.world = world;
-		world.getStorage().getGameObjectList().add(this);
-		
-		//onTickChange();
-		
-		if(this instanceof Renderable canRender) {
-			world.getStorage().getRenderList().add(canRender);
-		}
-		if(this instanceof Tickable canTick) {
-			world.getStorage().getTickableList().add(canTick);
-		}
-		if(this instanceof Controlable canControl) {
-			world.getStorage().getControlList().add(canControl);
-		}
-		onCreate();
-		return this;
-	}
-	
-	public void onTickChange() {
-		if(world.getTickrate() == 0)
+//	public BaseGameObject initialize(World world) {
+//		this.world = world;
+//		world.getStorage().getGameObjectList().add(this);
+//		
+//		//onTickChange();
+//		
+//		if(this instanceof Renderable canRender) {
+//			world.getStorage().getRenderList().add(canRender);
+//		}
+//		if(this instanceof Tickable canTick) {
+//			world.getStorage().getTickableList().add(canTick);
+//		}
+//		if(this instanceof Controlable canControl) {
+//			world.getStorage().getControlList().add(canControl);
+//		}
+//		onCreate();
+//		return this;
+//	}
+	@Override
+	public void onTickChange(int tickrate) {
+		if(tickrate == 0)
 			return;
-		int tickrate = world.getTickrate();
 		try {
-			//System.out.println(Arrays.toString(this.getClass().getDeclaredFields()));
 			for(Field field: this.getClass().getDeclaredFields()){
 				BindTickrate annotation = null;
 				if((annotation = field.getAnnotation(BindTickrate.class)) != null) {
@@ -58,5 +53,13 @@ public abstract class GameObject{
 			System.exit(ErrorCode.BIND_TICKRATE_FAILED);
 		}
 	}
-	protected abstract void onCreate();
+	@Override
+	public World getWorld() {
+		return world;
+	}
+	@Override
+	public GameObject setWorld(World world) {
+		this.world = world;
+		return this;
+	}
 }

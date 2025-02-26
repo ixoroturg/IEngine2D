@@ -15,12 +15,20 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		buffer.set(position);
+		
+		int[] res = camera.getResolution();
+		float[] size = camera.getSize();
 		float x = e.getX();
-		float y = camera.getResolution()[1] - e.getY() ;
-		int[] res = Device.getDisplayResolution();
-		int[] camRes = camera.getResolution();
-		x *= (float)res[0] / camRes[0];
-		y *= (float)res[1] / camRes[1];
+		float y = res[1] - e.getY() ;
+		
+		x = (x / res[0] * 2 - 1) * size[0] / 2;
+		y = (y / res[1] * 2 - 1) * size[1] / 2;
+		
+//		int[] res = Device.getDisplayResolution();
+//		int[] camRes = camera.getResolution();
+//		x *= (float)res[0] / camRes[0];
+//		y *= (float)res[1] / camRes[1];
+		
 		position.set(x, y);
 		
 //		System.out.println("Текущая позиция: "+ buffer);
@@ -34,12 +42,28 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		buffer.set(position);
+		
+//		float x = e.getX();
+//		float y = camera.getResolution()[1] - e.getY() ;
+//		int[] res = Device.getDisplayResolution();
+//		int[] camRes = camera.getResolution();
+//		x *= (float)res[0] / camRes[0];
+//		y *= (float)res[1] / camRes[1];
+		int[] res = camera.getResolution();
+		float[] size = camera.getSize();
 		float x = e.getX();
-		float y = camera.getResolution()[1] - e.getY() ;
-		int[] res = Device.getDisplayResolution();
-		int[] camRes = camera.getResolution();
-		x *= (float)res[0] / camRes[0];
-		y *= (float)res[1] / camRes[1];
+		float y = res[1] - e.getY() ;
+		
+		x = (x / res[0] * 2 - 1) * size[0] / 2;
+		y = (y / res[1] * 2 - 1) * size[1] / 2;
+		
+//		System.out.println(x+" "+y);
+//		int[] res = Device.getDisplayResolution();
+//		int[] camRes = camera.getResolution();
+//		x *= (float)res[0] / camRes[0];
+//		y *= (float)res[1] / camRes[1];
+		
+		
 		position.set(x, y);
 		position.add(camera.getPosition());
 		lastMovement = buffer.getVector(position);

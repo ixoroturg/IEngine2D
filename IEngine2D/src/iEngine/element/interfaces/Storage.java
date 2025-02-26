@@ -2,7 +2,7 @@ package iEngine.element.interfaces;
 
 import java.util.*;
 
-import iEngine.element.GameObject;
+//import iEngine.element.GameObject;
 import iEngine.output.camera.Renderable;
 
 public interface Storage {

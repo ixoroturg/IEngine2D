@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Map;
 
-import iEngine.element.GameObject;
+import iEngine.element.BaseGameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.Point;
 import iEngine.math.Vector;
@@ -18,7 +18,7 @@ import iEngine.math.Vector;
  * List<Renderable> renderList - список объектов для отрисовки (может быть удалено)<br>
  * CameraProperty properties - свойства камеры
  */
-public abstract class AbstractCamera extends GameObject implements Camera{
+public abstract class AbstractCamera extends BaseGameObject implements Camera{
 	protected Point position = new Point(0,0);
 	protected float angle = 0;
 	protected float scale = 1;
@@ -27,9 +27,15 @@ public abstract class AbstractCamera extends GameObject implements Camera{
 	protected int frameWidth = 0, frameHeight = 0;
 	protected List<Renderable> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
-	public AbstractCamera() {}
+	protected float sideRatio = (float)16.0f / 9.0f;
+//	protected float kx = 1;
+//	protected float ky = 1;
+	public AbstractCamera() {
+		System.out.println("Соотношение сторон: "+sideRatio);
+	}
 	public AbstractCamera(Point position) {
 		this.position = position;
+		System.out.println("Соотношение сторон: "+sideRatio);
 	}
 	@Override
 	public Camera setPosition(Point p) {
@@ -127,6 +133,16 @@ public abstract class AbstractCamera extends GameObject implements Camera{
 	@Override 
 	public float[] getSize() {
 		return new float[] {width, height};
+	}
+	@Override
+	public Camera setSideRatio(float ratio) {
+		sideRatio = ratio;
+//		System.out.println("сосу хуй: "+ratio);
+		return this;
+	}
+	@Override
+	public float getSideRatio() {
+		return sideRatio;
 	}
 	@Override
 	public abstract Image render();

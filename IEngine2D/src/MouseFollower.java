@@ -27,7 +27,7 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 		super(new Point[] {new Point(200,200), new Point(200,-200),new Point(-200,-200),new Point(-200,200)}, new Point(960,540),0);
 	}
 	@Override
-	protected void onCreate() {
+	public void onCreate() {
 		
 		
 //		System.out.println(position);
@@ -40,7 +40,8 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
 		}catch(IOException e) {e.printStackTrace();}
 		
-		ani = (MatrixAnimation) new MatrixAnimation().initialize(world);
+		ani = new MatrixAnimation();
+		world.initialize(ani);
 		
 		ani
 			.setTarget(matrix)
@@ -60,11 +61,14 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 	}
 	@Override
 	public void onTick() {
-		if(true)return;
+//		if(true)return;
 		angle = (float) ((position.getAngle(con.getMouse().getPosition()))
-				-Math.PI/2
+//				-Math.PI/2
 				);
 		if(con.isActive(FOLLOW)) {	
+//			System.out.println("движемся");
+			Vector v = position.getVector(con.getMouse().getPosition()).getUnitVector().mul(speed);
+//			System.out.println(v);
 			move(position.getVector(con.getMouse().getPosition()).getUnitVector().mul(speed));
 		}
 		//System.out.println("Мышка: "+con.getMouse().getPosition());

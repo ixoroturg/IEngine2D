@@ -42,7 +42,8 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 			case START -> {ani.start();}
 			}
 		});
-		ani = (MatrixAnimation) new MatrixAnimation().initialize(world);
+		ani = new MatrixAnimation();
+		world.initialize(ani);
 		ani.setTarget(matrix);
 		Matrix m1 = new Matrix2D(0,0,4,4);
 		Matrix m2 = new Matrix2D(0,0,-4,-4);
