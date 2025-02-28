@@ -1,5 +1,7 @@
 package iEngine.math;
 
+import java.util.function.BiFunction;
+//import java.util.function.Function;
 /**
  * Класс, содержащий полезные статичные методы
  */
@@ -70,5 +72,14 @@ public class Function {
 				(float)((a1*c2 - c1*b2) / det)
 		);
 	}
-
+	
+	public static float integral(java.util.function.Function<Float,Float> function, float a, float b){
+		return function.apply(b) - function.apply(a);
+	}
+	
+	public static SpeedFunction getEaseFunction(float length) {
+		
+//		return (float)Math.sin(arg * Math.PI);
+		return null;
+	}
 }

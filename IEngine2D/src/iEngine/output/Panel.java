@@ -21,14 +21,19 @@ public class Panel extends JPanel {
 	}
 	@Override
 	public void setBounds(int x, int y, int w, int h) {
-		super.setBounds(x,y,w,h);
+//		super.setBounds(x,y,w,h);
+		super.setBounds(x, y, w, h);
+		//super.setBounds(, y, width, height);
+//		System.out.println("Размеры");
 		if(camera != null)
-		camera.setResolution(w, h);
+//			camera.setResolution(w, h);
+			camera.setResolution(getWidth(), getHeight());
 	}
 	@Override
 	public void paint(Graphics gr) {
 		super.paint(gr);
-		gr.drawImage(camera.render(), 0, 0, null);
+		Image sprite = camera.render();
+		gr.drawImage(sprite, 0, 0, getWidth(), getHeight(), null);
 	}
 	private TimerTask task = new TimerTask() {
 		@Override

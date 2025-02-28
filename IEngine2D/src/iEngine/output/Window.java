@@ -37,6 +37,8 @@ public class Window extends JFrame{
 		});
 		add(frame);
 		setVisible(true);
+		
+		
 //		frame.addComponentListener(new ComponentAdapter() {
 //		    public void componentResized(ComponentEvent componentEvent) {
 //		    	int y = 0;
@@ -48,7 +50,7 @@ public class Window extends JFrame{
 //		    	int w = getContentPane().getWidth();
 //		    	int h = getContentPane().getHeight();
 //		    	
-//		    	System.out.println(w+" "+h);
+////		    	System.out.println(w+" "+h);
 //		        frame.setBounds(0,0, w, h);
 //		    }
 //		});

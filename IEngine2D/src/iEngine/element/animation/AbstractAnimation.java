@@ -4,7 +4,6 @@ import java.util.*;
 import iEngine.element.BaseGameObject;
 import iEngine.element.interfaces.Cloneable;
 public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseGameObject implements Animation<T, F>{
-	
 	/**
 	 * int[] с количеством шагов для каждой анимации
 	 */
@@ -26,7 +25,7 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	 * int указывает, сколько повторений уже было
 	 */
 	private int alreadyRepeated = 0;
-	private TimerTask task = null;
+//	private TimerTask task = null;
 	/**
 	 * int номер текущего шага
 	 */
@@ -34,20 +33,16 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	/**
 	 * int хз
 	 */
-	private int lastStep = 0;
-	private Thread vt;
+//	private int lastStep = 0;
+//	private Thread vt;
 	
 	private T[] target, saveTarget;
 	private F[] function, calcFunction;
 	private boolean running = false;
-	protected prepareFunction<F> prepare = null;
-	
-	protected applyFunction<T,F> apply = null;
-	
-	
-	
+	private float lastT = 0;
 	@Override
-	public Animation<T,F> setTarget(T... target){
+	@SafeVarargs
+	public final Animation<T,F> setTarget(T... target){
 		this.target = target;
 		saveTarget = Arrays.asList(target).toArray(this.target);
 		saveTarget = Arrays.copyOf(target, target.length);
@@ -56,16 +51,16 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		}
 		return this;
 	}
-//	@Override
-	public Animation<T,F> resetToInitialState(){
+	private Animation<T,F> resetToInitialState(){
 		for(int i = 0 ; i < target.length; i++) {
-			target[i] = saveTarget[i].clone();
+			target[i].set(saveTarget[i].clone());
 		}
 		return this;
 	}
 	
 	@Override
-	public Animation<T,F> setFunction(F... function){
+	@SafeVarargs
+	public final Animation<T,F> setFunction(F... function){
 		this.function = function;
 		this.calcFunction = Arrays.copyOf(function, function.length);
 		stepCount = new int[function.length];
@@ -75,7 +70,6 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	@Override
 	public Animation<T,F> setDuration(float... duration){
 		this.duration = duration;
-		//onTickChange(world.getTickrate());
 		onTickChange();
 		currentStepCount = stepCount[0];
 		return this;
@@ -101,19 +95,16 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		for(int i = 0; i < stepCount.length; i++) {
 			stepCount[i] = (int)(duration[i % duration.length] * tickrate);
 		}
-//		tickChanged();
 		for(int i = 0; i < calcFunction.length; i++) {
-			calcFunction[i] = prepare.prepare(function[i],stepCount[i]);
+			calcFunction[i] = prepareFunction(function[i],stepCount[i]);
 		}
-		reset(false);
-		start();
 	}
 	@Override
 	public void onCreate() {}
 	@Override
 	public boolean step() {
 		currentStepCount--;
-		if(currentStepCount <= 0) {
+		if(currentStepCount < 0) {
 			if(currentStep == function.length-1) {
 				alreadyRepeated++;
 				if(alreadyRepeated < repeat || repeat == 0) {
@@ -121,18 +112,37 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 					currentStepCount = stepCount[currentStep];
 				}
 				else 
-					return false;
+					return false;				
 			}
 			else currentStep++;
 			currentStepCount = stepCount[currentStep];
 		}
 		
 		for(T t: target) {
-			apply.apply(t,calcFunction[currentStep], stepCount[currentStep] - currentStepCount);
+			applyFunction(t,calcFunction[currentStep],  1.0f - currentStepCount / stepCount[currentStep], lastT);
 		}
-		
+		lastT = 1.0f - currentStepCount / stepCount[currentStep];
 		return true;
 	}
+	/**
+	 * Верните F функцию или объект<br>
+	 * При необходимости можно изменить объект, чтобы он работал относительно кадров анимации
+	 * @param F function - функция или объект, который описывает шаг анимации
+	 * @param stepCount - количество кадров в этом шаге анимации
+	 * @return возвращает F функцию или объект, который описывает кадр анимации
+	 */
+	protected abstract F prepareFunction(F function, int stepCount);
+	/**
+	 * Примените функцию так, как считаете нужным<br>
+	 * <p>
+	 * Можете использовать time и lastTime как границы интеграла функции от lastTime до time
+	 * </p>
+	 * @param target - цель применения функции. Необходимо напрамую изменить цель
+	 * @param function - функция, которая должна быть применена
+	 * @param t - текущее время шага анимации от 0.0 до 1.0
+	 * @param dt - предыдущее время шага анимации от 0.0 до 1.0. 
+	 */
+	protected abstract void applyFunction(T target, F function, float time, float lastTime);
 	@Override
 	public Animation<T,F> reset() {
 		return reset(false);
@@ -151,10 +161,8 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	public Animation<T,F> start() {
 		if(running)
 			return this;
-//		if(vt != null)
-		
 		timer.cancel();
-		vt = Thread.startVirtualThread(this);
+		Thread.startVirtualThread(this);
 		running = true;
 		return this;
 		
@@ -176,9 +184,8 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		if(!stayInCurrentAnimationState)
 			resetToInitialState();	
 		timer.cancel();
-		vt = null;
 		currentStep = 0;
-		currentStepCount = stepCount[currentStep];
+		currentStepCount = stepCount[0];
 		
 		running = false;
 		return this;
@@ -197,7 +204,6 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 			public void run() {
 				if(!step()) {
 					timer.cancel();
-					vt = null;
 				}
 					
 			}
@@ -205,5 +211,4 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		if(world.getTickrate() != 0)
 			timer.scheduleAtFixedRate(task, 0, 1000 / world.getTickrate());
 	}
-//	protected abstract void tickChanged();
 }

@@ -83,6 +83,7 @@ public abstract class AbstractMatrix implements Matrix{
 	@Override
 	public String toString() {
 		return "Матрица "+hashCode()+":\n\t"+
-	Arrays.toString(m1);
+				Arrays.toString(m1);
 	}
+
 }

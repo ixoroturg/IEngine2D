@@ -8,9 +8,7 @@ public class MyWorldBuilder implements WorldBuilderOld{
 	private World world = new BaseWorld();
 	@Override
 	public World build() {
-				world.setTickrate(100);
-
-				
+				world.setTickrate(100);		
 		return world;
 	}
 }

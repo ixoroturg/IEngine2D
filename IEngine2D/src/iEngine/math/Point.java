@@ -1,9 +1,10 @@
 package iEngine.math;
+import iEngine.element.interfaces.Cloneable;
 /**
  * Инкапсулирует 2D точку<br>
  * Все методы, возвращающие точку, возвращают this, если не указано иное<br>
  */
-public class Point{
+public class Point implements Cloneable<Point>{
 	/**
 	 * x координата точки
 	 */

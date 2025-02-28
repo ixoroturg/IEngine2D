@@ -20,5 +20,6 @@ public interface World extends Controlable{
 	public World setTickManager(Tickable tickManager);
 	public Tickable getTickManager();
 	
-	public World initialize(GameObject gameObject);
+//	public World initialize(GameObject gameObject);
+	<T extends GameObject> T initialize(T gameObject);
 }

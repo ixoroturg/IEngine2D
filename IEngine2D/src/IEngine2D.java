@@ -19,7 +19,7 @@ public class IEngine2D {
 
 		//World world = new MyWorldBuilder().build();
 		
-		Device.toNativeResolution();
+//		Device.toNativeResolution();
 		
 		MouseFollower m = (MouseFollower)new MouseFollower();
 		m.getController()
@@ -29,15 +29,17 @@ public class IEngine2D {
 		MouseFollower f = new MouseFollower2();
 		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
 		
-		Camera camera = new StandartJavaCamera()
+		Camera camera = new MyCamera()
+//				.setResolution(1920, 1080)
 				.setSize(1920, 1080)
+//				.setSize(1200,900)
 				.setPosition(new Point(960,540));
 		
-		World world = WorldBuilder.newBuilder()
+		World world = WorldBuilder.newBuilder(100)
 				.create(m)
 //				.create(f)
 				.create(camera)
-				.build(100);
+				.build();
 		
 		Mouse mouse = new StandartJavaMouse();
 		Keyboard keyboard = new StandartJavaKeyboard();
@@ -53,7 +55,7 @@ public class IEngine2D {
 		window.frame.addMouseListener((StandartJavaMouse)mouse);
 		window.frame.addMouseMotionListener((StandartJavaMouse)mouse);
 		window.frame.addMouseWheelListener((StandartJavaMouse)mouse);
-		window.frame.addKeyListener((StandartJavaKeyboard)keyboard);
+		window.addKeyListener((StandartJavaKeyboard)keyboard);
 		
 		//System.out.println("Установка тикрейта миру");
 		//world.setTickrate(100);

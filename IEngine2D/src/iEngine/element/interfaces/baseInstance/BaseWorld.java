@@ -88,7 +88,7 @@ public class BaseWorld implements World{
 		return tickrate;
 	}
 	@Override
-	public World initialize(GameObject gameObject) {
+	public <T extends GameObject> T initialize(T gameObject) {
 		storage.getGameObjectList().add(gameObject);
 		
 		if(gameObject instanceof Renderable canRender) {
@@ -105,6 +105,6 @@ public class BaseWorld implements World{
 		gameObject.setWorld(this);
 		gameObject.onCreate();
 		
-		return this;	
+		return gameObject;	
 	}
 }

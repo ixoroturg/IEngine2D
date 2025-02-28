@@ -1,0 +1,142 @@
+ (width*info.xSize());
+//		int h = (int) (height*info.ySize());
+//		System.out.println(frame.getTransform());
+//		frame.scale(0.1,0.1);
+//		frame.setColor(Color.RED);
+//		frame.fillRect(0,0,200,200);
+		
+//		int w = 100, h = 100;
+		
+		
+		
+		float w1 = info.xSize();
+		float h1 = info.ySize();
+		
+		float sin = (float)Math.sin(info.angle());
+		float cos = (float)Math.cos(info.angle());
+		
+		sin = Math.abs(sin);
+		cos = Math.abs(cos);
+		
+		float lx = 0;
+		float ly = 0;
+		
+		lx = cos * w1;
+		ly = sin * w1;
+		
+		lx /= width;
+		ly /= height;
+		
+//		lx *= k;
+//		ly /= k;
+//		lx /= k;
+		
+		lx *= frameWidth / 2;
+		ly *= frameHeight / 2;
+		
+		System.out.println(lx+" "+ly + " "+Math.toDegrees(info.angle()));
+		
+		w1 = (float)Math.sqrt( Math.pow(lx,2) + Math.pow(ly,2) );
+		
+		lx = sin * h1;
+		ly = cos * h1;
+		
+		lx /= width;
+		ly /= height;
+		
+//		lx /= k;
+//		ly *= k;
+		
+//		lx *= k;
+//		ly /= k;
+		
+		lx *= frameWidth / 2;
+		ly *= frameHeight / 2;
+		
+		
+		
+		h1 = (float)Math.sqrt( Math.pow(lx,2) + Math.pow(ly,2) );
+		
+		
+//		w1 /= k * sin + 1;
+//		h1 /= k * (1 + cos);
+		
+////		float Lx  = w1 * cos + w1 * sin;
+//		float w1 = (info.xSize() / width);
+//		float h1 =  (info.ySize() / height);
+////		float angle = (float) (info.angle());
+////		frame.rotate(info.angle());
+////		frame.scale(Math.cos(info.angle())*w, Math.sin(info.angle())*h );
+////		frame.scale(w1, h1);
+//		
+//		float sin = (float)Math.sin(info.angle());
+//		float cos = (float)Math.cos(info.angle());
+//		float lx = 0;
+//		float ly = 0;
+//		float k = (float) frameWidth / frameHeight;
+//		
+//		
+//		lx = cos * w1;
+//		ly = sin * w1;
+//		
+////		ly *=k;
+//		
+//		lx *= frameWidth / 2;
+//		ly *= frameHeight / 2;
+//		
+////		w1 = sin * lx + cos * ly;
+//		w1 = (float)Math.sqrt( Math.pow(lx,2) + Math.pow(ly,2) );
+//		
+//		lx = sin * h1;
+//		ly = cos * h1;
+//			
+//		
+////		lx *= k;
+//		
+//		lx *= frameWidth / 2;
+//		ly *= frameHeight / 2;
+//		
+////		h1 = cos * lx + sin * ly;
+//		
+////		w1 *= k;
+////		h1 *= k;
+//		
+////		System.out.println(k);
+////		h1 *= k;
+//		
+//		h1 = (float)Math.sqrt( Math.pow(lx,2) + Math.pow(ly,2) );
+		
+		
+//		System.out.println(currentSideRatio+" "+sideRatio);
+//		float angle = info.angle();
+//		float k = currentSideRatio / sideRatio;
+//		double[] M = {Math.cos(angle)*k, Math.sin(angle)/k, -Math.sin(angle)*k, Math.cos(angle)/k};
+//		double[] M = {Math.cos(angle)*k, Math.sin(angle)/k, -Math.sin(angle)*k, Math.cos(angle)/k};
+//		AffineTransform tr = new AffineTransform(M[0],M[1],M[2],M[3],0,0);
+//		frame.transform(tr);
+		frame.rotate(info.angle());
+		
+//		frame.scale(1/k,1);
+//		w1 *= frameWidth;
+//		h1 *= frameHeight;
+//		frame.drawIm
+//		w1 *= 1+(Math.abs(currentSideRatio / sideRatio)-1) * Math.abs(Math.sin(info.angle()));
+//		frame.rotate(0);
+//		w1 = (float) ( (Math.abs(currentSideRatio / sideRatio) - 1 ) * Math.abs(Math.sin(info.angle())));
+//		h1 *= 1+(Math.abs(sideRatio / currentSideRatio)-1) * Math.abs(Math.cos(info.angle()));
+		
+//		int w = (int)(w1 * frameWidth * Math.abs(currentSideRatio / sideRatio));
+//		int h = (int)(h1 * frameHeight * Math.abs(sideRatio / currentSideRatio));
+		
+		int w = (int)(w1);
+		int h = (int)(h1);
+		
+//		frame.scale(Math.abs(1.0 / Math.cos(info.angle())), 1);
+		
+//		frame.scale(w1 * Math.cos(info.angle()), h1 * Math.sin(info.angle()));
+//		System.out.println(Math.toDegrees(info.angle()));
+//		w *= 
+//		frame.scale(w1, h1);
+		
+//		frame.scale(Math.abs(sideRatio / currentSideRatio),1);
+		

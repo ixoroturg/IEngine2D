@@ -27,15 +27,15 @@ public abstract class AbstractCamera extends BaseGameObject implements Camera{
 	protected int frameWidth = 0, frameHeight = 0;
 	protected List<Renderable> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
-	protected float sideRatio = (float)16.0f / 9.0f;
+//	protected float sideRatio = (float)16.0f / 9.0f;
 //	protected float kx = 1;
 //	protected float ky = 1;
 	public AbstractCamera() {
-		System.out.println("Соотношение сторон: "+sideRatio);
+//		System.out.println("Соотношение сторон: "+sideRatio);
 	}
 	public AbstractCamera(Point position) {
 		this.position = position;
-		System.out.println("Соотношение сторон: "+sideRatio);
+//		System.out.println("Соотношение сторон: "+sideRatio);
 	}
 	@Override
 	public Camera setPosition(Point p) {
@@ -89,7 +89,14 @@ public abstract class AbstractCamera extends BaseGameObject implements Camera{
 	@Override
 	public Camera setWorld(World world) {
 		this.world = world;
-		//setRenderList(this.world.getStorage().getRenderList());
+		renderList = world.getStorage().getRenderList();
+		return this;
+	}
+	@Override
+	public Camera setWorld(World world, boolean synchronizeRenderList) {
+		this.world = world;
+		if(synchronizeRenderList)
+			renderList = world.getStorage().getRenderList();
 		return this;
 	}
 	@Override
@@ -104,6 +111,11 @@ public abstract class AbstractCamera extends BaseGameObject implements Camera{
 	@Override
 	public Camera setRenderList(List<Renderable> list) {
 		renderList = list;
+		return this;
+	}
+	@Override
+	public Camera setRenderList(World world) {
+		renderList = world.getStorage().getRenderList();
 		return this;
 	}
 	@Override
@@ -133,16 +145,6 @@ public abstract class AbstractCamera extends BaseGameObject implements Camera{
 	@Override 
 	public float[] getSize() {
 		return new float[] {width, height};
-	}
-	@Override
-	public Camera setSideRatio(float ratio) {
-		sideRatio = ratio;
-//		System.out.println("сосу хуй: "+ratio);
-		return this;
-	}
-	@Override
-	public float getSideRatio() {
-		return sideRatio;
 	}
 	@Override
 	public abstract Image render();

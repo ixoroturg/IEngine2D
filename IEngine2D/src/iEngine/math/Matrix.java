@@ -14,7 +14,7 @@ public interface Matrix extends Cloneable<Matrix>{
 	public Matrix getE();
 	
 	public float[] get();
-	public Matrix set(Matrix matrix);
+//	public Matrix set(Matrix matrix);
 	public Matrix set(float... matrix);
 //	public Matrix clone();
 }

@@ -12,8 +12,6 @@ import iEngine.math.*;
  */
 public interface Camera extends GameObject{
 
-	public Camera setSideRatio(float ratio);
-	public float getSideRatio();
 	public Camera setSize(float width, float height);
 	public float[] getSize();
 	/**
@@ -89,11 +87,17 @@ public interface Camera extends GameObject{
 	public int[] getResolution();
 	/**
 	 * Устанавливает мир для текущей камеры<br>
-	 * Устанавливает списки объектов для рендеринга на списки из нового мира
 	 * @param world
-	 * @return
+	 * @return this
 	 */
 	public Camera setWorld(World world);
+	/**
+	 * Устанавливает мир для текущей камеры<br>
+	 * если synchronizeRenderList устанавливает списки объектов для рендеринга на списки из нового мира
+	 * @param world
+	 * @return this
+	 */
+	public Camera setWorld(World world, boolean synchronizeRenderList);
 	/**
 	 * 
 	 * @return текущий мир камеры
@@ -120,10 +124,16 @@ public interface Camera extends GameObject{
 	 */
 	public Camera setRenderList(List<Renderable> list);
 	/**
+	 * Устанавливает список объектов для рендеринга из переданного мира
+	 * @return this
+	 */
+	public Camera setRenderList(World world);
+	/**
 	 * Возвращает списки объектов для рендеринга
-	 * @return
+	 * @return this
 	 */
 	public List<Renderable> getRenderList();
+	
 	/**
 	 * @return особые настройки камеры
 	 */
