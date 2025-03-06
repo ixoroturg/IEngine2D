@@ -54,18 +54,7 @@ public abstract class AbstractMatrix implements Matrix{
 		}
 		return this;
 	}
-	@Override
-	public Matrix reverse() {
-		float det = det();
-		if(det == 0)
-			return  this;
-		for(int i = 0; i < m1.length; i++) {
-			m1[i] /= det;
-			if((i & 1) != 0) 
-				m1[i] *= -1;
-		}		
-		return this;
-	}
+	
 	
 	@Override
 	public Matrix div(Matrix matrix) {	
@@ -84,6 +73,10 @@ public abstract class AbstractMatrix implements Matrix{
 	public String toString() {
 		return "Матрица "+hashCode()+":\n\t"+
 				Arrays.toString(m1);
+	}
+
+	public static Matrix getE() {
+		return null;
 	}
 
 }

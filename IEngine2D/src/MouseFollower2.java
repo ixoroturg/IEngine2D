@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import iEngine.element.animation.MatrixAnimation;
+import iEngine.element.animation.AddMatrixAnimation;
 import iEngine.element.interfaces.BindTickrate;
 import iEngine.input.interfaces.Mouse;
 import iEngine.math.Matrix;
@@ -42,7 +42,7 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 			case START -> {ani.start();}
 			}
 		});
-		ani = new MatrixAnimation();
+		ani = new AddMatrixAnimation();
 		world.initialize(ani);
 		ani.setTarget(matrix);
 		Matrix m1 = new Matrix2D(0,0,4,4);

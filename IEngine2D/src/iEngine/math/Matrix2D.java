@@ -11,6 +11,19 @@ public class Matrix2D extends AbstractMatrix{
 	}
 	
 	@Override
+	public Matrix reverse() {
+		float det = det();
+		if(det == 0)
+			return  this;
+		for(int i = 0; i < m1.length; i++) {
+			m1[i] /= det;
+		}		
+		m1[1] *= -1;
+		m1[2] *= -1;
+		return this;
+	}
+	
+	@Override
 	public Matrix mul(Matrix matrix) {
 		float[] m2 = matrix.get();
 		if(m2.length < m1.length)
@@ -22,10 +35,6 @@ public class Matrix2D extends AbstractMatrix{
 		result[3] = m1[2]*m2[1] + m1[3]*m2[3];	
 		m1 = result;	
 		return this;
-	}
-	@Override
-	public Matrix getE() {
-		return new Matrix2D(1,0,1,0);
 	}
 	@Override
 	public float det() {

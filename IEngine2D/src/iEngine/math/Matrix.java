@@ -10,9 +10,9 @@ public interface Matrix extends Cloneable<Matrix>{
 	public Matrix reverse();
 
 	public float det();
-	
-	public Matrix getE();
-	
+	public static Matrix getE() {
+		return new Matrix2D(1,0,0,1);
+	}
 	public float[] get();
 //	public Matrix set(Matrix matrix);
 	public Matrix set(float... matrix);

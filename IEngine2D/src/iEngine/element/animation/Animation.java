@@ -1,8 +1,12 @@
 package iEngine.element.animation;
-import iEngine.element.interfaces.Cloneable;
+import java.util.function.Function;
 
-public interface Animation<T extends Cloneable<T>, F> extends Runnable{	
+import iEngine.element.interfaces.Cloneable;
+import iEngine.element.interfaces.GameObject;
+
+public interface Animation<T extends Cloneable<T>, F> extends Runnable, GameObject{	
 	
+	public Animation<T, F> setTickrate(int tickrate);
 	public boolean step();
 	public Animation<T,F> reset();
 	public Animation<T,F> reset(boolean stayInCurrentAnimationState);
@@ -21,4 +25,5 @@ public interface Animation<T extends Cloneable<T>, F> extends Runnable{
 
 	public Animation<T,F> setFunction(F... function);
 	public Animation<T,F> setTarget(T... target);
+	public Animation<T,F> setSpeedFunction(Function<Float,Float> function);
 }

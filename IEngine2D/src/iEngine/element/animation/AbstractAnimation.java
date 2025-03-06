@@ -1,8 +1,11 @@
 package iEngine.element.animation;
 import java.util.*;
+import java.util.function.Function;
 
 import iEngine.element.BaseGameObject;
 import iEngine.element.interfaces.Cloneable;
+import iEngine.element.interfaces.GameObject;
+import iEngine.math.SpeedFunction;
 public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseGameObject implements Animation<T, F>{
 	/**
 	 * int[] с количеством шагов для каждой анимации
@@ -25,6 +28,7 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	 * int указывает, сколько повторений уже было
 	 */
 	private int alreadyRepeated = 0;
+	private Function<Float,Float> speedFunction = SpeedFunction::linear;
 //	private TimerTask task = null;
 	/**
 	 * int номер текущего шага
@@ -35,7 +39,7 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	 */
 //	private int lastStep = 0;
 //	private Thread vt;
-	
+	private int tickrate = 0;
 	private T[] target, saveTarget;
 	private F[] function, calcFunction;
 	private boolean running = false;
@@ -70,7 +74,7 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	@Override
 	public Animation<T,F> setDuration(float... duration){
 		this.duration = duration;
-		onTickChange();
+		prepareFunctionOnTickChange();
 		currentStepCount = stepCount[0];
 		return this;
 	}
@@ -87,22 +91,32 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		}
 		return setDuration(partCoefficiens);
 	}
-	
-	public void onTickChange() {
-		int tickrate = world.getTickrate();
+	@Override
+	public void onTickChange(int tickrate) {
+		this.tickrate = tickrate;
+	}
+	public Animation<T, F> setTickrate(int tickrate){
+		this.tickrate = tickrate;
+		prepareFunctionOnTickChange();
+		if(running)
+			restart(false);
+		return this;
+	}
+	private void prepareFunctionOnTickChange() {
 		if(tickrate == 0)
 			return;
 		for(int i = 0; i < stepCount.length; i++) {
 			stepCount[i] = (int)(duration[i % duration.length] * tickrate);
 		}
 		for(int i = 0; i < calcFunction.length; i++) {
-			calcFunction[i] = prepareFunction(function[i],stepCount[i]);
+			calcFunction[i] = prepareFunction(function[i],stepCount[i]+1);
 		}
 	}
 	@Override
 	public void onCreate() {}
 	@Override
 	public boolean step() {
+		
 		currentStepCount--;
 		if(currentStepCount < 0) {
 			if(currentStep == function.length-1) {
@@ -110,19 +124,26 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 				if(alreadyRepeated < repeat || repeat == 0) {
 					currentStep = 0;
 					currentStepCount = stepCount[currentStep];
+					lastT = 0;
 				}
 				else 
 					return false;				
 			}
 			else currentStep++;
 			currentStepCount = stepCount[currentStep];
+			lastT = 0;
 		}
-		
+		float currentTime = speedFunction.apply(1.0f - currentStepCount / stepCount[currentStep]);
 		for(T t: target) {
-			applyFunction(t,calcFunction[currentStep],  1.0f - currentStepCount / stepCount[currentStep], lastT);
+			applyFunction(t,calcFunction[currentStep],  lastT, currentTime);
 		}
-		lastT = 1.0f - currentStepCount / stepCount[currentStep];
+		lastT = currentTime;
 		return true;
+	}
+	@Override
+	public Animation<T,F> setSpeedFunction(Function<Float,Float> function){
+		speedFunction = function;
+		return this;
 	}
 	/**
 	 * Верните F функцию или объект<br>
@@ -135,14 +156,14 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	/**
 	 * Примените функцию так, как считаете нужным<br>
 	 * <p>
-	 * Можете использовать time и lastTime как границы интеграла функции от lastTime до time
+	 * Можете использовать определённый интеграл на промежутке от at до bt
 	 * </p>
 	 * @param target - цель применения функции. Необходимо напрамую изменить цель
 	 * @param function - функция, которая должна быть применена
-	 * @param t - текущее время шага анимации от 0.0 до 1.0
-	 * @param dt - предыдущее время шага анимации от 0.0 до 1.0. 
+	 * @param at - предыдущее время шага анимации от 0.0 до 1.0. 
+	 * @param bt - текущее время шага анимации от 0.0 до 1.0
 	 */
-	protected abstract void applyFunction(T target, F function, float time, float lastTime);
+	protected abstract void applyFunction(T target, F function, float at, float bt);
 	@Override
 	public Animation<T,F> reset() {
 		return reset(false);
@@ -209,6 +230,6 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 			}
 		};
 		if(world.getTickrate() != 0)
-			timer.scheduleAtFixedRate(task, 0, 1000 / world.getTickrate());
+			timer.scheduleAtFixedRate(task, 0, 1000 / tickrate);
 	}
 }

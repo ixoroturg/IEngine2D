@@ -76,10 +76,4 @@ public class Function {
 	public static float integral(java.util.function.Function<Float,Float> function, float a, float b){
 		return function.apply(b) - function.apply(a);
 	}
-	
-	public static SpeedFunction getEaseFunction(float length) {
-		
-//		return (float)Math.sin(arg * Math.PI);
-		return null;
-	}
 }
