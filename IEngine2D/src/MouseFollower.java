@@ -6,6 +6,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.imageio.*;
+
+import iEngine.element.GlobalSettings;
 import iEngine.element.animation.*;
 import iEngine.element.interfaces.*;
 import iEngine.element.interfaces.baseInstance.*;
@@ -69,27 +71,38 @@ public class MouseFollower extends BaseHitbox implements Tickable, Controlable, 
 //			.setTickrate(1)
 				;
 		
+		GlobalSettings.defaultSpeedFunction = SpeedFunction::easeIn;
+				
 		var aniP = 
 		world.initialize(new PointAnimation())
 			.setTarget(position)
 			.setFunction(
-	//			(t)->{
-	//				float x = (float)((Math.sin((t * Math.PI*2) * 4)  ) * 600);
-	//				float y = (float)Math.sin(t * Math.PI*2 * 8) * 300;
-	//				return new Point(x,y);
-	//			}
 				(t)->{
-					float x = 400*t;
-					float y = 200*t;
+					float x = (float) Math.sin(Math.PI * 2 * t * 4)* 600f;
+					float y = (float) Math.sin(Math.PI * 2 * t * 16)* 400f;
+					return new Point(x,y);
+				},
+				(t)->{
+					float x = 600*t;
+					float y = 0;
+					return new Point(x,y);
+				},
+				(t)->{
+					float x = (float)Math.cos(Math.PI * 2 * t)*300f;
+					float y = (float)Math.sin(Math.PI * 2 * t)*300f;;
+					return new Point(x,y);
+				},
+				(t)->{
+					float x = -300*t;
+					float y = 0;
 					return new Point(x,y);
 				}
 			)
-			.setSpeedFunction(SpeedFunction::easeOutIn)
-			.setFullDuration(2)
-			.repeat(1)
+			.repeat(2,1,1,3,2)
+			.setFullDuration(20)
 			.start()
 				;
-//		aniP.
+		
 		con.addControllerListener((action,act ) -> {
 			switch(action) {
 				case RESTART -> {

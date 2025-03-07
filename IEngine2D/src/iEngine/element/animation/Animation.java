@@ -3,9 +3,9 @@ import java.util.function.Function;
 
 import iEngine.element.interfaces.Cloneable;
 import iEngine.element.interfaces.GameObject;
+import iEngine.math.SpeedFunction;
 
 public interface Animation<T extends Cloneable<T>, F> extends Runnable, GameObject{	
-	
 	public Animation<T, F> setTickrate(int tickrate);
 	public boolean step();
 	public Animation<T,F> reset();
@@ -16,10 +16,7 @@ public interface Animation<T extends Cloneable<T>, F> extends Runnable, GameObje
 	public Animation<T,F> stop(boolean stayInCurrentAnimationState);
 	public Animation<T,F> restart();
 	public Animation<T,F> restart(boolean stayInCurrentAnimationState);
-	
-//	public Animation<T,F> resetToInitialState();
-	
-	public Animation<T,F> repeat(int repeatCount);
+	public Animation<T,F> repeat(int generalRepeatCount, int... partRepeatCount);
 	public Animation<T,F> setFullDuration(float duration, float... partCoefficiens);
 	public Animation<T,F> setDuration(float... duration);
 

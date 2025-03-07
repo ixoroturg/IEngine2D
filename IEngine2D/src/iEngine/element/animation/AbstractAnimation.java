@@ -3,10 +3,14 @@ import java.util.*;
 import java.util.function.Function;
 
 import iEngine.element.BaseGameObject;
+import iEngine.element.GlobalSettings;
 import iEngine.element.interfaces.Cloneable;
 import iEngine.element.interfaces.GameObject;
 import iEngine.math.SpeedFunction;
 public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseGameObject implements Animation<T, F>{
+	
+
+//	public static Function<Float,Float> defaultSpeedFunction = SpeedFunction::linear;
 	/**
 	 * int[] с количеством шагов для каждой анимации
 	 */
@@ -24,11 +28,13 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	 * int количество повторений до конца анимации
 	 */
 	private int repeat = 1;
+	private int stepRepeat[];
 	/**
 	 * int указывает, сколько повторений уже было
 	 */
 	private int alreadyRepeated = 0;
-	private Function<Float,Float> speedFunction = SpeedFunction::linear;
+	private int currentStepAlreadyRepeated = 0;
+	private Function<Float,Float> speedFunction = GlobalSettings.defaultSpeedFunction;
 //	private TimerTask task = null;
 	/**
 	 * int номер текущего шага
@@ -48,7 +54,6 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	@SafeVarargs
 	public final Animation<T,F> setTarget(T... target){
 		this.target = target;
-		saveTarget = Arrays.asList(target).toArray(this.target);
 		saveTarget = Arrays.copyOf(target, target.length);
 		for(int i = 0; i < target.length; i++) {
 			saveTarget[i] =  target[i].clone();
@@ -68,6 +73,8 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		this.function = function;
 		this.calcFunction = Arrays.copyOf(function, function.length);
 		stepCount = new int[function.length];
+		stepRepeat = new int[function.length];
+		Arrays.fill(stepRepeat, 1);
 		return this;
 	}
 	
@@ -80,14 +87,22 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	}
 	@Override
 	public Animation<T,F> setFullDuration(float duration, float... partCoefficiens) {
-		if(partCoefficiens.length == 0)
-			return setDuration(duration / stepCount.length);
+		if(partCoefficiens.length == 0) {
+			partCoefficiens = new float[stepRepeat.length];
+			Arrays.fill(partCoefficiens, duration / partCoefficiens.length);
+			for(int i = 0; i < partCoefficiens.length; i++) {
+				partCoefficiens[i] /= stepRepeat[i];
+			}
+			return setDuration(partCoefficiens);
+		}
+			
 		float sum = 0;
 		for(float x: partCoefficiens) {
 			sum += x;
 		}
 		for(int i = 0; i < partCoefficiens.length; i++) {
-			partCoefficiens[i] = partCoefficiens[i] / sum * duration;
+			partCoefficiens[i] = partCoefficiens[i] / sum * duration / stepRepeat[i];
+//			partCoefficiens[i] /= stepRepeat[i];
 		}
 		return setDuration(partCoefficiens);
 	}
@@ -119,19 +134,26 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 		
 		currentStepCount--;
 		if(currentStepCount < 0) {
-			if(currentStep == function.length-1) {
-				alreadyRepeated++;
-				if(alreadyRepeated < repeat || repeat == 0) {
-					currentStep = 0;
-					currentStepCount = stepCount[currentStep];
-					lastT = 0;
+			currentStepAlreadyRepeated--;
+			if(currentStepAlreadyRepeated == 0) {
+				
+				if(currentStep == function.length-1) {
+					alreadyRepeated++;
+					if(alreadyRepeated < repeat || repeat == 0) {
+						currentStep = 0;
+						currentStepAlreadyRepeated = stepRepeat[currentStep];
+						currentStepCount = stepCount[currentStep];
+						lastT = 0;
+					}
+					else 
+						return false;				
 				}
 				else 
-					return false;				
+					currentStep++;
+				currentStepAlreadyRepeated = stepRepeat[currentStep];
 			}
-			else currentStep++;
-			currentStepCount = stepCount[currentStep];
-			lastT = 0;
+				currentStepCount = stepCount[currentStep];
+				lastT = 0;
 		}
 		float currentTime = speedFunction.apply(1.0f - currentStepCount / stepCount[currentStep]);
 		for(T t: target) {
@@ -170,8 +192,13 @@ public abstract class AbstractAnimation<T extends Cloneable<T>, F> extends BaseG
 	}
 
 	@Override
-	public Animation<T,F> repeat(int repeatCount) {
+	public Animation<T,F> repeat(int repeatCount, int... stepRepeatCount) {
 		repeat = repeatCount;
+		if(stepRepeatCount.length != 0)
+			for(int i = 0; i < stepRepeat.length; i++) {
+				stepRepeat[i] = stepRepeatCount[i % stepRepeat.length];
+			}
+		currentStepAlreadyRepeated = stepRepeat[0];
 		return this;
 	}
 	@Override

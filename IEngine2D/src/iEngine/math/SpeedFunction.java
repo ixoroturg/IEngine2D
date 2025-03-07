@@ -28,7 +28,7 @@ public class SpeedFunction {
 				easeIn(x*2f)*0.5f :
 				Math.abs(easeIn((x)*2f) - 1)*0.5f+0.5f;
 //					x;
-		System.out.println("speed: "+result+", x: "+x+", ds: "+(result - test));
+//		System.out.println("speed: "+result+", x: "+x+", ds: "+(result - test));
 		test = result;
 		return result;
 	}
