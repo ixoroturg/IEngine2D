@@ -4,7 +4,7 @@ import java.util.function.*;
 
 import iEngine.math.Point;
 
-public class PointAnimation extends AbstractAnimation<Point, Function<Float, Point> >{
+public class PointAnimation extends Animation<Point, Function<Float, Point> >{
 	@Override
 	protected Function<Float, Point> prepareFunction(Function<Float, Point> function, int stepCount) {
 		return function;

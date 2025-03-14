@@ -1,5 +1,6 @@
 package iEngine.element.interfaces;
 
+import iEngine.element.GameObject;
 import iEngine.input.interfaces.Controller;
 
 public interface World extends Controlable{

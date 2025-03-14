@@ -100,6 +100,9 @@ public class BaseWorld implements World{
 		if(gameObject instanceof Controlable canControl) {
 			storage.getControlList().add(canControl);
 		}
+		if(gameObject instanceof Collider col) {
+			storage.getColliderList().add(col);
+		}
 		
 		gameObject.onTickChange(tickrate);
 		gameObject.setWorld(this);

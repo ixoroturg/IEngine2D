@@ -20,40 +20,38 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 		super();
 		position.set(200,200);
 	}
-	/*public void onTickChange(){
-		super.onTickChange();
-		speed = 100;
-	}*/
+	
 	@Override
 	public void onCreate(){
 		
 		con.bind(Mouse.MOUSE1, FOLLOW);
-		con.bind(Mouse.MOUSE2, RESTART);
-		con.bind(KeyEvent.VK_1, STOP);
-		con.bind(KeyEvent.VK_2, START);
+		con.bind(KeyEvent.VK_S, FOLLOW);
+//		con.bind(Mouse.MOUSE2, RESTART);
+//		con.bind(KeyEvent.VK_1, STOP);
+//		con.bind(KeyEvent.VK_2, START);
 		try {
 			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
 		}catch(IOException e) {e.printStackTrace();}	
 		
-		con.addControllerListener((action, act) -> {
-			switch(action) {
-			case RESTART -> {ani.reset();}
-			case STOP -> {ani.stop();}
-			case START -> {ani.start();}
-			}
-		});
-		ani = new AddMatrixAnimation();
-		world.initialize(ani);
-		ani.setTarget(matrix);
-		Matrix m1 = new Matrix2D(0,0,4,4);
-		Matrix m2 = new Matrix2D(0,0,-4,-4);
-		Matrix m3 = new Matrix2D(0,0,-4,4);
-		Matrix m4 = new Matrix2D(0,0,4,-4);
-		
-		ani.setFunction(m1,m2,m3,m4);
-		ani.setDuration(1,3,1,3);
-		ani.repeat(2);
-		ani.start();
+//		con.addControllerListener((action, act) -> {
+//			switch(action) {
+//			case RESTART -> {ani.reset();}
+//			case STOP -> {ani.stop();}
+//			case START -> {ani.start();}
+//			}
+//		});
+//		ani = new AddMatrixAnimation();
+//		world.initialize(ani);
+//		ani.setTarget(matrix);
+//		Matrix m1 = new Matrix2D(0,0,4,4);
+//		Matrix m2 = new Matrix2D(0,0,-4,-4);
+//		Matrix m3 = new Matrix2D(0,0,-4,4);
+//		Matrix m4 = new Matrix2D(0,0,4,-4);
+//		
+//		ani.setFunction(m1,m2,m3,m4);
+//		ani.setDuration(1,3,1,3);
+//		ani.repeat(2);
+//		ani.start();
 	}
 //	@Override
 //	public void onTick() {
@@ -67,6 +65,6 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 	@Override
 	public RenderInfo getRenderInfo(Camera camera) {
 		//System.out.println(speed);
-		return new RenderInfo(sprite, position, angle, 100, 100, matrix);
+		return new RenderInfo(sprite, position, angle, 200, 200, matrix);
 	}
 }

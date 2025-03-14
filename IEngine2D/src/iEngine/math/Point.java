@@ -74,6 +74,12 @@ public class Point implements Cloneable<Point>{
 		y += v.y;
 		return this;
 	}
+	
+	public Point sub(Vector v) {
+		x -= v.x;
+		y -= v.y;
+		return this;
+	}
 	/**
 	 * Вычитает координаты переданной точки из этой
 	 * @param p - точка

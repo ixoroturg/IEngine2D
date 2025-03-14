@@ -32,6 +32,7 @@ public class Function {
 		z2 = v1.mulVector(v3);
 		if(z1*z2 > 0)
 			return false;
+		
 		if(z1 == z2 && z1 == 0) {
 			Point p1 = a.getCenter(b);
 			Point p2 = c.getCenter(d);
@@ -51,29 +52,58 @@ public class Function {
 	 * null если точки пересечения нет
 	 */
 	public static Point getLineSegmentCrossPoint(Point a, Point b, Point c, Point d) {
-		float a1 = a.y - b.y;
-		float b1 = b.x - a.x;
-		float c1 = - (a1 * b1);
+		if(!isLineSegmentCross(a, b, c, d))
+			return null;
+		float dx1 = b.x - a.x;
+		float dy1 = b.y - a.y;
 		
-		float a2 = c.y - d.y;
-		float b2 = d.x - c.y;
-		float c2 = - (a2 * b2);
+		float dx2 = d.x - c.x;
+		float dy2 = d.y - c.y;
 		
-		float det = a1*b2 - a2* b1;
-		if(det == 0) {
-			Point p1 = a.getCenter(b);
-			Point p2 = c.getCenter(d);
-			if(p1.getDistance(p2) > p1.getDistance(b) + p2.getDistance(c)) 
+		Matrix M = new Matrix2D(dy1, - dx1, dy2, - dx2);//.reverse();
+		if(M.det() != 0) {
+			float[] answer = M
+					.reverse()
+					.mul(new float[]{
+							dy1*a.x - dx1*a.y ,
+							dy2*c.x - dx2*c.y
+						});
+			
+			if(
+				answer[0] > Math.max(a.x, b.x) || answer[0] < Math.min(a.x, b.x) || answer[0] > Math.max(c.x, d.x) || answer[0] < Math.min(c.x, d.x) 
+				|| answer[1] > Math.max(a.y, b.y) || answer[1] < Math.min(a.y, b.y) || answer[1] > Math.max(c.y, d.y) || answer[1] < Math.min(c.y, d.y)
+			) {
 				return null;
-			return p1.getCenter(p2);
-		}	
-		return new Point(
-				(float)((c1*b2 - b1*c2) / det),
-				(float)((a1*c2 - c1*b2) / det)
-		);
+			}
+			
+			return new Point(answer[0],answer[1]);
+		}
+		
+		return null;
+		
+//		float a1 = a.y - b.y;
+//		float b1 = b.x - a.x;
+//		float c1 = - (a1 * b1);
+//		
+//		float a2 = c.y - d.y;
+//		float b2 = d.x - c.y;
+//		float c2 = - (a2 * b2);
+//		
+//		float det = a1*b2 - a2* b1;
+//		if(det == 0) {
+//			Point p1 = a.getCenter(b);
+//			Point p2 = c.getCenter(d);
+//			if(p1.getDistance(p2) > p1.getDistance(b) + p2.getDistance(c)) 
+//				return null;
+//			return p1.getCenter(p2);
+//		}	
+//		return new Point(
+//				(float)((c1*b2 - b1*c2) / det),
+//				(float)((a1*c2 - c1*b2) / det)
+//		);
 	}
 	
-	public static float integral(java.util.function.Function<Float,Float> function, float a, float b){
-		return function.apply(b) - function.apply(a);
-	}
+//	public static float integral(java.util.function.Function<Float,Float> function, float a, float b){
+//		return function.apply(b) - function.apply(a);
+//	}
 }

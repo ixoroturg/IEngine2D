@@ -1,6 +1,9 @@
 package iEngine.element.interfaces.baseInstance;
 
 import java.util.*;
+
+import iEngine.element.Collider;
+import iEngine.element.GameObject;
 //
 //import iEngine.element.GameObject;
 import iEngine.element.interfaces.*;
@@ -12,6 +15,7 @@ public class BaseStorage implements Storage{
 	private List<Tickable> tickableList = new LinkedList<Tickable>();
 	private List<Controlable> controlList = new LinkedList<Controlable>();
 	private List<GameObject> gameObjList = new LinkedList<GameObject>();
+	private List<Collider> colliderList = new LinkedList<Collider>();
 	@Override
 	public List<Renderable> getRenderList() {
 		return renderList;
@@ -55,6 +59,15 @@ public class BaseStorage implements Storage{
 	public Storage setGameObjectList(List<GameObject> gameObjectList) {
 		 gameObjList = gameObjectList;
 		 return this;
+	}
+	@Override
+	public List<Collider> getColliderList() {
+		return colliderList;
+	}
+	@Override
+	public Storage setColliderList(List<Collider> colliderList) {
+		this.colliderList = colliderList;
+		return this;
 	}
 	
 }

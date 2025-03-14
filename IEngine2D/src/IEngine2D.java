@@ -1,6 +1,7 @@
 
 import java.awt.event.KeyEvent;
 
+import iEngine.element.GameObject;
 import iEngine.element.WorldBuilder;
 import iEngine.element.interfaces.*;
 import iEngine.input.*;
@@ -11,8 +12,6 @@ import iEngine.output.Window;
 import iEngine.output.camera.*;
 import iEngine.output.camera.instance.*;
 
-import sun.misc.Unsafe;
-
 public class IEngine2D {
 	public static StandartJavaMouse mouse = new StandartJavaMouse();
 	public static void main(String[] args) {
@@ -22,12 +21,12 @@ public class IEngine2D {
 //		Device.toNativeResolution();
 		
 		MouseFollower m = (MouseFollower)new MouseFollower();
-		m.getController()
-			.bind(KeyEvent.VK_W, MouseFollower.FOLLOW)
-			.bind(KeyEvent.VK_D, 0);
+//		m.getController()
+//			.bind(KeyEvent.VK_W, MouseFollower.FOLLOW)
+//			.bind(KeyEvent.VK_D, 0);
 		
 		MouseFollower f = new MouseFollower2();
-		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
+//		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
 		
 		Camera camera = new MyCamera()
 //				.setResolution(1920, 1080)
@@ -37,8 +36,8 @@ public class IEngine2D {
 		
 		World world = WorldBuilder.newBuilder(100)
 				.create(m)
-//				.create(f)
-				.create(camera)
+				.create(f)
+				.create((GameObject)camera)
 				.build();
 		
 		Mouse mouse = new StandartJavaMouse();

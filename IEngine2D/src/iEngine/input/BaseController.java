@@ -25,7 +25,8 @@ public class BaseController implements Controller{
 		if(keyBind.containsKey(key)) {
 			keyBind.get(key).add(action);
 		} else {
-			keyBind.put(key, List.of(action));
+			keyBind.put(key, new ArrayList<>(1));
+			keyBind.get(key).add(action);
 		}
 
 		this.action.put(action, false);

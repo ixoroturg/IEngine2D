@@ -4,7 +4,8 @@ import java.awt.Image;
 import java.util.List;
 import java.util.Map;
 
-import iEngine.element.BaseGameObject;
+//import iEngine.element.BaseGameObject;
+import iEngine.element.GameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.Point;
 import iEngine.math.Vector;
@@ -18,7 +19,7 @@ import iEngine.math.Vector;
  * List<Renderable> renderList - список объектов для отрисовки (может быть удалено)<br>
  * CameraProperty properties - свойства камеры
  */
-public abstract class AbstractCamera extends BaseGameObject implements Camera{
+public abstract class AbstractCamera extends GameObject implements Camera{
 	protected Point position = new Point(0,0);
 	protected float angle = 0;
 	protected float scale = 1;
@@ -87,7 +88,7 @@ public abstract class AbstractCamera extends BaseGameObject implements Camera{
 		return this;
 	}
 	@Override
-	public Camera setWorld(World world) {
+	public AbstractCamera setWorld(World world) {
 		this.world = world;
 		renderList = world.getStorage().getRenderList();
 		return this;

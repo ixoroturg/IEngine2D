@@ -1,5 +1,5 @@
 package iEngine.element.interfaces.baseInstance;
-import iEngine.element.BaseGameObject;
+import iEngine.element.GameObject;
 //import iEngine.element.GameObject;
 import iEngine.element.interfaces.Hitbox;
 import iEngine.math.*;
@@ -12,7 +12,7 @@ import iEngine.math.*;
  * Для получения актуальных вершин вызывайте getVertex() - возвращает Point[]<br>
  * float radius - максимальный радиус хитбокса<br>
  */
-public abstract class BaseHitbox extends BaseGameObject implements Hitbox{
+public abstract class BaseHitbox extends GameObject implements Hitbox{
 	protected Point position;
 	protected float angle;
 	private Point[] vertexBuffer;
@@ -25,7 +25,8 @@ public abstract class BaseHitbox extends BaseGameObject implements Hitbox{
 		vertexBuffer = new Point[vertex.length];
 		for(int i = 0; i < vertex.length; i++) {
 			if(this.position.getDistance(vertex[i]) > radius)
-				radius = this.position.getDistance(vertex[i]);
+//				radius = this.position.getDistance(vertex[i]);
+				radius = (float) Math.hypot(vertex[i].x, vertex[i].y);
 			vertexBuffer[i] = vertex[i].clone();
 		}
 	}

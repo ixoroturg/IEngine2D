@@ -17,6 +17,6 @@ import iEngine.math.Point;
  * Это значение является размером по умолчанию.
  * Для Изменения размеров используйте матрицу преобразования [scaleX, 0, 0, scaleY]<br>
  * @param
- * Matrix matrix - матрица преобразования<br>
+ * MatrixOLDsuka matrix - матрица преобразования<br>
  */
 public record RenderInfo(Image sprite, Point position, float angle, float xSize, float ySize, Matrix matrix) {}

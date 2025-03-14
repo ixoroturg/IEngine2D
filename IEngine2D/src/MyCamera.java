@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Image;
 
 import iEngine.element.interfaces.*;
@@ -5,6 +6,7 @@ import iEngine.input.BaseController;
 import iEngine.input.interfaces.*;
 import iEngine.math.Point;
 import iEngine.math.Vector;
+import iEngine.output.camera.CameraProperty.Property;
 import iEngine.output.camera.instance.StandartJavaCamera;
 
 public class MyCamera extends StandartJavaCamera implements Controlable{
@@ -16,6 +18,9 @@ public class MyCamera extends StandartJavaCamera implements Controlable{
 	private boolean wasDrag = false;
 	@Override
 	public void onCreate() {
+		
+		properties.add(Property.showHitbox, Color.RED.getRGB());
+		
 		con.bind(Mouse.MOUSE3, MOVE);
 		con.bind(Mouse.DRAG, START);
 		con.addControllerListener((action, isStart)->{

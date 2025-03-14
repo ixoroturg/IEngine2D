@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 import java.util.Arrays;
 import iEngine.element.interfaces.*;
 import iEngine.output.camera.*;
-public abstract class BaseGameObject implements GameObject{
+public abstract class GameObject{
 	protected World world = null;
 //	public BaseGameObject initialize(World world) {
 //		this.world = world;
@@ -24,7 +24,7 @@ public abstract class BaseGameObject implements GameObject{
 //		onCreate();
 //		return this;
 //	}
-	@Override
+
 	public void onTickChange(int tickrate) {
 		if(tickrate == 0)
 			return;
@@ -53,13 +53,14 @@ public abstract class BaseGameObject implements GameObject{
 			System.exit(ErrorCode.BIND_TICKRATE_FAILED);
 		}
 	}
-	@Override
+	
 	public World getWorld() {
 		return world;
 	}
-	@Override
+	
 	public GameObject setWorld(World world) {
 		this.world = world;
 		return this;
 	}
+	public abstract void onCreate();
 }

@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import iEngine.element.*;
-import iEngine.element.interfaces.GameObject;
+//import iEngine.element.interfaces.GameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.*;
 /**
  * Интерфейс для камеры
  */
-public interface Camera extends GameObject{
+public interface Camera {
 
 	public Camera setSize(float width, float height);
 	public float[] getSize();

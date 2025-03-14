@@ -2,6 +2,8 @@ package iEngine.element.interfaces;
 
 import java.util.*;
 
+import iEngine.element.Collider;
+import iEngine.element.GameObject;
 //import iEngine.element.GameObject;
 import iEngine.output.camera.Renderable;
 
@@ -20,4 +22,6 @@ public interface Storage {
 	
 	public List<GameObject> getGameObjectList();
 	public Storage setGameObjectList(List<GameObject> gameObjectList);
+	public List<Collider> getColliderList();
+	public Storage setColliderList(List<Collider> colliderList);
 }

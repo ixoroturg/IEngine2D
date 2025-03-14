@@ -78,7 +78,7 @@ public class StandartJavaCamera extends BaseCamera{
 		float[] m = {1,0,0,1};
 		if(info.matrix() != null)
 			m = info.matrix().get();
-		frame.transform(new AffineTransform(m[0],-m[1],-m[2],m[3],0,0));
+		frame.transform(new AffineTransform(m[0],m[2],m[1],m[3],0,0));
 		
 		// как и выше вычисляем размеры
 		int w = (int)
@@ -87,17 +87,33 @@ public class StandartJavaCamera extends BaseCamera{
 				( (info.ySize() / height) * frameHeight / 2 );
 		frame.drawImage(info.sprite(), -w/2, -h/2, w/2, h/2, 0, 0, info.sprite().getWidth(null), info.sprite().getHeight(null), null);
 		
+		
+		
 		//Особые настройки
 		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
 			frame.setColor(new Color(properties.get(Property.showHitbox)));	
 			Point[] ps = hitbox.getVertex();
-			for(int i = 0; i < ps.length - 1; i++) {
-				frame.drawLine((int)(ps[i].x), (int)(frameHeight - ps[i].y), (int)(ps[i+1].x), (int)(frameHeight - ps[i+1].y));
-			}
-			frame.drawLine((int)(ps[ps.length - 1].x), (int)(frameHeight - ps[ps.length - 1].y), (int)(ps[0].x), (int)(frameHeight - ps[0].y));
-		}
+			for(int i =0; i < ps.length; i++) {
+//				ps[i].sub(position);
+//				ps[i].x = (ps[i].x/width+1) * this.frameWidth / 2;
+//				ps[i].y = (ps[i].y/height+1) * this.frameHeight / 2;
+				ps[i].sub(info.position());
+				ps[i].rotate(-info.angle());
+//				System.out.println(ps[i].x);
+				int raz = 20;
+				
+//				frame.fillOval((int)ps[i].x - raz/2, (int)ps[i].y - raz/2, raz,raz);
 		
+			}
+			
+			
+			for(int i = 0; i < ps.length; i++) {
+				frame.drawLine((int)(ps[i].x), (int)(ps[i].y), (int)(ps[(i+1)% ps.length].x ), (int)(ps[(i+1)% ps.length].y));
+			}
+//			frame.drawLine((int)(ps[ps.length - 1].x), (int)(ps[ps.length - 1].y), (int)(ps[0].x), (int)(ps[0].y));
+		}
 		frame.setTransform(saveTransform);
+		
 	}
 	@Override
 	protected Image renderComplete() {
