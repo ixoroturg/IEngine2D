@@ -7,8 +7,7 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 
 import iEngine.element.interfaces.World;
-import iEngine.output.camera.Camera;
-import iEngine.output.camera.CameraProperty.Property;
+import iEngine.render.*;
 
 public class Window extends JFrame{
 	public Panel frame;

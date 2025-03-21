@@ -1,4 +1,4 @@
-package iEngine.output.camera;
+package iEngine.render;
 
 import java.awt.Image;
 import java.util.List;
@@ -9,7 +9,7 @@ import iEngine.element.GameObject;
 import iEngine.element.interfaces.World;
 import iEngine.math.Point;
 import iEngine.math.Vector;
-
+import iEngine.render.camera.*;
 /**
  * Доступны:<br>
  * float angle - поворот камеры<br>

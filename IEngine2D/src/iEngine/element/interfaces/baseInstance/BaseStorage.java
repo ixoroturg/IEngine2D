@@ -7,7 +7,7 @@ import iEngine.element.GameObject;
 //
 //import iEngine.element.GameObject;
 import iEngine.element.interfaces.*;
-import iEngine.output.camera.*;
+import iEngine.render.*;
 
 public class BaseStorage implements Storage{
 	private List<Renderable> renderList = new LinkedList<Renderable>();

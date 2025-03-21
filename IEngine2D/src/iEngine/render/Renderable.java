@@ -1,4 +1,4 @@
-package iEngine.output.camera;
+package iEngine.render;
 /**
  * Интерфейс, который реализуют объекты, которые должны рендериться
  */

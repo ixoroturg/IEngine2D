@@ -4,7 +4,7 @@ import iEngine.input.interfaces.Controller;
 import iEngine.input.interfaces.Mouse;
 import iEngine.math.Point;
 import iEngine.math.Vector;
-import iEngine.output.camera.Camera;
+import iEngine.render.*;
 
 public abstract class AbstractMouse implements Mouse{
 	protected Controller controller;

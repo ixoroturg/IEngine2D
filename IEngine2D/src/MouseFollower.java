@@ -16,7 +16,7 @@ import iEngine.input.*;
 import iEngine.input.interfaces.*;
 import iEngine.math.*;
 import iEngine.math.Point;
-import iEngine.output.camera.*;
+import iEngine.render.*;
 public class MouseFollower extends Collider implements Tickable, Controlable, Renderable{
 	
 	@BindTickrate(Float = 960)

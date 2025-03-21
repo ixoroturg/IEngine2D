@@ -2,7 +2,7 @@ package iEngine.input.interfaces;
 
 import iEngine.math.Point;
 import iEngine.math.Vector;
-import iEngine.output.camera.Camera;
+import iEngine.render.*;
 
 public interface Mouse {
 	public final static byte 

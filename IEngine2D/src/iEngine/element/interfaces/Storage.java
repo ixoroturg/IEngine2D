@@ -5,7 +5,7 @@ import java.util.*;
 import iEngine.element.Collider;
 import iEngine.element.GameObject;
 //import iEngine.element.GameObject;
-import iEngine.output.camera.Renderable;
+import iEngine.render.Renderable;
 
 public interface Storage {
 	public List<Renderable> getRenderList();

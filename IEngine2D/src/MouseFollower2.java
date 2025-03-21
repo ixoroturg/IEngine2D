@@ -9,9 +9,7 @@ import iEngine.element.interfaces.BindTickrate;
 import iEngine.input.interfaces.Mouse;
 import iEngine.math.Matrix;
 import iEngine.math.Matrix2D;
-import iEngine.output.camera.Camera;
-import iEngine.output.camera.RenderInfo;
-import iEngine.output.camera.Renderable;
+import iEngine.render.*;
 
 public class MouseFollower2 extends MouseFollower implements Renderable{
 	@BindTickrate(Float = 480)

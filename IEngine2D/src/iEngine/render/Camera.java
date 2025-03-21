@@ -1,4 +1,4 @@
-package iEngine.output.camera;
+package iEngine.render;
 import java.awt.Image;
 import java.util.List;
 import java.util.Map;

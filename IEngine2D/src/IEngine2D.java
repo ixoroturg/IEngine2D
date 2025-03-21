@@ -9,8 +9,7 @@ import iEngine.input.interfaces.*;
 import iEngine.math.Point;
 import iEngine.output.Device;
 import iEngine.output.Window;
-import iEngine.output.camera.*;
-import iEngine.output.camera.instance.*;
+import iEngine.render.*;
 
 public class IEngine2D {
 	public static StandartJavaMouse mouse = new StandartJavaMouse();
@@ -28,7 +27,7 @@ public class IEngine2D {
 		MouseFollower f = new MouseFollower2();
 //		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
 		
-		Camera camera = new MyCamera()
+		Camera camera = ((Camera) new MyCamera())
 //				.setResolution(1920, 1080)
 				.setSize(1920, 1080)
 //				.setSize(1200,900)

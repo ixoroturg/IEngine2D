@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
-import iEngine.output.camera.Camera;
+import iEngine.render.*;
 public class Panel extends JPanel {
 	private Timer fps = new Timer(true);
 	private Camera camera;

@@ -3,7 +3,7 @@ import java.lang.reflect.*;
 
 import java.util.Arrays;
 import iEngine.element.interfaces.*;
-import iEngine.output.camera.*;
+import iEngine.render.*;
 public abstract class GameObject{
 	protected World world = null;
 //	public BaseGameObject initialize(World world) {

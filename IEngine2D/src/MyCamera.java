@@ -6,8 +6,9 @@ import iEngine.input.BaseController;
 import iEngine.input.interfaces.*;
 import iEngine.math.Point;
 import iEngine.math.Vector;
-import iEngine.output.camera.CameraProperty.Property;
-import iEngine.output.camera.instance.StandartJavaCamera;
+import iEngine.render.*;
+import iEngine.render.CameraProperty.Property;
+import iEngine.render.camera.*;
 
 public class MyCamera extends StandartJavaCamera implements Controlable{
 	private final int MOVE = 0, START = 1;

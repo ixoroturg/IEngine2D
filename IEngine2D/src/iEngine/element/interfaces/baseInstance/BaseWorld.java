@@ -3,7 +3,7 @@ import java.util.*;
 import iEngine.element.*;
 import iEngine.element.interfaces.*;
 import iEngine.input.interfaces.Controller;
-import iEngine.output.camera.Renderable;
+import iEngine.render.*;
 
 public class BaseWorld implements World{
 	protected Map<Integer, Storage> storageMap = new TreeMap<Integer, Storage>();

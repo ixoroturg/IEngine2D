@@ -1,16 +1,16 @@
-package iEngine.output.camera.instance;
+package iEngine.render.camera;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
-import iEngine.element.*;
-import iEngine.element.interfaces.Hitbox;
 import iEngine.math.Point;
-import iEngine.output.Device;
-import iEngine.output.camera.*;
-import iEngine.output.camera.CameraProperty.Property;
+import iEngine.physic.*;
+import iEngine.physic.Polygon;
+import iEngine.render.BaseCamera;
+import iEngine.render.CameraProperty;
+import iEngine.render.RenderInfo;
+import iEngine.render.Renderable;
+import iEngine.render.CameraProperty.Property;
 /**
  * Реализация камеры стандартными методами java.awt<br>
  * В качестве буффера используется java.awt.image.BufferedImage<br>
@@ -20,7 +20,7 @@ import iEngine.output.camera.CameraProperty.Property;
  * Image image - изображение камеры
  * Graphics2D frame - Graphics этого изображения
  *
- * @see iEngine.output.camera.AbstractCamera
+ * @see iEngine.render.AbstractCamera
  */
 public class StandartJavaCamera extends BaseCamera{
 	protected Image image;
@@ -90,9 +90,9 @@ public class StandartJavaCamera extends BaseCamera{
 		
 		
 		//Особые настройки
-		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Hitbox hitbox) {
+		if(properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Polygon hitbox) {
 			frame.setColor(new Color(properties.get(Property.showHitbox)));	
-			Point[] ps = hitbox.getVertex();
+			Point[] ps = hitbox.getForm();
 			for(int i =0; i < ps.length; i++) {
 //				ps[i].sub(position);
 //				ps[i].x = (ps[i].x/width+1) * this.frameWidth / 2;
