@@ -4,24 +4,25 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import iEngine.element.animation.AddMatrixAnimation;
 import iEngine.element.interfaces.BindTickrate;
+import iEngine.graphic.Model2D;
+import iEngine.graphic.RenderContext;
+import iEngine.graphic.Renderable2D;
+import iEngine.graphic.camera.Camera;
 import iEngine.input.interfaces.Mouse;
-import iEngine.math.Matrix;
-import iEngine.math.Matrix2D;
-import iEngine.render.*;
 
-public class MouseFollower2 extends MouseFollower implements Renderable{
+public class MouseFollower2 extends MouseFollower implements Renderable2D {
+
 	@BindTickrate(Float = 480)
-	protected float speed=10;
+	protected float speed = 10;
+
 	public MouseFollower2() {
 		super();
-		position.set(200,200);
+		position.set(200, 200);
 	}
-	
 	@Override
-	public void onCreate(){
-		
+	public void onCreate() {
+
 		con.bind(Mouse.MOUSE1, FOLLOW);
 		con.bind(KeyEvent.VK_S, FOLLOW);
 //		con.bind(Mouse.MOUSE2, RESTART);
@@ -29,8 +30,10 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 //		con.bind(KeyEvent.VK_2, START);
 		try {
 			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
-		}catch(IOException e) {e.printStackTrace();}	
-		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 //		con.addControllerListener((action, act) -> {
 //			switch(action) {
 //			case RESTART -> {ani.reset();}
@@ -61,8 +64,10 @@ public class MouseFollower2 extends MouseFollower implements Renderable{
 //		}
 //	}
 	@Override
-	public RenderInfo getRenderInfo(Camera camera) {
-		//System.out.println(speed);
-		return new RenderInfo(sprite, position, angle, 200, 200, matrix);
+	public Model2D getModel(Camera camera) {
+		return null;
+		// System.out.println(speed);
+//		return new RenderContext(sprite, position, angle, 200, 200, matrix);
 	}
+
 }

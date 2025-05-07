@@ -1,10 +1,15 @@
 package iEngine.input;
-import java.awt.event.*;
 
-import iEngine.input.interfaces.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class StandartJavaKeyboard implements KeyListener, Keyboard{
+import iEngine.input.interfaces.Controller;
+import iEngine.input.interfaces.Keyboard;
+
+public class StandartJavaKeyboard implements KeyListener, Keyboard {
+
 	protected Controller controller;
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 

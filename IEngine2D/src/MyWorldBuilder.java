@@ -1,14 +1,16 @@
 
-import iEngine.element.interfaces.*;
-import iEngine.element.interfaces.baseInstance.*;
-import iEngine.math.Point;
+import iEngine.element.interfaces.World;
+import iEngine.element.interfaces.WorldBuilderOld;
+import iEngine.element.interfaces.baseInstance.BaseWorld;
 
-import java.awt.event.*;
-public class MyWorldBuilder implements WorldBuilderOld{
-	private World world = new BaseWorld();
+public class MyWorldBuilder implements WorldBuilderOld {
+
+	private World world = new BaseWorld(100);
+
 	@Override
 	public World build() {
-				world.setTickrate(100);		
+		world.setTickrate(100);
 		return world;
 	}
+
 }

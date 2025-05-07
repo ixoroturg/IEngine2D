@@ -2,10 +2,13 @@ package iEngine.element;
 
 import java.util.List;
 
-import iEngine.element.interfaces.*;
+import iEngine.element.interfaces.Tickable;
+import iEngine.element.interfaces.World;
 
-public class BaseTickManager implements Tickable{
+public class BaseTickManager implements Tickable {
+
 	protected World world;
+
 	public BaseTickManager setWorld(World world) {
 		this.world = world;
 		return this;
@@ -14,8 +17,8 @@ public class BaseTickManager implements Tickable{
 	public void onTick() {
 		List<Collider> l = world.getStorage().getColliderList();
 		world.getStorage().getColliderList().forEach(coll -> {
-			for(Collider C: l) {
-				if(coll != C)
+			for (Collider C : l) {
+				if (coll != C)
 					coll.Collise(C);
 			}
 		});
@@ -26,4 +29,5 @@ public class BaseTickManager implements Tickable{
 			tick.onTick();
 		});
 	}
+
 }

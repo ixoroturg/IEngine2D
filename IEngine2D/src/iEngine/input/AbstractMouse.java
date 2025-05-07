@@ -1,15 +1,16 @@
 package iEngine.input;
 
+import iEngine.graphic.camera.Camera;
 import iEngine.input.interfaces.Controller;
 import iEngine.input.interfaces.Mouse;
 import iEngine.math.Point;
-import iEngine.math.Vector;
-import iEngine.render.*;
 
-public abstract class AbstractMouse implements Mouse{
+public abstract class AbstractMouse implements Mouse {
+
 	protected Controller controller;
 	protected Camera camera;
-	protected Point position = new Point(0,0);
+	protected Point position = new Point(0, 0);
+
 	@Override
 	public Mouse setCamera(Camera camera) {
 		this.camera = camera;
@@ -29,4 +30,5 @@ public abstract class AbstractMouse implements Mouse{
 	public Controller getController() {
 		return controller;
 	}
+
 }

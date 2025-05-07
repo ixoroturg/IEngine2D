@@ -1,28 +1,29 @@
 package iEngine.input;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import iEngine.input.interfaces.ControllerListener;
 import iEngine.input.interfaces.Controller;
+import iEngine.input.interfaces.ControllerListener;
 import iEngine.input.interfaces.Mouse;
 
-public class BaseController implements Controller{
-	
+public class BaseController implements Controller {
+
 	protected Map<Integer, List<Integer>> keyBind = new TreeMap<Integer, List<Integer>>();
 	protected Map<Integer, Boolean> action = new TreeMap<Integer, Boolean>();
 	private List<ControllerListener> listeners = new LinkedList<ControllerListener>();
 	protected Mouse mouse = null;
-	
-	/*public BaseController(int... actions) {
-		if(actions == null)
-			return;
-		for(int act: actions) {
-			action.put(act, false);
-		}
-	}*/
+
+	/*
+	 * public BaseController(int... actions) { if(actions == null) return;
+	 * for(int act: actions) { action.put(act, false); } }
+	 */
 	@Override
 	public Controller bind(int key, int action) {
-		if(keyBind.containsKey(key)) {
+		if (keyBind.containsKey(key)) {
 			keyBind.get(key).add(action);
 		} else {
 			keyBind.put(key, new ArrayList<>(1));
@@ -46,32 +47,31 @@ public class BaseController implements Controller{
 	public boolean isActive(int action) {
 		return this.action.get(action);
 	}
-
 	@Override
 	public void press(int key) {
-		if(keyBind.containsKey(key))
-		keyBind.get(key).forEach(action -> {
-			this.action.put(action, true);
-			triggerAction(action,true);
-		});
+		if (keyBind.containsKey(key))
+			keyBind.get(key).forEach(action -> {
+				this.action.put(action, true);
+				triggerAction(action, true);
+			});
 	}
 	@Override
 	public void release(int key) {
-		if(keyBind.containsKey(key))
-		keyBind.get(key).forEach(action -> {
-			this.action.put(action, false);
-			triggerAction(action,false);
-		});	
+		if (keyBind.containsKey(key))
+			keyBind.get(key).forEach(action -> {
+				this.action.put(action, false);
+				triggerAction(action, false);
+			});
 	}
 	@Override
-	public void doAction(int action) {	
+	public void doAction(int action) {
 		this.action.put(action, true);
 		triggerAction(action, true);
 	}
 	@Override
 	public void undoAction(int action) {
 		this.action.put(action, false);
-		triggerAction(action,false);
+		triggerAction(action, false);
 	}
 	@Override
 	public Controller setMouse(Mouse m) {
@@ -83,7 +83,6 @@ public class BaseController implements Controller{
 		return mouse;
 	}
 	private void triggerAction(int action, boolean isActive) {
-		//System.out.println("triggered on action");
 		listeners.forEach(listener -> {
 			listener.onAction(action, isActive);
 		});
@@ -96,4 +95,5 @@ public class BaseController implements Controller{
 	public void removeActionListener(ControllerListener listener) {
 		listeners.remove(listener);
 	}
+
 }

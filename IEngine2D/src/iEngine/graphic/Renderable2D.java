@@ -1,10 +1,15 @@
-package iEngine.render;
+package iEngine.graphic;
+
+import iEngine.graphic.camera.Camera;
+
 /**
  * Интерфейс, который реализуют объекты, которые должны рендериться
  */
-public interface Renderable {
+public interface Renderable2D {
+
 	/**
 	 * @return информацию для рендеринга объекта
 	 */
-	public RenderInfo getRenderInfo(Camera camera);
+	public Model2D getModel(Camera camera);
+
 }

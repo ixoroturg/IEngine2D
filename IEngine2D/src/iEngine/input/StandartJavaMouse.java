@@ -1,48 +1,52 @@
 package iEngine.input;
-import java.awt.event.*;
-import iEngine.math.*;
-import iEngine.math.Vector;
-import iEngine.output.Device;
 
-public class StandartJavaMouse extends AbstractMouse implements MouseListener, MouseMotionListener, MouseWheelListener{
-	
-	protected Vector lastMovement = new Vector(0,0);
-	protected Point dragStart = new Point(0,0);
-	protected Point dragEnd = new Point(0,0);
-	protected Point buffer = new Point(0,0);
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
+import iEngine.math.Point;
+import iEngine.math.Vector;
+
+public class StandartJavaMouse extends AbstractMouse implements MouseListener, MouseMotionListener, MouseWheelListener {
+
+	protected Vector lastMovement = new Vector(0, 0);
+	protected Point dragStart = new Point(0, 0);
+	protected Point dragEnd = new Point(0, 0);
+	protected Point buffer = new Point(0, 0);
 	protected boolean drag = false;
-	
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		buffer.set(position);
-		
+		buffer.paste(position);
+
 		int[] res = camera.getResolution();
 		float[] size = camera.getSize();
 		float x = e.getX();
-		float y = res[1] - e.getY() ;
-		
+		float y = res[1] - e.getY();
+
 		x = (x / res[0] * 2 - 1) * size[0] / 2;
 		y = (y / res[1] * 2 - 1) * size[1] / 2;
-		
+
 //		int[] res = Device.getDisplayResolution();
 //		int[] camRes = camera.getResolution();
 //		x *= (float)res[0] / camRes[0];
 //		y *= (float)res[1] / camRes[1];
-		
+
 		position.set(x, y);
-		
+
 //		System.out.println("Текущая позиция: "+ buffer);
 //		System.out.println("Следующая позиция: "+ position);
 		position.add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
-		
-		
+
 		controller.press(DRAG);
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		buffer.set(position);
-		
+		buffer.paste(position);
+
 //		float x = e.getX();
 //		float y = camera.getResolution()[1] - e.getY() ;
 //		int[] res = Device.getDisplayResolution();
@@ -52,18 +56,17 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 		int[] res = camera.getResolution();
 		float[] size = camera.getSize();
 		float x = e.getX();
-		float y = res[1] - e.getY() ;
-		
+		float y = res[1] - e.getY();
+
 		x = (x / res[0] * 2 - 1) * size[0] / 2;
 		y = (y / res[1] * 2 - 1) * size[1] / 2;
-		
+
 //		System.out.println(x+" "+y);
 //		int[] res = Device.getDisplayResolution();
 //		int[] camRes = camera.getResolution();
 //		x *= (float)res[0] / camRes[0];
 //		y *= (float)res[1] / camRes[1];
-		
-		
+
 		position.set(x, y);
 		position.add(camera.getPosition());
 		lastMovement = buffer.getVector(position);
@@ -72,33 +75,32 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int key = e.getButton();
-		if(key == 3)
+		if (key == 3)
 			key = 2;
-		else if (key == 2)
-			key = 3;
+		else
+			if (key == 2)
+				key = 3;
 		controller.press(key);
-		dragStart.set(e.getX(), e.getY()).add(camera.getPosition());	
+		dragStart.set(e.getX(), e.getY()).add(camera.getPosition());
 	}
-
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		int key = e.getButton();
-		if(key == 3)
+		if (key == 3)
 			key = 2;
-		else if (key == 2)
-			key = 3;
+		else
+			if (key == 2)
+				key = 3;
 		controller.release(key);
 		dragEnd.set(e.getX(), e.getY()).add(camera.getPosition());
 	}
-
 	@Override
 	public void mouseEntered(MouseEvent e) {
-	
-	}
 
+	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -127,5 +129,7 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 		return lastMovement;
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {}	
+	public void mouseClicked(MouseEvent e) {
+	}
+
 }

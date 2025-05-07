@@ -3,7 +3,9 @@ package iEngine.output;
 import java.awt.Dimension;
 
 public class Device {
-		private static int[] resolution = new int[2];
+
+	private static int[] resolution = new int[2];
+
 	public static int[] getDisplayResolution() {
 		return resolution;
 	}
@@ -23,4 +25,5 @@ public class Device {
 		resolution[0] = screen.width;
 		resolution[1] = screen.height;
 	}
+
 }

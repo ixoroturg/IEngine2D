@@ -1,27 +1,31 @@
 package iEngine.element.interfaces.baseInstance;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import iEngine.element.Collider;
 import iEngine.element.GameObject;
-//
-//import iEngine.element.GameObject;
-import iEngine.element.interfaces.*;
-import iEngine.render.*;
+import iEngine.element.interfaces.Controlable;
+import iEngine.element.interfaces.Hitbox;
+import iEngine.element.interfaces.Storage;
+import iEngine.element.interfaces.Tickable;
+import iEngine.graphic.Renderable2D;
 
-public class BaseStorage implements Storage{
-	private List<Renderable> renderList = new LinkedList<Renderable>();
+public class BaseStorage implements Storage {
+
+	private List<Renderable2D> renderList = new LinkedList<Renderable2D>();
 	private List<Hitbox> hitboxList = new LinkedList<Hitbox>();
 	private List<Tickable> tickableList = new LinkedList<Tickable>();
 	private List<Controlable> controlList = new LinkedList<Controlable>();
 	private List<GameObject> gameObjList = new LinkedList<GameObject>();
 	private List<Collider> colliderList = new LinkedList<Collider>();
+
 	@Override
-	public List<Renderable> getRenderList() {
+	public List<Renderable2D> getRenderList() {
 		return renderList;
 	}
 	@Override
-	public void setRenderList(List<Renderable> renderList) {
+	public void setRenderList(List<Renderable2D> renderList) {
 		this.renderList = renderList;
 	}
 	@Override
@@ -57,8 +61,8 @@ public class BaseStorage implements Storage{
 	}
 	@Override
 	public Storage setGameObjectList(List<GameObject> gameObjectList) {
-		 gameObjList = gameObjectList;
-		 return this;
+		gameObjList = gameObjectList;
+		return this;
 	}
 	@Override
 	public List<Collider> getColliderList() {
@@ -69,5 +73,5 @@ public class BaseStorage implements Storage{
 		this.colliderList = colliderList;
 		return this;
 	}
-	
+
 }
