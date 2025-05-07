@@ -29,7 +29,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	protected float speed = 4.8f;
 	protected Matrix2D matrix = Matrix2D.getE();
 	public static final byte FOLLOW = 0, RESTART = 1, STOP = 2, START = 3;
-	protected Image sprite;
+//	protected Image sprite;
 	protected Controller con = new BaseController();
 	protected Model2D model;
 	public MouseFollower() {
@@ -50,8 +50,10 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 //		con.bind(KeyEvent.VK_1, STOP);
 //		con.bind(KeyEvent.VK_2, START);
 		try {
-			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
-			model = new Model2D(200,200,position,angle,sprite);
+			Image sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
+			Image sprite2 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage2.png"));
+			Image sprite3 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage3.png"));
+			model = new Model2D(200,200,position,angle,sprite,sprite2,sprite3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import java.util.function.Consumer;
 import iEngine.element.interfaces.Copyable;
 import iEngine.math.SpeedFunction;
 
@@ -29,6 +31,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 	 */
 	private float currentStepCount;
 	private Timer timer = new Timer();
+	private Consumer<Animation<T,F,S>> onEnd;
 	/**
 	 * int количество повторений до конца анимации
 	 */
@@ -57,18 +60,26 @@ public abstract class Animation<T, F, S> implements Runnable {
 	@SafeVarargs
 	public final Animation<T, F, S> setTarget(T... target) {
 		this.target = target;
-//		saveTarget = Arrays.copyOf(target, target.length);
-//		for (int i = 0; i < target.length; i++) {
-////			saveTarget[i] = target[i].copy();
-//		}
+		saveTarget = Arrays.copyOf(target, target.length);
+		for (int i = 0; i < target.length; i++) {
+			saveTarget[i] = copy(target[i]);
+		}
 		return this;
 	}
-//	private Animation<T, F, S> resetToInitialState() {
-//		for (int i = 0; i < target.length; i++) {
-////			target[i].paste(saveTarget[i].copy());
-//		}
-//		return this;
-//	}
+	
+	protected T copy(T targetToCopy) {
+		if(targetToCopy instanceof Copyable c) {
+			return (T) c.copy();
+		}
+		return null;
+	}
+	private Animation<T, F, S> resetToInitialState() {
+		for (int i = 0; i < target.length; i++) {
+			target[i] = copy(saveTarget[i]);
+		}
+		
+		return this;
+	}
 	@SafeVarargs
 	public final Animation<T, F, S> setFunction(F... function) {
 		this.function = function;
@@ -149,9 +160,12 @@ public abstract class Animation<T, F, S> implements Runnable {
 			lastT = 0;
 		}
 		float currentTime = speedFunction[currentStep].apply(1.0f - currentStepCount / stepCount[currentStep]);
-		for (T t : target) {
-			applyFunction(t, calcFunction[currentStep], lastT, currentTime);
+		for(int i = 0; i < target.length; i++) {
+			target[i] = applyFunction(target[i], calcFunction[currentStep], lastT, currentTime);
 		}
+//		for (T t : target) {
+//			applyFunction(t, calcFunction[currentStep], lastT, currentTime);
+//		}
 		lastT = currentTime;
 		return true;
 	}
@@ -209,7 +223,8 @@ public abstract class Animation<T, F, S> implements Runnable {
 	 * @param at       - предыдущее время шага анимации от 0.0 до 1.0.
 	 * @param bt       - текущее время шага анимации от 0.0 до 1.0
 	 */
-	protected abstract void applyFunction(T target, S function, float at, float bt);
+	protected abstract T applyFunction(T target, S function, float at, float bt);
+	
 	public Animation<T, F, S> reset() {
 		return reset(false);
 	}
@@ -223,6 +238,9 @@ public abstract class Animation<T, F, S> implements Runnable {
 		stepRepeat = null;
 		return this;
 	}
+	public T[] getTarget() {
+		return target;
+	}
 	public Animation<T, F, S> repeat(int repeatCount, int... stepRepeatCount) {
 		repeat = repeatCount;
 		if (stepRepeatCount.length != 0)
@@ -235,28 +253,31 @@ public abstract class Animation<T, F, S> implements Runnable {
 	public Animation<T, F, S> stop() {
 		return stop(false);
 	}
-	public Animation<T, F, S> start() {
+	public Animation<T, F, S> start(Consumer<Animation<T,F,S>> ani) {
 		if (running)
 			return this;
+		onEnd = ani;
 		timer.cancel();
 		Thread.startVirtualThread(this);
 		running = true;
 		return this;
-
+	}
+	public Animation<T,F,S> start(){
+		return start(null);
 	}
 	public Animation<T, F, S> restart() {
 		return restart(false);
 	}
 	public Animation<T, F, S> reset(boolean stayInCurrentAnimationState) {
-//		if (!stayInCurrentAnimationState)
-//			resetToInitialState();
+		if (!stayInCurrentAnimationState)
+			resetToInitialState();
 		currentStep = 0;
 		currentStepCount = stepCount[currentStep];
 		return this;
 	}
 	public Animation<T, F, S> stop(boolean stayInCurrentAnimationState) {
-//		if (!stayInCurrentAnimationState)
-//			resetToInitialState();
+		if (!stayInCurrentAnimationState)
+			resetToInitialState();
 		timer.cancel();
 		currentStep = 0;
 		currentStepCount = stepCount[0];
@@ -264,6 +285,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 		running = false;
 		return this;
 	}
+	
 	public Animation<T, F, S> restart(boolean stayInCurrentAnimationState) {
 		stop(stayInCurrentAnimationState);
 		start();
@@ -272,12 +294,14 @@ public abstract class Animation<T, F, S> implements Runnable {
 	@Override
 	public void run() {
 		timer = new Timer(true);
+		Animation<T,F,S> I = this;
 		TimerTask task = new TimerTask() {
-
 			@Override
 			public void run() {
 				if (!step()) {
 					timer.cancel();
+					if(onEnd != null)
+						onEnd.accept(I);
 				}
 
 			}

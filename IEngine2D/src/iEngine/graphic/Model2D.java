@@ -1,9 +1,11 @@
 package iEngine.graphic;
+import iEngine.element.animation.Animation;
+import iEngine.element.animation.AnimationImage;
 import iEngine.math.Matrix2D;
-import iEngine.math.MatrixOld;
 import iEngine.math.Point;
 
 import java.awt.Image;
+import java.util.*;
 public class Model2D {
 	protected float width, height;
 	protected Matrix2D matrix;
@@ -11,7 +13,7 @@ public class Model2D {
 	protected int currentSprite = 0;
 	protected Model2D[] models;
 	protected Point position;
-	
+	Map<Integer,AnimationImage> animation = new TreeMap<>();
 	protected float angle = 0;
 	public Model2D(float width, float height, Point position,float angle,Image... sprites) {
 		this.width = width;
@@ -51,6 +53,38 @@ public class Model2D {
 		return matrix;
 	}
 	
+	public Model2D addAnimation(int id, int tickrate, float duration,Image[] sprites) {
+		AnimationImage ani = new AnimationImage();
+		ani.setTickrate(tickrate)
+			.setFunction(sprites)
+			.setFullDuration(duration);
+		animation.put(id, ani);
+		return this;
+	}
+	public Model2D animate(int id) {
+		animation.get(id)
+			.repeat(1)
+			.start();
+		return this;
+	}
+	public Model2D animateAndReset(int id) {
+		animation.get(id)
+			.repeat(1)
+			.start(ani -> {
+				ani.reset(false);
+			});
+		return this;
+	}
+	public Model2D animateCycle(int id) {
+		animation.get(id)
+			.repeat(0)
+			.start();
+		return this;
+	}
+	public Model2D stopAnimateCycle(int id, boolean stayInCurrentFrame) {
+		animation.get(id).stop(stayInCurrentFrame);
+		return this;
+	}
 	
 	
 	

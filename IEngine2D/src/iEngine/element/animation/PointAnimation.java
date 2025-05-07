@@ -11,8 +11,8 @@ public class PointAnimation extends Animation<Point, Function<Float, Point>,Func
 		return function;
 	}
 	@Override
-	protected void applyFunction(Point target, Function<Float, Point> function, float at, float bt) {
-		target.add(function.apply(bt).sub(function.apply(at)));
+	protected Point applyFunction(Point target, Function<Float, Point> function, float at, float bt) {
+		return target.add(function.apply(bt).sub(function.apply(at)));
 	}
 
 }

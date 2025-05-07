@@ -11,12 +11,13 @@ public class AnimationMoveable extends Animation<Moveable, MoveProperties, MoveP
 	}
 
 	@Override
-	protected void applyFunction(Moveable target, MoveProperties function, float at, float bt) {
+	protected Moveable applyFunction(Moveable target, MoveProperties function, float at, float bt) {
 		float l = function.v().getLength();
 		float a = function.a();
 		l = l * bt - l * at;
 		a = a * bt - a * at;
 		target.move(function.v().getUnitVector().mul(l));
 		target.rotate(a);
+		return target;
 	}
 }

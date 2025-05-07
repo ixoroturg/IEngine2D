@@ -11,12 +11,13 @@ public class AnimationMatrix2D extends Animation<Matrix2D, Matrix2D,Matrix2D> {
 		return function.sub(E);
 	}
 	@Override
-	protected void applyFunction(Matrix2D target, Matrix2D function, float at, float bt) {
+	protected Matrix2D applyFunction(Matrix2D target, Matrix2D function, float at, float bt) {
 		if (at != 0) {
 			target.div(function.copy().mul(at).add(E));
 		}
 		if (bt != 0)
 			target.mul(function.copy().mul(bt).add(E));
+		return target;
 	}
 
 }

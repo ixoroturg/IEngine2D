@@ -28,11 +28,11 @@ public class MouseFollower2 extends MouseFollower implements Renderable2D {
 //		con.bind(Mouse.MOUSE2, RESTART);
 //		con.bind(KeyEvent.VK_1, STOP);
 //		con.bind(KeyEvent.VK_2, START);
-		try {
-			sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Image sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 //		con.addControllerListener((action, act) -> {
 //			switch(action) {
