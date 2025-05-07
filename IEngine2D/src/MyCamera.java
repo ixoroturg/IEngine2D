@@ -26,40 +26,40 @@ public class MyCamera extends StandartJavaCamera implements Controlable {
 
 		con.bind(Mouse.MOUSE3, MOVE);
 		con.bind(Mouse.DRAG, START);
-		con.addControllerListener((action, isStart) -> {
-			switch (action) {
-			case MOVE -> {
-				startMove = isStart;
-				if (isStart)
-					previousPosition.paste(position);
-				else {
-					position.paste(previousPosition).add(movement);
-					movement.set(0, 0);
-					startMove = false;
-				}
-			}
-
-			case START -> {
-				if (startMove) {
-//						wasDrag = true;
-//						Point tmp = position.clone();
-//						position.set(previousPosition);
-//						movement = con.getMouse().getMovement();
-//						movement.sub(position.x, position.y);
-//						position.set(tmp).add(movement);
-					movement = (con.getMouse().getMovement());
-//						System.out.println("1: "+v +"2: "+ movement);
-					move(movement);
-//						v.sub(movement);
-//						position.set(previousPosition);
-//						move(v);
-//						movement = v;
-
-				}
-			}
-			}
-
-		});
+//		con.addActionListener((action, isStart) -> {
+//			switch (action) {
+//			case MOVE -> {
+//				startMove = isStart;
+//				if (isStart)
+//					previousPosition.paste(position);
+//				else {
+//					position.paste(previousPosition).add(movement);
+//					movement.set(0, 0);
+//					startMove = false;
+//				}
+//			}
+//
+//			case START -> {
+//				if (startMove) {
+////						wasDrag = true;
+////						Point tmp = position.clone();
+////						position.set(previousPosition);
+////						movement = con.getMouse().getMovement();
+////						movement.sub(position.x, position.y);
+////						position.set(tmp).add(movement);
+//					movement = (con.getMouse().getMovement());
+////						System.out.println("1: "+v +"2: "+ movement);
+//					move(movement);
+////						v.sub(movement);
+////						position.set(previousPosition);
+////						move(v);
+////						movement = v;
+//
+//				}
+//			}
+//			}
+//
+//		});
 	}
 	@Override
 	public Image render() {

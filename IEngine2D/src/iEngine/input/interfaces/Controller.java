@@ -1,11 +1,13 @@
 package iEngine.input.interfaces;
 
+import java.util.function.Consumer;
+
 public interface Controller {
 
 	public Controller bind(int key, int action);
+	public Controller bind(int key, int id, Consumer<Boolean> action);
 
-	public Controller unbind(int key, int action);
-
+	public Controller unbind(int key, int actionOrId);
 	public Controller unbind(int key);
 
 	public boolean isActive(int action);
@@ -21,9 +23,5 @@ public interface Controller {
 	public Controller setMouse(Mouse m);
 
 	public Mouse getMouse();
-
-	public void addControllerListener(ControllerListener listener);
-
-	public void removeActionListener(ControllerListener listener);
 
 }

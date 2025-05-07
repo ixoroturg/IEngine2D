@@ -11,7 +11,7 @@ public class AnimationImage extends Animation<Image,Image,Image>{
 	}
 	@Override
 	protected Image copy(Image tc) {
-		Image im = new BufferedImage(tc.getWidth(null),tc.getHeight(null),0);
+		Image im = new BufferedImage(tc.getWidth(null),tc.getHeight(null),BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics gr = im.getGraphics();
 		gr.drawImage(tc,0,0,null);
 		return im;

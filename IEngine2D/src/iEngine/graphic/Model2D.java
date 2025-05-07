@@ -9,18 +9,19 @@ import java.util.*;
 public class Model2D {
 	protected float width, height;
 	protected Matrix2D matrix;
-	protected Image[] sprite;
+	protected Image[] sprites;
 	protected int currentSprite = 0;
 	protected Model2D[] models;
+	protected Image sprite;
 	protected Point position;
 	Map<Integer,AnimationImage> animation = new TreeMap<>();
 	protected float angle = 0;
-	public Model2D(float width, float height, Point position,float angle,Image... sprites) {
+	public Model2D(float width, float height, Point position,float angle,Image sprite) {
 		this.width = width;
 		this.height = height;
 		this.position = position;
 		this.angle = angle;
-		sprite = sprites;
+		this.sprite = sprite;
 	}
 	public Point getPosition() {
 		return position;
@@ -37,10 +38,10 @@ public class Model2D {
 		return this;
 	}
 	public Image getSprite() {
-		return sprite[currentSprite];
+		return sprite;
 	}
-	public Model2D setSprite(Image[] sprites) {
-		sprite = sprites;
+	public Model2D setSprite(Image sprite) {
+		this.sprite = sprite;
 		return this;
 	}
 	public float getWidth() {
@@ -53,9 +54,11 @@ public class Model2D {
 		return matrix;
 	}
 	
-	public Model2D addAnimation(int id, int tickrate, float duration,Image[] sprites) {
+	public Model2D addAnimation(int id, int tickrate, float duration,Image... sprites) {
 		AnimationImage ani = new AnimationImage();
-		ani.setTickrate(tickrate)
+		ani
+			.setTarget(sprite)
+			.setTickrate(tickrate)
 			.setFunction(sprites)
 			.setFullDuration(duration);
 		animation.put(id, ani);

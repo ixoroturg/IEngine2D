@@ -2,6 +2,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
@@ -28,9 +29,12 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	@BindTickrate(Float = 960)
 	protected float speed = 4.8f;
 	protected Matrix2D matrix = Matrix2D.getE();
-	public static final byte FOLLOW = 0, RESTART = 1, STOP = 2, START = 3;
+	
+	public static final byte FOLLOW = 0, animate = 1, aniRestart = 2, aniCycle = 3,aniDrop = 5, rotateToMouse = 4;
 //	protected Image sprite;
 	protected Controller con = new BaseController();
+//	public final Consumer<Boolean> rotateToMouse = 
+			
 	protected Model2D model;
 	public MouseFollower() {
 		super(new Point[] { new Point(100, 100), new Point(100, -100), new Point(-100, -100), new Point(-100, 100)
@@ -44,8 +48,16 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 //		mover.storage = world.getStorage();
 		
 		con.bind(Mouse.MOUSE1, FOLLOW);
-		con.bind(KeyEvent.VK_W, FOLLOW);
-		
+		con.bind(Mouse.MOUSE2, rotateToMouse,(press) -> {
+			if(press) {
+				angle = position.getAngle(con.getMouse().getPosition());
+			}
+		});
+		con.bind(KeyEvent.VK_1, animate,(press)->{
+			if(press)
+				model.animate(0);
+		});
+//		con.bind(key, action)
 //		con.bind(Mouse.MOUSE2, RESTART);
 //		con.bind(KeyEvent.VK_1, STOP);
 //		con.bind(KeyEvent.VK_2, START);
@@ -53,7 +65,8 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 			Image sprite = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage.png"));
 			Image sprite2 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage2.png"));
 			Image sprite3 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage3.png"));
-			model = new Model2D(200,200,position,angle,sprite,sprite2,sprite3);
+			model = new Model2D(200,200,position,angle,sprite);
+			model.addAnimation(0, 5, 2, sprite, sprite2, sprite3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -122,18 +135,6 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 //			.start()
 //				;
 
-		con.addControllerListener((action,act ) -> {
-			switch(action) {
-			case FOLLOW -> {
-				if(act) {
-//					System.out.println("lol");
-//					System.out.println( con.getMouse().getPosition());
-//					mover.addPathPoint(con.getMouse().getPosition().copy());
-				}
-					
-				}
-			}
-		});
 	}
 	@Override
 	public void onTick() {
@@ -149,6 +150,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	}
 	@Override
 	public Model2D getModel(Camera camera) {
+		model.setAngle(angle);
 		return model;
 //		System.out.println(position);
 //		return new RenderContext(sprite, obj.getPosition(), obj.getAngle(), 200, 200, matrix);
