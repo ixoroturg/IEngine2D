@@ -33,7 +33,6 @@ public class MouseFollower2 extends MouseFollower implements Renderable2D {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-
 //		con.addControllerListener((action, act) -> {
 //			switch(action) {
 //			case RESTART -> {ani.reset();}

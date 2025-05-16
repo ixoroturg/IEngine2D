@@ -1,7 +1,4 @@
 
-import iEngine.element.GameObject;
-import iEngine.element.PathMover;
-import iEngine.element.WorldBuilder;
 import iEngine.element.interfaces.World;
 import iEngine.element.interfaces.baseInstance.BaseWorld;
 import iEngine.graphic.camera.Camera;

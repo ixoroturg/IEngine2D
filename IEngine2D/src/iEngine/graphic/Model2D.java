@@ -1,8 +1,8 @@
 package iEngine.graphic;
-import iEngine.element.animation.Animation;
 import iEngine.element.animation.AnimationImage;
 import iEngine.math.Matrix2D;
 import iEngine.math.Point;
+import iEngine.util.Pointer;
 
 import java.awt.Image;
 import java.util.*;
@@ -12,16 +12,16 @@ public class Model2D {
 	protected Image[] sprites;
 	protected int currentSprite = 0;
 	protected Model2D[] models;
-	protected Image sprite;
+	protected Pointer<Image> sprite = new Pointer<Image>(null);
 	protected Point position;
-	Map<Integer,AnimationImage> animation = new TreeMap<>();
+	protected Map<Integer,AnimationImage> animation = new TreeMap<>();
 	protected float angle = 0;
 	public Model2D(float width, float height, Point position,float angle,Image sprite) {
 		this.width = width;
 		this.height = height;
 		this.position = position;
 		this.angle = angle;
-		this.sprite = sprite;
+		this.sprite.value = sprite;
 	}
 	public Point getPosition() {
 		return position;
@@ -38,10 +38,10 @@ public class Model2D {
 		return this;
 	}
 	public Image getSprite() {
-		return sprite;
+		return sprite.value;
 	}
 	public Model2D setSprite(Image sprite) {
-		this.sprite = sprite;
+		this.sprite.value = sprite;
 		return this;
 	}
 	public float getWidth() {
@@ -57,31 +57,30 @@ public class Model2D {
 	public Model2D addAnimation(int id, float duration,Image... sprites) {
 		AnimationImage ani = new AnimationImage();
 		ani
-			.setTarget(sprites[0])
+			.setTarget(sprite)
 			.setTickrate((int) (sprites.length / duration))
 			.setFunction(sprites)
-			.setFullDuration(duration)
-			.onStep((anip)->{
-				sprite = anip.getTarget()[0];
-				System.out.println("Полученно "+sprite.hashCode());
-				
-			});
+			.setFullDuration(duration);
 		animation.put(id, ani);
 		return this;
 	}
 	public Model2D animate(int id) {
 		animation.get(id)
 			.repeat(1)
+			.onEnd(ani -> {
+				ani.stop(true);
+			})
 			.start();
 		return this;
 	}
 	public Model2D animateAndReset(int id) {
 		animation.get(id)
 			.repeat(1)
-			.start(ani -> {
+			.onEnd(ani -> {
 				ani.reset(false);
-				sprite = ani.getTarget()[0];
-			});
+				ani.stop(false);
+			})
+			.start();
 		return this;
 	}
 	public Model2D animateCycle(int id) {
@@ -94,11 +93,4 @@ public class Model2D {
 		animation.get(id).stop(stayInCurrentFrame);
 		return this;
 	}
-	
-	
-	
-//	public RenderContext getRenderContext() {
-//		return new RenderContext(sprite,position,angle,width,height,matrix);
-//	}
-
 }

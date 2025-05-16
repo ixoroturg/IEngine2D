@@ -43,7 +43,7 @@ public class Polygon extends AbstractHitbox<Point[]> {
 		vertex = p;
 	}
 	@Override
-	public boolean isCollised(Hitbox h) {
+	public boolean isCollised(Hitbox<?> h) {
 		Point[] p1 = getForm();
 		Point[] p2 = (Point[]) h.getForm();
 		for (int i = 0; i < p1.length; i++) {

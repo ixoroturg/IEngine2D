@@ -36,6 +36,7 @@ public abstract class Collider extends BaseHitbox {
 		Point buffer = null;
 
 		float radius = 0;
+		@SuppressWarnings("unused")
 		int index = 0;
 		Vector movement = this.movement.clone().mul(-1).add(h.movement.clone()).mul(1);
 

@@ -9,6 +9,7 @@ import iEngine.graphic.camera.Camera;
 
 public class Window extends JFrame {
 
+	private static final long serialVersionUID = 4170365226302678089L;
 	public Panel frame;
 
 	public Window() {

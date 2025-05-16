@@ -11,7 +11,7 @@ public class BaseController implements Controller {
 	protected Map<Integer, List<Integer>> keyActBind = new TreeMap<>();
 	protected Map<Integer, Boolean> action = new TreeMap<>();
 	protected Map<Integer,Consumer<Boolean>> runs = new TreeMap<>();
-	private List<ControllerListener> listeners = new LinkedList<ControllerListener>();
+//	private List<ControllerListener> listeners = new LinkedList<ControllerListener>();
 	protected Mouse mouse = null;
 
 	/*

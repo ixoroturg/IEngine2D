@@ -11,6 +11,7 @@ import iEngine.graphic.camera.Camera;
 
 public class Panel extends JPanel {
 
+	private static final long serialVersionUID = 4729727103360528872L;
 	private Timer fps = new Timer(true);
 	private Camera camera;
 

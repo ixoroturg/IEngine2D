@@ -7,10 +7,10 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import iEngine.element.*;
-import iEngine.element.MoveableObject;
 import iEngine.element.interfaces.BindTickrate;
 import iEngine.element.interfaces.Controlable;
 import iEngine.element.interfaces.Tickable;
+import iEngine.element.interfaces.baseInstance.MoveableObject;
 import iEngine.graphic.Model2D;
 import iEngine.graphic.RenderContext;
 import iEngine.graphic.Renderable2D;
@@ -41,7 +41,6 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 		}, new Point(960, 540), 0, null);
 	}
 	public MoveableObject obj = new MoveableObject(position,angle);
-	public PathMover mover = new MoveToPointMover(obj);
 	
 	@Override
 	public void onCreate() {
@@ -55,7 +54,6 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 		});
 		con.bind(KeyEvent.VK_1, animate,(press)->{
 			if(press) {
-				System.out.println("Анимированно");
 				model.animate(0);
 			}
 				
@@ -81,7 +79,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 			Image sprite2 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage2.png"));
 			Image sprite3 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage3.png"));
 			model = new Model2D(200,200,position,angle,sprite);
-			model.addAnimation(0, 2, sprite, sprite2, sprite3);
+			model.addAnimation(0, 1, sprite, sprite2, sprite3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

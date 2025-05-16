@@ -1,21 +1,15 @@
 package iEngine.element.animation;
-
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import java.util.function.Consumer;
-import iEngine.element.interfaces.Copyable;
 import iEngine.math.SpeedFunction;
+import iEngine.util.Pointer;
 
 public abstract class Animation<T, F, S> implements Runnable {
 
 	/**
-	 * Эта функция используется по умолчанию, если не указана другая
-	 * (SpeedFunction::linear)
+	 * Эта функция используется по умолчанию, если не указана другая</br>
+	 * По умолчанию SpeedFunction::linear
 	 */
 	public static SpeedFunction defaultSpeedFunction = SpeedFunction::linear;
 	private SpeedFunction animationDefaultSpeedFunction = defaultSpeedFunction;
@@ -31,8 +25,10 @@ public abstract class Animation<T, F, S> implements Runnable {
 	 * int количество шагов в текущей анимации
 	 */
 	private float currentStepCount;
+	private Consumer<Animation<T,F,S>> onAnimationStop;
 	private Timer timer = new Timer();
 	private Consumer<Animation<T,F,S>> onEnd;
+	private Consumer<Animation<T,F,S>>[] onAnimationFrameDone;
 	/**
 	 * int количество повторений до конца анимации
 	 */
@@ -52,7 +48,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 	 * int хз
 	 */
 	private int tickrate = 0;
-	private T[] target, saveTarget;
+	private Pointer<T>[] target, saveTarget;
 	private F[] function;
 	private S[] calcFunction;
 	private boolean running = false;
@@ -60,41 +56,46 @@ public abstract class Animation<T, F, S> implements Runnable {
 	private Consumer<Animation<T,F,S>> onStep;
 
 	@SafeVarargs
-	public final Animation<T, F, S> setTarget(T... target) {
+	public final Animation<T, F, S> setTarget(Pointer<T>... target) {
 		this.target = target;
 		saveTarget = Arrays.copyOf(target, target.length);
-//		for (int i = 0; i < target.length; i++) {
-//			saveTarget[i] = copy(target[i]);
-//		}
-		saveTarget = copy(target);
+		for (int i = 0; i < target.length; i++) {
+			saveTarget[i] = copy(target[i]);
+		}
 		return this;
 	}
 	
-	protected T[] copy(T targetToCopy[]) {
-//		if(targetToCopy instanceof Copyable c) {
-//			return (T) c.copy();
-//		}
-		return targetToCopy;
-	}
-	protected void paste(T targetToPaste[], T targetCopied[]) {
-//		if(targetToPaste instanceof Copyable tc) {
-//			tc.paste(targetCopied);
-//		}
-	}
+	/**
+	 * Скопируйте этот {@code Pointer<T>} и верните новый объект {@code Pointer<T>}, указывающий на ту же цель
+	 * @param target
+	 * @return
+	 */
+	protected abstract Pointer<T> copy(Pointer<T> target);
+	/**
+	 * Вставьте в targetToPaste.value скопированное значение из targetCopied так, 
+	 * чтобы при изменении значения в targetToPaste.value
+	 * значение targetCopied.value не менялось
+	 * @param targetToPaste
+	 * @param targetCopied
+	 */
+	protected abstract void paste(Pointer<T> targetToPaste, Pointer<T> targetCopied);
 	private Animation<T, F, S> resetToInitialState() {
-//		iEngine.graphic.camera.StandartJavaCamera.testFrame = (Image) calcFunction[2];
 		for (int i = 0; i < target.length; i++) {
-			paste(target,saveTarget);
+			paste(target[i],saveTarget[i]);
 		}
-		
 		return this;
 	}
+	@SuppressWarnings("unchecked")
 	@SafeVarargs
 	public final Animation<T, F, S> setFunction(F... function) {
 		this.function = function;
 		stepCount = new int[function.length];
 		stepRepeat = new int[function.length];
 		speedFunction = new SpeedFunction[function.length];
+		
+		onAnimationFrameDone = iEngine.util.tool.createGenericArray(Consumer.class, function.length);
+//		List<Consumer<Animation<T,F,S>>> ls = new ArrayList<>();
+		
 		Arrays.fill(stepRepeat, 1);
 		Arrays.fill(speedFunction, animationDefaultSpeedFunction);
 		return this;
@@ -114,7 +115,6 @@ public abstract class Animation<T, F, S> implements Runnable {
 			}
 			return setDuration(partCoefficiens);
 		}
-
 		float sum = 0;
 		for (float x : partCoefficiens) {
 			sum += x;
@@ -133,6 +133,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 			restart(false);
 		return this;
 	}
+	@SuppressWarnings("unchecked")
 	private void prepareFunctionOnTickChange() {
 		if(function == null || function.length == 0)
 			return;
@@ -144,6 +145,15 @@ public abstract class Animation<T, F, S> implements Runnable {
 			pf.add(prepareFunction(function[i], stepCount[i] + 1));
 		}
 		calcFunction = (S[]) pf.toArray(new Object[0]);
+	}
+	public Animation<T,F,S> onEnd(Consumer<Animation<T,F,S>> action){
+		onEnd = action;
+		return this;
+	}
+	public Animation<T,F,S> onAnimationFrameDone(byte id, Consumer<Animation<T,F,S>> action) {
+//		if(onAnimationFrameDone.length-1 > id)
+			onAnimationFrameDone[id] = action;
+		return this;
 	}
 	public boolean step() {
 
@@ -161,8 +171,13 @@ public abstract class Animation<T, F, S> implements Runnable {
 						lastT = 0;
 					} else
 						return false;
-				} else
+				} else {
+					if(onAnimationFrameDone[currentStep] != null)
+						onAnimationFrameDone[currentStep].accept(this);
 					currentStep++;
+					
+				}
+					
 				currentStepAlreadyRepeated = stepRepeat[currentStep];
 			}
 			currentStepCount = stepCount[currentStep];
@@ -170,12 +185,8 @@ public abstract class Animation<T, F, S> implements Runnable {
 		}
 		float currentTime = speedFunction[currentStep].apply(1.0f - currentStepCount / stepCount[currentStep]);
 		for(int i = 0; i < target.length; i++) {
-			System.out.println("Установка "+currentStep+" "+calcFunction[currentStep].hashCode());
 			target[i] = applyFunction(target[i], calcFunction[currentStep], lastT, currentTime);
 		}
-//		for (T t : target) {
-//			applyFunction(t, calcFunction[currentStep], lastT, currentTime);
-//		}
 		lastT = currentTime;
 		return true;
 	}
@@ -227,13 +238,18 @@ public abstract class Animation<T, F, S> implements Runnable {
 	 * Можете использовать определённый интеграл на промежутке от at до bt
 	 * </p>
 	 * 
-	 * @param target   - цель применения функции. Необходимо напрамую изменить
+	 * @param target2   - цель применения функции. Необходимо напрамую изменить
 	 *                 цель
 	 * @param function - функция, которая должна быть применена
 	 * @param at       - предыдущее время шага анимации от 0.0 до 1.0.
 	 * @param bt       - текущее время шага анимации от 0.0 до 1.0
 	 */
-	protected abstract T applyFunction(T target, S function, float at, float bt);
+	protected abstract Pointer<T> applyFunction(Pointer<T> target2, S function, float at, float bt);
+	
+	public Animation<T,F,S> onAnimationStop(Consumer<Animation<T,F,S>> action){
+		onAnimationStop = action;
+		return this;
+	}
 	
 	public Animation<T, F, S> reset() {
 		return reset(false);
@@ -248,7 +264,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 		stepRepeat = null;
 		return this;
 	}
-	public T[] getTarget() {
+	public Pointer<T>[] getTarget() {
 		return target;
 	}
 	public Animation<T, F, S> repeat(int repeatCount, int... stepRepeatCount) {
@@ -263,10 +279,10 @@ public abstract class Animation<T, F, S> implements Runnable {
 	public Animation<T, F, S> stop() {
 		return stop(false);
 	}
-	public Animation<T, F, S> start(Consumer<Animation<T,F,S>> ani) {
+	public Animation<T, F, S> start(Consumer<Animation<T,F,S>> action) {
 		if (running)
 			return this;
-		onEnd = ani;
+		onEnd = action;
 		timer.cancel();
 		Thread.startVirtualThread(this);
 		running = true;
@@ -277,7 +293,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 		return this;
 	}
 	public Animation<T,F,S> start(){
-		return start(null);
+		return start(onEnd);
 	}
 	public Animation<T, F, S> restart() {
 		return restart(false);
@@ -296,6 +312,8 @@ public abstract class Animation<T, F, S> implements Runnable {
 		currentStep = 0;
 		currentStepCount = stepCount[0];
 		running = false;
+		if(onAnimationStop != null)
+			onAnimationStop.accept(this);
 		return this;
 	}
 	
@@ -315,6 +333,9 @@ public abstract class Animation<T, F, S> implements Runnable {
 					timer.cancel();
 					if(onEnd != null)
 						onEnd.accept(I);
+					else {
+						System.out.println("Действия нет");
+					}
 				}
 				else {
 					if(onStep != null)

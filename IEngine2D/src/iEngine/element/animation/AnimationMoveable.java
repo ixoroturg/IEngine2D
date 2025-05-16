@@ -2,6 +2,7 @@ package iEngine.element.animation;
 
 import iEngine.element.MoveProperties;
 import iEngine.element.interfaces.Moveable;
+import iEngine.util.Pointer;
 
 public class AnimationMoveable extends Animation<Moveable, MoveProperties, MoveProperties>{
 
@@ -11,13 +12,23 @@ public class AnimationMoveable extends Animation<Moveable, MoveProperties, MoveP
 	}
 
 	@Override
-	protected Moveable applyFunction(Moveable target, MoveProperties function, float at, float bt) {
+	protected Pointer<Moveable> applyFunction(Pointer<Moveable> target, MoveProperties function, float at, float bt) {
 		float l = function.v().getLength();
 		float a = function.a();
 		l = l * bt - l * at;
 		a = a * bt - a * at;
-		target.move(function.v().getUnitVector().mul(l));
-		target.rotate(a);
+		target.value.move(function.v().getUnitVector().mul(l));
+		target.value.rotate(a);
 		return target;
+	}
+
+	@Override
+	protected Pointer<Moveable> copy(Pointer<Moveable> target) {
+		return target;
+	}
+
+	@Override
+	protected void paste(Pointer<Moveable> targetToPaste, Pointer<Moveable> targetCopied) {
+		
 	}
 }

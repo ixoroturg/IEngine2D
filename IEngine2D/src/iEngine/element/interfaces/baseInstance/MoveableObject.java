@@ -1,4 +1,4 @@
-package iEngine.element;
+package iEngine.element.interfaces.baseInstance;
 
 import iEngine.element.interfaces.Moveable;
 import iEngine.math.Point;

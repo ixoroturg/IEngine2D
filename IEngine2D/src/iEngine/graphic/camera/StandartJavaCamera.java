@@ -7,7 +7,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import iEngine.graphic.Model2D;
-import iEngine.graphic.RenderContext;
 import iEngine.graphic.Renderable2D;
 import iEngine.graphic.camera.CameraProperty.Property;
 import iEngine.math.Point;
@@ -106,7 +105,7 @@ public class StandartJavaCamera extends BaseCamera {
 				ps[i].sub(info.getPosition());
 				ps[i].rotate(-info.getAngle());
 //				System.out.println(ps[i].x);
-				int raz = 20;
+//				int raz = 20;
 
 //				frame.fillOval((int)ps[i].x - raz/2, (int)ps[i].y - raz/2, raz,raz);
 
