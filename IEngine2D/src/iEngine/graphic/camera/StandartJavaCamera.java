@@ -24,8 +24,9 @@ import iEngine.physic.Polygon;
  *
  * @see iEngine.graphic.camera.AbstractCamera
  */
-public class StandartJavaCamera extends BaseCamera {
 
+public class StandartJavaCamera extends BaseCamera {
+	public static Image testFrame;
 	protected Image image;
 	protected Graphics2D frame;
 
@@ -89,6 +90,7 @@ public class StandartJavaCamera extends BaseCamera {
 		// как и выше вычисляем размеры
 		int w = (int) ((info.getWidth() / width) * frameWidth / 2);
 		int h = (int) ((info.getHeight() / height) * frameHeight / 2);
+//		System.out.println("Camera: "+info.getSprite().hashCode());
 		frame.drawImage(info.getSprite(), -w / 2, -h / 2, w / 2, h / 2, 0, 0,
 				600,
 				600, null);
@@ -117,7 +119,7 @@ public class StandartJavaCamera extends BaseCamera {
 //			frame.drawLine((int)(ps[ps.length - 1].x), (int)(ps[ps.length - 1].y), (int)(ps[0].x), (int)(ps[0].y));
 		}
 		frame.setTransform(saveTransform);
-
+		frame.drawImage(testFrame,0,0,null);
 	}
 	@Override
 	protected Image renderComplete() {

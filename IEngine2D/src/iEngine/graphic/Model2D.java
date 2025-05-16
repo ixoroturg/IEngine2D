@@ -54,13 +54,18 @@ public class Model2D {
 		return matrix;
 	}
 	
-	public Model2D addAnimation(int id, int tickrate, float duration,Image... sprites) {
+	public Model2D addAnimation(int id, float duration,Image... sprites) {
 		AnimationImage ani = new AnimationImage();
 		ani
-			.setTarget(sprite)
-			.setTickrate(tickrate)
+			.setTarget(sprites[0])
+			.setTickrate((int) (sprites.length / duration))
 			.setFunction(sprites)
-			.setFullDuration(duration);
+			.setFullDuration(duration)
+			.onStep((anip)->{
+				sprite = anip.getTarget()[0];
+				System.out.println("Полученно "+sprite.hashCode());
+				
+			});
 		animation.put(id, ani);
 		return this;
 	}
@@ -75,6 +80,7 @@ public class Model2D {
 			.repeat(1)
 			.start(ani -> {
 				ani.reset(false);
+				sprite = ani.getTarget()[0];
 			});
 		return this;
 	}

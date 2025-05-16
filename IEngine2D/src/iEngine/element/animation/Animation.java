@@ -1,5 +1,6 @@
 package iEngine.element.animation;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,26 +57,34 @@ public abstract class Animation<T, F, S> implements Runnable {
 	private S[] calcFunction;
 	private boolean running = false;
 	private float lastT = 0;
+	private Consumer<Animation<T,F,S>> onStep;
 
 	@SafeVarargs
 	public final Animation<T, F, S> setTarget(T... target) {
 		this.target = target;
 		saveTarget = Arrays.copyOf(target, target.length);
-		for (int i = 0; i < target.length; i++) {
-			saveTarget[i] = copy(target[i]);
-		}
+//		for (int i = 0; i < target.length; i++) {
+//			saveTarget[i] = copy(target[i]);
+//		}
+		saveTarget = copy(target);
 		return this;
 	}
 	
-	protected T copy(T targetToCopy) {
-		if(targetToCopy instanceof Copyable c) {
-			return (T) c.copy();
-		}
-		return null;
+	protected T[] copy(T targetToCopy[]) {
+//		if(targetToCopy instanceof Copyable c) {
+//			return (T) c.copy();
+//		}
+		return targetToCopy;
+	}
+	protected void paste(T targetToPaste[], T targetCopied[]) {
+//		if(targetToPaste instanceof Copyable tc) {
+//			tc.paste(targetCopied);
+//		}
 	}
 	private Animation<T, F, S> resetToInitialState() {
+//		iEngine.graphic.camera.StandartJavaCamera.testFrame = (Image) calcFunction[2];
 		for (int i = 0; i < target.length; i++) {
-			target[i] = copy(saveTarget[i]);
+			paste(target,saveTarget);
 		}
 		
 		return this;
@@ -134,7 +143,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 		for (int i = 0; i < function.length; i++) {
 			pf.add(prepareFunction(function[i], stepCount[i] + 1));
 		}
-		calcFunction = pf.toArray(calcFunction);
+		calcFunction = (S[]) pf.toArray(new Object[0]);
 	}
 	public boolean step() {
 
@@ -161,6 +170,7 @@ public abstract class Animation<T, F, S> implements Runnable {
 		}
 		float currentTime = speedFunction[currentStep].apply(1.0f - currentStepCount / stepCount[currentStep]);
 		for(int i = 0; i < target.length; i++) {
+			System.out.println("Установка "+currentStep+" "+calcFunction[currentStep].hashCode());
 			target[i] = applyFunction(target[i], calcFunction[currentStep], lastT, currentTime);
 		}
 //		for (T t : target) {
@@ -262,6 +272,10 @@ public abstract class Animation<T, F, S> implements Runnable {
 		running = true;
 		return this;
 	}
+	public Animation<T,F,S> onStep(Consumer<Animation<T,F,S>> task){
+		onStep = task;
+		return this;
+	}
 	public Animation<T,F,S> start(){
 		return start(null);
 	}
@@ -281,7 +295,6 @@ public abstract class Animation<T, F, S> implements Runnable {
 		timer.cancel();
 		currentStep = 0;
 		currentStepCount = stepCount[0];
-
 		running = false;
 		return this;
 	}
@@ -302,6 +315,10 @@ public abstract class Animation<T, F, S> implements Runnable {
 					timer.cancel();
 					if(onEnd != null)
 						onEnd.accept(I);
+				}
+				else {
+					if(onStep != null)
+						onStep.accept(I);
 				}
 
 			}

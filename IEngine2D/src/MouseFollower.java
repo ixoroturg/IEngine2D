@@ -54,8 +54,23 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 			}
 		});
 		con.bind(KeyEvent.VK_1, animate,(press)->{
-			if(press)
+			if(press) {
+				System.out.println("Анимированно");
 				model.animate(0);
+			}
+				
+		});
+		con.bind(KeyEvent.VK_2, aniRestart, (press)->{
+			if(press)
+				model.animateAndReset(0);
+		});
+		con.bind(KeyEvent.VK_3, aniCycle, (press)->{
+			if(press)
+				model.animateCycle(0);
+		});
+		con.bind(KeyEvent.VK_4, aniDrop, (press)->{
+			if(press)
+				model.stopAnimateCycle(0,false);
 		});
 //		con.bind(key, action)
 //		con.bind(Mouse.MOUSE2, RESTART);
@@ -66,7 +81,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 			Image sprite2 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage2.png"));
 			Image sprite3 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage3.png"));
 			model = new Model2D(200,200,position,angle,sprite);
-			model.addAnimation(0, 5, 2, sprite, sprite2, sprite3);
+			model.addAnimation(0, 2, sprite, sprite2, sprite3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
