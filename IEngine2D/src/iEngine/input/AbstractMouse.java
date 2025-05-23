@@ -23,7 +23,6 @@ public abstract class AbstractMouse implements Mouse {
 	@Override
 	public Mouse setController(Controller controller) {
 		this.controller = controller;
-		controller.setMouse(this);
 		return this;
 	}
 	@Override

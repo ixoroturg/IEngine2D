@@ -63,7 +63,7 @@ public class MouseFollower2 extends MouseFollower implements Renderable2D {
 //		}
 //	}
 	@Override
-	public Model2D getModel(Camera camera) {
+	public Model2D getModel() {
 		return null;
 		// System.out.println(speed);
 //		return new RenderContext(sprite, position, angle, 200, 200, matrix);

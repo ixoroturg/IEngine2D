@@ -2,6 +2,9 @@ package iEngine.input.interfaces;
 
 import java.util.function.Consumer;
 
+import iEngine.math.Point;
+import iEngine.math.Vector;
+
 public interface Controller {
 
 	public Controller bind(int key, int action);
@@ -19,9 +22,8 @@ public interface Controller {
 	public void doAction(int action);
 
 	public void undoAction(int action);
-
-	public Controller setMouse(Mouse m);
-
-	public Mouse getMouse();
+	public Point getPointer();
+	public void setPointer(Point p);
+	public Vector getMovement();
 
 }

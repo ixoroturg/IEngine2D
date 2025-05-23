@@ -1,4 +1,4 @@
-package iEngine.graphic.camera;
+package iEngine.graphic.camera.instances;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 
 import iEngine.graphic.Model2D;
 import iEngine.graphic.Renderable2D;
+import iEngine.graphic.camera.BaseCamera;
+import iEngine.graphic.camera.CameraProperty;
 import iEngine.graphic.camera.CameraProperty.Property;
 import iEngine.math.Point;
 import iEngine.physic.Polygon;
@@ -51,17 +53,17 @@ public class StandartJavaCamera extends BaseCamera {
 	}
 	@Override
 	protected Model2D beforeRenderObjectAction(Renderable2D renderObject) {
-		return renderObject.getModel(this);
+		return renderObject.getModel();
 	}
 	@Override
-	protected void renderObject(Renderable2D renderObject, Model2D info) {
+	protected void renderObject(Renderable2D renderObject, Model2D model) {
 
 		AffineTransform saveTransform = frame.getTransform();
 
 		float frameWidth = image.getWidth(null);
 		float frameHeight = image.getHeight(null);
 
-		Point p = info.getPosition().copy();
+		Point p = model.getPosition().copy();
 		p.sub(position);
 
 		// p.x / (width/2) = p.x / width * 2 => процент от ширины экрана. -1 -
@@ -78,21 +80,24 @@ public class StandartJavaCamera extends BaseCamera {
 
 		// теперь у нас есть настоящие x и y координаты спрайта на нашем кадре
 		frame.translate(x, y);
-		frame.rotate(info.getAngle());
+		frame.rotate(model.getAngle());
 
 		float[] m = { 1, 0, 0, 1
 		};
-		if (info.getMatrix() != null)
-			m = info.getMatrix().get();
+		if (model.getMatrix() != null)
+			m = model.getMatrix().get();
 		frame.transform(new AffineTransform(m[0], m[2], m[1], m[3], 0, 0));
 
 		// как и выше вычисляем размеры
-		int w = (int) ((info.getWidth() / width) * frameWidth / 2);
-		int h = (int) ((info.getHeight() / height) * frameHeight / 2);
+		int w = (int) ((model.getWidth() / width) * frameWidth / 2);
+		int h = (int) ((model.getHeight() / height) * frameHeight / 2);
 //		System.out.println("Camera: "+info.getSprite().hashCode());
-		frame.drawImage(info.getSprite(), -w / 2, -h / 2, w / 2, h / 2, 0, 0,
+		frame.drawImage(model.getSprite(), -w / 2, -h / 2, w / 2, h / 2, 0, 0,
 				600,
 				600, null);
+		for(Model2D innerModel: model.getInnerModels()) {
+			renderObject(renderObject, innerModel);
+		}
 
 		// Особые настройки
 		if (properties.isHave(CameraProperty.Property.showHitbox) && renderObject instanceof Polygon hitbox) {
@@ -102,8 +107,8 @@ public class StandartJavaCamera extends BaseCamera {
 //				ps[i].sub(position);
 //				ps[i].x = (ps[i].x/width+1) * this.frameWidth / 2;
 //				ps[i].y = (ps[i].y/height+1) * this.frameHeight / 2;
-				ps[i].sub(info.getPosition());
-				ps[i].rotate(-info.getAngle());
+				ps[i].sub(model.getPosition());
+				ps[i].rotate(-model.getAngle());
 //				System.out.println(ps[i].x);
 //				int raz = 20;
 

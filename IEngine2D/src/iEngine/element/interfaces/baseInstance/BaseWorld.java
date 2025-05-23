@@ -117,7 +117,7 @@ public class BaseWorld implements World {
 			storage.getTickableList().add(canTick);
 		}
 		if (gameObject instanceof Controlable canControl) {
-			canControl.getController().setMouse(controller.getMouse());
+//			canControl.getController().setMouse(controller.getPointer());
 			storage.getControlList().add(canControl);
 		}
 		if (gameObject instanceof Collider col) {

@@ -2,8 +2,9 @@ package iEngine.input;
 import java.util.function.Consumer;
 
 import java.util.*;
-
+import iEngine.math.Vector;
 import iEngine.input.interfaces.*;
+import iEngine.math.Point;
 
 public class BaseController implements Controller {
 
@@ -12,7 +13,8 @@ public class BaseController implements Controller {
 	protected Map<Integer, Boolean> action = new TreeMap<>();
 	protected Map<Integer,Consumer<Boolean>> runs = new TreeMap<>();
 //	private List<ControllerListener> listeners = new LinkedList<ControllerListener>();
-	protected Mouse mouse = null;
+	protected Point pointer = new Point(0,0);
+	protected Vector movement = new Vector(0,0);
 
 	/*
 	 * public BaseController(int... actions) { if(actions == null) return;
@@ -87,13 +89,17 @@ public class BaseController implements Controller {
 		this.runs.get(action).accept(false);
 	}
 	@Override
-	public Controller setMouse(Mouse m) {
-		mouse = m;
-		return this;
+	public void setPointer(Point p) {
+		movement = pointer.getVector(p);
+		pointer = p;
 	}
 	@Override
-	public Mouse getMouse() {
-		return mouse;
+	public Vector getMovement() {
+		return movement;
+	}
+	@Override
+	public Point getPointer() {
+		return pointer;
 	}
 	@Override
 	public Controller bind(int key, int id, Consumer<Boolean> action) {

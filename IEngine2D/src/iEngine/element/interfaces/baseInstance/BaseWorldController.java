@@ -5,13 +5,10 @@ import java.util.List;
 import iEngine.element.interfaces.Controlable;
 import iEngine.element.interfaces.World;
 import iEngine.input.BaseController;
-import iEngine.input.interfaces.Controller;
-import iEngine.input.interfaces.Mouse;
+import iEngine.math.Point;
 
 public class BaseWorldController extends BaseController {
-
 	private World world;
-
 	public BaseWorldController(World world) {
 		this.world = world;
 	}
@@ -47,13 +44,11 @@ public class BaseWorldController extends BaseController {
 		});
 	}
 	@Override
-	public Controller setMouse(Mouse m) {
-		mouse = m;
+	public void setPointer(Point p) {
 		var list = getList();
 		list.forEach(controller -> {
-			controller.getController().setMouse(m);
+			controller.getController().setPointer(p);
 		});
-		return this;
 	}
 
 }

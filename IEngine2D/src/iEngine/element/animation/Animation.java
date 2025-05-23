@@ -1,4 +1,5 @@
 package iEngine.element.animation;
+
 import java.util.*;
 
 import java.util.function.Consumer;
@@ -333,9 +334,6 @@ public abstract class Animation<T, F, S> implements Runnable {
 					timer.cancel();
 					if(onEnd != null)
 						onEnd.accept(I);
-					else {
-						System.out.println("Действия нет");
-					}
 				}
 				else {
 					if(onStep != null)

@@ -3,7 +3,7 @@ import java.awt.Image;
 
 import iEngine.element.interfaces.Controlable;
 import iEngine.graphic.camera.CameraProperty.Property;
-import iEngine.graphic.camera.StandartJavaCamera;
+import iEngine.graphic.camera.instances.StandartJavaCamera;
 import iEngine.input.BaseController;
 import iEngine.input.interfaces.Controller;
 import iEngine.input.interfaces.Mouse;

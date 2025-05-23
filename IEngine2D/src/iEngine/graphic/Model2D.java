@@ -11,7 +11,7 @@ public class Model2D {
 	protected Matrix2D matrix;
 	protected Image[] sprites;
 	protected int currentSprite = 0;
-	protected Model2D[] models;
+	protected Model2D[] models = new Model2D[0];
 	protected Pointer<Image> sprite = new Pointer<Image>(null);
 	protected Point position;
 	protected Map<Integer,AnimationImage> animation = new TreeMap<>();
@@ -29,6 +29,13 @@ public class Model2D {
 	public Model2D setPosition(Point p) {
 		position = p;
 		return this;
+	}
+	public Model2D setInnerModels(Model2D[] models) {
+		this.models = models;
+		return this;
+	}
+	public Model2D[] getInnerModels() {
+		return models;
 	}
 	public float getAngle() {
 		return angle;

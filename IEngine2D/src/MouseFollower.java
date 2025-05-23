@@ -49,7 +49,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 		con.bind(Mouse.MOUSE1, FOLLOW);
 		con.bind(Mouse.MOUSE2, rotateToMouse,(press) -> {
 			if(press) {
-				angle = position.getAngle(con.getMouse().getPosition());
+				angle = position.getAngle(con.getPointer());
 			}
 		});
 		con.bind(KeyEvent.VK_1, animate,(press)->{
@@ -153,7 +153,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	public void onTick() {
 		if (con.isActive(FOLLOW)) {
 //			System.out.println("двигаться");
-			Vector v = position.getVector(con.getMouse().getPosition()).getUnitVector(0.5f);
+			Vector v = position.getVector(con.getPointer()).getUnitVector(0.5f);
 			movement.add(v);
 		}
 	}
@@ -162,7 +162,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 		return con;
 	}
 	@Override
-	public Model2D getModel(Camera camera) {
+	public Model2D getModel() {
 		model.setAngle(angle);
 		return model;
 //		System.out.println(position);
