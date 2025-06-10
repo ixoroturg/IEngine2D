@@ -74,12 +74,12 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera setScale(double scale);
+	public Camera setZoom(double scale);
 
 	/**
 	 * @return текущую степень масштабирования
 	 */
-	public float getScale();
+	public float getZoom();
 
 	/**
 	 * Увеличивает текущее масштабирование
@@ -191,4 +191,6 @@ public interface Camera {
 	 */
 	public Image render();
 
+	public Camera setRatio(float ratio);
+	public float getRatio();
 }

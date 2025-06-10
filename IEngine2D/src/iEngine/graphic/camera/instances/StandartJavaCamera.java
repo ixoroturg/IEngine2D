@@ -27,12 +27,12 @@ public class StandartJavaCamera extends BaseCamera {
 
 	@Override
 	protected void renderStart() {
-
-		float k = (float) this.frameWidth / this.frameHeight > 1 ? (float) this.frameWidth / width
-				: (float) this.frameHeight / height;
-
-		int frameWidth = (int) (width * k);
-		int frameHeight = (int) (height * k);
+//		System.out.println("Разрешение окна: "+frameWidth+" "+frameHeight);
+//		float k = (float) this.frameWidth / this.frameHeight > 1 ? (float) this.frameWidth / width
+//				: (float) this.frameHeight / height;
+//
+//		int frameWidth = (int) (width * k);
+//		int frameHeight = (int) (height * k);
 
 		frame = new BufferedImage(frameWidth, frameHeight, BufferedImage.TYPE_INT_ARGB);
 		frameGr = (Graphics2D) frame.getGraphics();

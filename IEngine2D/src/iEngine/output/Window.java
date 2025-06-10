@@ -1,6 +1,6 @@
 package iEngine.output;
 
-import java.awt.event.KeyAdapter;
+import java.awt.event.*;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
@@ -25,9 +25,23 @@ public class Window extends JFrame {
 		 * cam.getProperties().add(Property.showHitbox, new
 		 * Color(255,0,0).getRGB());
 		 */
+		JFrame me = this;
 		frame = new Panel();
 		frame.setBounds(0, 0, getWidth(), getHeight());
 		setUndecorated(false);
+		addComponentListener(new ComponentAdapter(){
+			@Override
+			public void componentResized(ComponentEvent e) {
+				float w = e.getComponent().getWidth();
+				float h = e.getComponent().getHeight();
+				
+				if(w/h != frame.camera.getRatio()) {
+					w = h * frame.camera.getRatio();
+				}
+				frame.camera.setResolution((int)w, (int)h);
+				me.setSize((int)w, (int)h);
+			}
+		});
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addKeyListener(new KeyAdapter() {
 

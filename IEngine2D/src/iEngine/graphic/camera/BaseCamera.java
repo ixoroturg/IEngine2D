@@ -35,8 +35,8 @@ public abstract class BaseCamera extends AbstractCamera {
 
 	protected void prepareRenderObject(Renderable2D renderObject, Model2D model) {
 
-		float frameWidth = frame.getWidth(null);
-		float frameHeight = frame.getHeight(null);
+//		float frameWidth = frame.getWidth(null);
+//		float frameHeight = frame.getHeight(null);
 
 		Point p = model.getPosition().copy();
 		p.sub(position);
@@ -62,9 +62,13 @@ public abstract class BaseCamera extends AbstractCamera {
 			transform = transform.mul(model.getMatrix());
 		
 		// как и выше вычисляем размеры
-		int w = (int) ((model.getWidth() / width) * frameWidth / 2);
-		int h = (int) ((model.getHeight() / height) * frameHeight / 2);
-		
+		int w = (int) (((model.getWidth() / width) * frameWidth / 2));
+		int h = (int) (((model.getHeight() / height) * frameHeight / 2)) ;
+//		w *= frameWidth / frameHeight;
+//		h *= frameHeight / frameWidth;
+//		 * frameHeight / frameWidth
+//		h *= frameH
+		System.out.println(w + " "+h);
 		draw(model.getSprite(),w,h,transform.get());
 		for(Model2D innerModel: model.getInnerModels()) {
 			prepareRenderObject(renderObject, innerModel);

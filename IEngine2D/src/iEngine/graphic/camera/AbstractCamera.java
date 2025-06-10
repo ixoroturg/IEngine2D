@@ -24,9 +24,10 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 
 	protected Point position = new Point(0, 0);
 	protected float angle = 0;
-	protected float scale = 1;
+	protected float zoom = 1;
 	protected float width = 1;
 	protected float height = 1;
+	protected float ratio = 16.0f/9;
 	protected int frameWidth = 0, frameHeight = 0;
 	protected List<Renderable2D> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
@@ -70,22 +71,22 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return this;
 	}
 	@Override
-	public Camera setScale(double scale) {
-		this.scale = (float) scale;
+	public Camera setZoom(double scale) {
+		this.zoom = (float) scale;
 		return this;
 	}
 	@Override
-	public float getScale() {
-		return scale;
+	public float getZoom() {
+		return zoom;
 	}
 	@Override
 	public Camera addScale(double scale) {
-		this.scale += (float) scale;
+		this.zoom += (float) scale;
 		return this;
 	}
 	@Override
 	public Camera mulScale(double scale) {
-		this.scale *= (float) scale;
+		this.zoom *= (float) scale;
 		return this;
 	}
 	@Override
@@ -149,6 +150,15 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 	public float[] getSize() {
 		return new float[] { width, height
 		};
+	}
+	@Override
+	public Camera setRatio(float ratio) {
+		this.ratio = ratio;
+		return this;
+	}
+	@Override
+	public float getRatio() {
+		return ratio;
 	}
 	@Override
 	public abstract Image render();
