@@ -2,7 +2,6 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
@@ -12,15 +11,11 @@ import iEngine.element.interfaces.Controlable;
 import iEngine.element.interfaces.Tickable;
 import iEngine.element.interfaces.baseInstance.MoveableObject;
 import iEngine.graphic.Model2D;
-import iEngine.graphic.RenderContext;
 import iEngine.graphic.Renderable2D;
-import iEngine.graphic.camera.Camera;
 import iEngine.input.BaseController;
 import iEngine.input.interfaces.Controller;
 import iEngine.input.interfaces.Mouse;
-import iEngine.math.MatrixOld;
 import iEngine.math.Matrix2D;
-import iEngine.math.Matrix2DOLD;
 import iEngine.math.Point;
 import iEngine.math.Vector;
 
@@ -46,10 +41,12 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	public void onCreate() {
 //		mover.storage = world.getStorage();
 		
-		con.bind(Mouse.MOUSE1, FOLLOW);
-		con.bind(Mouse.MOUSE2, rotateToMouse,(press) -> {
+		con.bind(Mouse.LMB, FOLLOW);
+		con.bind(Mouse.RMB, rotateToMouse,(press) -> {
+//			System.out.println("Вызов");
 			if(press) {
 				angle = position.getAngle(con.getPointer());
+//				System.out.println(angle);
 			}
 		});
 		con.bind(KeyEvent.VK_1, animate,(press)->{
@@ -151,6 +148,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	}
 	@Override
 	public void onTick() {
+		angle = position.getAngle(con.getPointer());
 		if (con.isActive(FOLLOW)) {
 //			System.out.println("двигаться");
 			Vector v = position.getVector(con.getPointer()).getUnitVector(0.5f);
@@ -165,8 +163,6 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	public Model2D getModel() {
 		model.setAngle(angle);
 		return model;
-//		System.out.println(position);
-//		return new RenderContext(sprite, obj.getPosition(), obj.getAngle(), 200, 200, matrix);
 	}
 
 }

@@ -2,8 +2,8 @@
 import iEngine.element.interfaces.World;
 import iEngine.element.interfaces.baseInstance.BaseWorld;
 import iEngine.graphic.camera.Camera;
-import iEngine.input.StandartJavaKeyboard;
-import iEngine.input.StandartJavaMouse;
+import iEngine.input.instances.StandartJavaKeyboard;
+import iEngine.input.instances.StandartJavaMouse;
 import iEngine.input.interfaces.Keyboard;
 import iEngine.input.interfaces.Mouse;
 import iEngine.math.Point;
@@ -78,3 +78,4 @@ public class IEngine2D {
 	}
 
 }
+

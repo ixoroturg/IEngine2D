@@ -15,6 +15,13 @@ public class Matrix2D implements Copyable<Matrix2D>{
 		m1[4] = kx;
 		m1[5] = ky;
 	}
+	public Matrix2D(double... m2) {
+		if(m2.length < 6)
+			return;
+		for(int i = 0; i < 6; i++) {
+			m1[i] = (float)m2[i];
+		}
+	}
 	public Matrix2D(float... m2) {
 		if(m2.length < 6)
 			return;
@@ -113,6 +120,17 @@ public class Matrix2D implements Copyable<Matrix2D>{
 		}
 		return this;
 	}
+	public float[] resolveSLAE() {
+		float[] result = new float[2];
+		float det = m1[0]*m1[3] - m1[2]*m1[1];
+		if(det == 0){
+			return null;
+		}
+		result[0] = m1[4]*m1[3] - m1[2]*m1[5] / det;
+		result[1] = m1[0]*m1[5] - m1[4]*m1[1] / det;
+		return result;
+	}
+	
 	public static Matrix2D translate(float x, float y) {
 		return new Matrix2D(1,0,0,1,x,y);
 	}
@@ -125,5 +143,4 @@ public class Matrix2D implements Copyable<Matrix2D>{
 	public static Matrix2D shape(float x, float y) {
 		return new Matrix2D(1,x,y,1,0,0);
 	}
-	
 }

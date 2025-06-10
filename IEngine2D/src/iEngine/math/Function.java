@@ -61,11 +61,14 @@ public class Function {
 		float dx2 = d.x - c.x;
 		float dy2 = d.y - c.y;
 
-		MatrixOld M = new Matrix2DOLD(dy1, -dx1, dy2, -dx2);// .reverse();
-		if (M.det() != 0) {
-			float[] answer = M.reverse().mul(new float[] { dy1 * a.x - dx1 * a.y, dy2 * c.x - dx2 * c.y
-			});
-
+		Matrix2D M = new Matrix2D(dy1, dy2, -dx1, -dx2,dy1 * a.x - dx1 * a.y,dy2 * c.x - dx2 * c.y);// .reverse();
+		if (M.getDeterminant() != 0) {
+//			float[] answer = M.reverse().mul(
+//					new Matrix2D(new float[] { dy1 * a.x - dx1 * a.y, dy2 * c.x - dx2 * c.y
+//			})).get();
+			float[] answer = M.resolveSLAE();
+			if(answer == null)
+				return null;
 			if (answer[0] > Math.max(a.x, b.x) || answer[0] < Math.min(a.x, b.x) || answer[0] > Math.max(c.x, d.x)
 					|| answer[0] < Math.min(c.x, d.x) || answer[1] > Math.max(a.y, b.y)
 					|| answer[1] < Math.min(a.y, b.y) || answer[1] > Math.max(c.y, d.y)

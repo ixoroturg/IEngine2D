@@ -1,23 +1,12 @@
 package iEngine.input.interfaces;
 
 import iEngine.graphic.camera.Camera;
-import iEngine.math.Point;
-import iEngine.math.Vector;
 
 public interface Mouse {
 
-	public final static byte MOUSE1 = 1, MOUSE2 = 2, MOUSE3 = 3, MOUSE4 = 4, MOUSE5 = 5, WHEEL_UP = 6, WHEEL_DOWN = 7,
-			MOVE = 8, DRAG = 9;
-
-//	public Point getPosition();
-//
-//	public Point getDragStart();
-//
-//	public Point getDragStop();
-//
-//	public boolean isDrag();
-
-//	public Vector getMovement();
+	public final static byte LMB = -1, RMB = -2, MOUSE_WHEEL = -3,
+			MOUSE4 = -4, MOUSE5 = -5, WHEEL_UP = -6, WHEEL_DOWN = -7,
+			MOVE = -8, DRAG = -9;
 
 	public Mouse setCamera(Camera camera);
 

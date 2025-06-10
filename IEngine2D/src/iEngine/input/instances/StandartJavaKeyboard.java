@@ -1,4 +1,4 @@
-package iEngine.input;
+package iEngine.input.instances;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

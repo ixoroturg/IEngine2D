@@ -1,14 +1,8 @@
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import iEngine.element.interfaces.BindTickrate;
 import iEngine.graphic.Model2D;
-import iEngine.graphic.RenderContext;
 import iEngine.graphic.Renderable2D;
-import iEngine.graphic.camera.Camera;
 import iEngine.input.interfaces.Mouse;
 
 public class MouseFollower2 extends MouseFollower implements Renderable2D {
@@ -23,7 +17,7 @@ public class MouseFollower2 extends MouseFollower implements Renderable2D {
 	@Override
 	public void onCreate() {
 
-		con.bind(Mouse.MOUSE1, FOLLOW);
+		con.bind(Mouse.LMB, FOLLOW);
 		con.bind(KeyEvent.VK_S, FOLLOW);
 //		con.bind(Mouse.MOUSE2, RESTART);
 //		con.bind(KeyEvent.VK_1, STOP);

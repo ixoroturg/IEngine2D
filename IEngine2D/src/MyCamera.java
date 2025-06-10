@@ -24,7 +24,7 @@ public class MyCamera extends StandartJavaCamera implements Controlable {
 
 		properties.add(Property.showHitbox, Color.RED.getRGB());
 
-		con.bind(Mouse.MOUSE3, MOVE);
+		con.bind(Mouse.MOUSE_WHEEL, MOVE);
 		con.bind(Mouse.DRAG, START);
 //		con.addActionListener((action, isStart) -> {
 //			switch (action) {

@@ -1,13 +1,8 @@
-package iEngine.input;
+package iEngine.input.instances;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 
-import iEngine.math.Point;
-import iEngine.math.Vector;
+import iEngine.input.AbstractMouse;
 
 public class StandartJavaMouse extends AbstractMouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -47,22 +42,26 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int key = e.getButton();
-		if (key == 3)
-			key = 2;
-		else
-			if (key == 2)
-				key = 3;
+		int key = switch(e.getButton()) {
+			case 1 -> LMB;
+			case 2 -> MOUSE_WHEEL;
+			case 3 -> RMB;
+			case 4 -> MOUSE4;
+			case 5 -> MOUSE5;
+			default -> 0;
+		};
 		controller.press(key);
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int key = e.getButton();
-		if (key == 3)
-			key = 2;
-		else
-			if (key == 2)
-				key = 3;
+		int key = switch(e.getButton()) {
+			case 1 -> LMB;
+			case 2 -> MOUSE_WHEEL;
+			case 3 -> RMB;
+			case 4 -> MOUSE4;
+			case 5 -> MOUSE5;
+			default -> 0;
+		};
 		controller.release(key);
 	}
 	@Override
@@ -81,7 +80,7 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e.getButton());
+//		System.out.println(e.getButton());
 	}
 
 }
