@@ -42,7 +42,8 @@ public class IEngine2D {
 
 		Camera camera = ((Camera) new MyCamera())
 //				.setResolution(1920, 1080)
-				.setSize(1920, 1080)
+//				.setSize(1920, 1080)
+				.setWidth(1920)
 //				.setSize(1200,900)
 				.setPosition(new Point(960, 540));
 		

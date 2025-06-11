@@ -12,11 +12,13 @@ import iEngine.math.Vector;
  * Интерфейс для камеры
  */
 public interface Camera {
-
-	public Camera setSize(float width, float height);
-
+	
+//	public Camera setSize(float width, float height);
+	public Camera setWidth(float width);
+	public Camera setHeight(float height);
 	public float[] getSize();
-
+	public Camera setRatioLock(boolean lock);
+	public boolean isRatioLock();
 	/**
 	 * Устанавливает позицию камеры в мире
 	 * 
@@ -74,12 +76,12 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera setZoom(double scale);
+	public Camera setScale(float zoom);
 
 	/**
 	 * @return текущую степень масштабирования
 	 */
-	public float getZoom();
+	public float getScale();
 
 	/**
 	 * Увеличивает текущее масштабирование
@@ -88,7 +90,8 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera addScale(double scale);
+	public Camera addScale(float scale);
+//	public Camera setPreferSide(byte side);
 
 	/**
 	 * Умножает текущее масштабирование
@@ -97,7 +100,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera mulScale(double scale);
+	public Camera mulScale(float scale);
 
 	/**
 	 * Устанавливает разрешение камеры

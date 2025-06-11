@@ -21,7 +21,7 @@ import iEngine.math.Vector;
  * CameraProperty properties - свойства камеры
  */
 public abstract class AbstractCamera extends GameObject implements Camera {
-
+	protected boolean lockRatio = true;
 	protected Point position = new Point(0, 0);
 	protected float angle = 0;
 	protected float zoom = 1;
@@ -71,22 +71,22 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return this;
 	}
 	@Override
-	public Camera setZoom(double scale) {
-		this.zoom = (float) scale;
+	public Camera setScale(float scale) {
+		this.zoom = scale;
 		return this;
 	}
 	@Override
-	public float getZoom() {
+	public float getScale() {
 		return zoom;
 	}
 	@Override
-	public Camera addScale(double scale) {
-		this.zoom += (float) scale;
+	public Camera addScale(float scale) {
+		this.zoom += scale;
 		return this;
 	}
 	@Override
-	public Camera mulScale(double scale) {
-		this.zoom *= (float) scale;
+	public Camera mulScale(float scale) {
+		this.zoom *= scale;
 		return this;
 	}
 	@Override
@@ -140,16 +140,15 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return new int[] { frameWidth, frameHeight
 		};
 	}
-	@Override
-	public Camera setSize(float width, float height) {
-		this.width = width;
-		this.height = height;
-		return this;
-	}
+//	@Override
+//	public Camera setSize(float width, float height) {
+//		this.width = width;
+//		this.height = height;
+//		return this;
+//	}
 	@Override
 	public float[] getSize() {
-		return new float[] { width, height
-		};
+		return new float[] { width, height};
 	}
 	@Override
 	public Camera setRatio(float ratio) {
@@ -161,6 +160,28 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return ratio;
 	}
 	@Override
+	public boolean isRatioLock() {
+		return lockRatio;
+	}
+	@Override
+	public Camera setRatioLock(boolean lock) {
+		lockRatio = lock;
+		return this;
+	}
+	@Override
+	public Camera setWidth(float width) {
+		this.width = width;
+		height = width / ratio;
+		return this;
+	}
+	@Override
+	public Camera setHeight(float height) {
+		this.height = height;
+		width = height * ratio;
+		return this;
+	}
+	@Override
 	public abstract Image render();
+	
 
 }

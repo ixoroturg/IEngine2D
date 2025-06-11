@@ -68,7 +68,7 @@ public abstract class BaseCamera extends AbstractCamera {
 //		h *= frameHeight / frameWidth;
 //		 * frameHeight / frameWidth
 //		h *= frameH
-		System.out.println(w + " "+h);
+//		System.out.println(w + " "+h);
 		draw(model.getSprite(),w,h,transform.get());
 		for(Model2D innerModel: model.getInnerModels()) {
 			prepareRenderObject(renderObject, innerModel);
