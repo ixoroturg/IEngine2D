@@ -30,7 +30,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 	protected Controller con = new BaseController();
 //	public final Consumer<Boolean> rotateToMouse = 
 			
-	protected Model2D model;
+	protected Model2D<Image> model;
 	public MouseFollower() {
 		super(new Point[] { new Point(100, 100), new Point(100, -100), new Point(-100, -100), new Point(-100, 100)
 		}, new Point(960, 540), 0, null);
@@ -76,7 +76,7 @@ public class MouseFollower extends Collider implements Tickable, Controlable, Re
 			Image sprite2 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage2.png"));
 			Image sprite3 = ImageIO.read(new File("/home/ixoroturg/java/IEngine2D/IEngine2D/data/ArrowImage3.png"));
 			model = new Model2D(200,200,position,angle,sprite);
-			model.addAnimation(0, 1, sprite, sprite2, sprite3);
+//			model.addAnimation(0, 1, sprite, sprite2, sprite3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

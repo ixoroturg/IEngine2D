@@ -6,17 +6,17 @@ import iEngine.util.Pointer;
 
 import java.awt.Image;
 import java.util.*;
-public class Model2D {
+public class Model2D<T> {
 	protected float width, height;
 	protected Matrix2D matrix;
 	protected Image[] sprites;
 	protected int currentSprite = 0;
-	protected Model2D[] models = new Model2D[0];
-	protected Pointer<Image> sprite = new Pointer<Image>(null);
+	protected Model2D<T>[] models = null;
+	protected Pointer<T> sprite = new Pointer<T>(null);
 	protected Point position;
 	protected Map<Integer,AnimationImage> animation = new TreeMap<>();
 	protected float angle = 0;
-	public Model2D(float width, float height, Point position,float angle,Image sprite) {
+	public Model2D(float width, float height, Point position,float angle,T sprite) {
 		this.width = width;
 		this.height = height;
 		this.position = position;
@@ -26,28 +26,30 @@ public class Model2D {
 	public Point getPosition() {
 		return position;
 	}
-	public Model2D setPosition(Point p) {
+	public Model2D<T> setPosition(Point p) {
 		position = p;
 		return this;
 	}
-	public Model2D setInnerModels(Model2D[] models) {
+	public Model2D<T> setInnerModels(Model2D<T>[] models) {
 		this.models = models;
 		return this;
 	}
-	public Model2D[] getInnerModels() {
+	public Model2D<T>[] getInnerModels() {
+		if(models == null)
+			return null;
 		return models;
 	}
 	public float getAngle() {
 		return angle;
 	}
-	public Model2D setAngle(float a) {
+	public Model2D<T> setAngle(float a) {
 		angle = a;
 		return this;
 	}
-	public Image getSprite() {
+	public T getSprite() {
 		return sprite.value;
 	}
-	public Model2D setSprite(Image sprite) {
+	public Model2D<T> setSprite(T sprite) {
 		this.sprite.value = sprite;
 		return this;
 	}
@@ -61,17 +63,17 @@ public class Model2D {
 		return matrix;
 	}
 	
-	public Model2D addAnimation(int id, float duration,Image... sprites) {
-		AnimationImage ani = new AnimationImage();
-		ani
-			.setTarget(sprite)
-			.setTickrate((int) (sprites.length / duration))
-			.setFunction(sprites)
-			.setFullDuration(duration);
-		animation.put(id, ani);
-		return this;
-	}
-	public Model2D animate(int id) {
+//	public Model2D<T> addAnimation(int id, float duration,T... sprites) {
+//		AnimationImage ani = new AnimationImage();
+//		ani
+//			.setTarget(sprite)
+//			.setTickrate((int) (sprites.length / duration))
+//			.setFunction(sprites)
+//			.setFullDuration(duration);
+//		animation.put(id, ani);
+//		return this;
+//	}
+	public Model2D<T> animate(int id) {
 		animation.get(id)
 			.repeat(1)
 			.onEnd(ani -> {
@@ -80,7 +82,7 @@ public class Model2D {
 			.start();
 		return this;
 	}
-	public Model2D animateAndReset(int id) {
+	public Model2D<T> animateAndReset(int id) {
 		animation.get(id)
 			.repeat(1)
 			.onEnd(ani -> {
@@ -90,13 +92,13 @@ public class Model2D {
 			.start();
 		return this;
 	}
-	public Model2D animateCycle(int id) {
+	public Model2D<T> animateCycle(int id) {
 		animation.get(id)
 			.repeat(0)
 			.start();
 		return this;
 	}
-	public Model2D stopAnimateCycle(int id, boolean stayInCurrentFrame) {
+	public Model2D<T> stopAnimateCycle(int id, boolean stayInCurrentFrame) {
 		animation.get(id).stop(stayInCurrentFrame);
 		return this;
 	}

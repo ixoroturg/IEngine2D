@@ -51,9 +51,10 @@ public class StandartJavaCamera extends BaseCamera<Image> {
 		frameGr.scale(1, -1);
 		frameGr.rotate(angle);
 	}
+	@SuppressWarnings("unchecked")
 	@Override
-	protected Model2D beforeRenderObjectAction(Renderable2D renderObject) {
-		return renderObject.getModel();
+	protected Model2D<Image> beforeRenderObjectAction(Renderable2D renderObject) {
+		return (Model2D<Image>) renderObject.getModel();
 	}
 	
 	@Override

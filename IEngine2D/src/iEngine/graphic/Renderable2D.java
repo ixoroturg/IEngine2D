@@ -6,5 +6,5 @@ public interface Renderable2D {
 	/**
 	 * @return информацию для рендеринга объекта
 	 */
-	public Model2D getModel();
+	public Model2D<?> getModel();
 }

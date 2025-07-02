@@ -1,9 +1,21 @@
 package iEngine.graphic.ui;
-import  java.awt.*;
+//import  java.awt.*;
+
+import java.util.*;
 
 import iEngine.graphic.Model2D;
 
-public class Component {
+public abstract class UIComponent<T> implements Comparable<UIComponent<T>> {
+	public static final byte TOP_LEFT = 1;
+	public static final byte TOP = 2;
+	public static final byte TOP_RIGHT = 3;
+	public static final byte RIGHT = 4;
+	public static final byte BOTTOM_RIGHT = 5;
+	public static final byte BOTTOM = 6;
+	public static final byte BOTTOM_LEFT = 7;
+	public static final byte LEFT = 8;
+	public static final byte CENTER = 9;
+	public static final byte ABSOLUTE = 0;
 	/**
 	 * Дочерние компоненты выстраиваются в колонку. Если их больше, чем setMaxXChildren(), то переходят на следующую колонку
 	 */
@@ -22,10 +34,11 @@ public class Component {
 	public static final byte POLAR = 3;
 	
 	public static final byte START = 3;
-	public static final byte CENTER = 4;
+//	public static final byte CENTER = 9;
 	public static final byte END = 5;
-	
-	protected Model2D model;
+	protected short xChildrenCount = 1;
+	protected short yChildrenCount = 1;
+	protected Model2D<T> model;
 	protected byte rowSize = 1;
 	protected byte columnSize = 1;
 //	public static final byte 
@@ -34,55 +47,71 @@ public class Component {
 	protected byte position = 0;
 	protected int zIndex = 0;
 	protected byte align = 1;
-	protected float gap = 0;
-	public Component setModel(Model2D model) {
+	protected int gap = 0;
+	protected SortedSet<UIComponent<T>> children = new TreeSet<>();
+	
+	public UIComponent<T> setModel(Model2D<T> model) {
 		this.model = model;
 		return this;
 	}
-	public Model2D getModel() {
+	public Model2D<T> getModel() {
 		return model;
 	}
-	public Component setAlign(byte align) {
+	public UIComponent<T> setAlign(byte align) {
 		this.align = align;
 		return this;
 	}
 	public byte getAlign() {
 		return align;
 	}
-	public Component setGap(float gap) {
+	public UIComponent<T> setGap(int gap) {
 		this.gap = gap;
 		return this;
 	}
 	public float getGap() {
 		return gap;
 	}
-	public Component setBounds(float x, float y, float width, float height) {
+	public UIComponent<T> setXMaxChildren(short count){
+		xChildrenCount = count;
+		return this;
+	}
+	public UIComponent<T> setYMaxChildren(short count){
+		yChildrenCount = count;
+		return this;
+	}
+	public short getXMaxChildren() {
+		return xChildrenCount;
+	}
+	public short getYMaxChildren() {
+		return yChildrenCount;
+	}
+	public UIComponent<T> setBounds(float x, float y, float width, float height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		return this;
 	}
-	public Component setZIndex(int index) {
+	public UIComponent<T> setZIndex(int index) {
 		zIndex = index;
 		return this;
 	}
 	public int getZIndex() {
 		return zIndex;
 	}
-	public Component setPosition(float x, float y) {
+	public UIComponent<T> setPosition(float x, float y) {
 		this.x =x;
 		this.y = y;
 		return this;
 	}
-	public Component setPosition(byte position) {
+	public UIComponent<T> setPosition(byte position) {
 		this.position = position;
 		return this;
 	}
 	public byte getPosition() {
 		return position;
 	}
-	public Component setSize(float width, float height) {
+	public UIComponent<T> setSize(float width, float height) {
 		this.width = width;
 		this.height = height;
 		return this;
@@ -98,8 +127,12 @@ public class Component {
 	public float[] getSize() {
 		return new float[] {width,height};
 	}
-	public Image render() {
-		return null;
+	
+	@Override
+	public int compareTo(UIComponent<T> comp) {
+		return comp.zIndex - zIndex;
 	}
+	public abstract T render();
+	
 	
 }
