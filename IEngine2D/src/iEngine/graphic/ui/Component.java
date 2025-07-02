@@ -4,9 +4,22 @@ import  java.awt.*;
 import iEngine.graphic.Model2D;
 
 public class Component {
+	/**
+	 * Дочерние компоненты выстраиваются в колонку. Если их больше, чем setMaxXChildren(), то переходят на следующую колонку
+	 */
 	public static final byte ROW = 0;
+	/**
+	 * Дочерние компоненты выстраиваются в строку. Если их больше, чем setMaxYChildren(), то переходят на следующую строку
+	 */
 	public static final byte COLUMN = 1;
+	/**
+	 * Дочерние компоненты имеют свои размеры в координатах grid
+	 */
 	public static final byte GRID = 2;
+	/**
+	 * Дочерние компоненты указывают своё местоположение: по краям, по углам, в центре или абсолютная координата
+	 */
+	public static final byte POLAR = 3;
 	
 	public static final byte START = 3;
 	public static final byte CENTER = 4;

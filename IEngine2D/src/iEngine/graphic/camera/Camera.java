@@ -116,6 +116,8 @@ public interface Camera<T> {
 	 * @return разрешение камеры, [0] = width, [1] = height
 	 */
 	public int[] getResolution();
+	public Camera<T> setNativeResolution(int width, int height);
+	public int[] getNativeResolution();
 
 	/**
 	 * Устанавливает мир для текущей камеры<br>

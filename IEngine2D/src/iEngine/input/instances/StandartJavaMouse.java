@@ -27,7 +27,7 @@ public class StandartJavaMouse extends AbstractMouse implements MouseListener, M
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
-		int[] res = camera.getResolution();
+		int[] res = camera.getNativeResolution();
 		float[] size = camera.getSize();
 		float x = e.getX();
 		float y = res[1] - e.getY();

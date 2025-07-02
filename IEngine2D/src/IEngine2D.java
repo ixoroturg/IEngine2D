@@ -48,6 +48,7 @@ public class IEngine2D {
 //				.setSize(1920, 1080)
 				.setWidth(1920)
 //				.setSize(1200,900)
+//				.setRatio(4.0f/3.0f)
 				.setPosition(new Point(960, 540));
 		
 		

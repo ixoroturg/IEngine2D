@@ -9,6 +9,7 @@ import java.util.Iterator;
  * @see AbstractCamera
  */
 public abstract class BaseCamera<T> extends AbstractCamera<T> {
+
 	protected Image frame;
 	@Override
 	public T render() {

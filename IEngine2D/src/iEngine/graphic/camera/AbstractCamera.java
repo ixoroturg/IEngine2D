@@ -41,21 +41,35 @@ public abstract class AbstractCamera<T> extends GameObject implements Camera<T> 
 	 * Разрешение внутреннего холста камеры
 	 */
 	protected int frameWidth = 0, frameHeight = 0;
+	/**
+	 * Разрешение камеры на экране
+	 */
+	protected int nativeWidth = 0, nativeHeight = 0;
 	protected List<Renderable2D> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
 
 //	protected float sideRatio = (float)16.0f / 9.0f;
 //	protected float kx = 1;
 //	protected float ky = 1;
-	public AbstractCamera() {
-//		System.out.println("Соотношение сторон: "+sideRatio);
-	}
-	public AbstractCamera(Point position) {
-		this.position = position;
-//		System.out.println("Соотношение сторон: "+sideRatio);
+	@Override
+	public Camera<T> setNativeResolution(int width, int height) {
+		nativeWidth = width;
+		nativeHeight = height;
+		return this;
 	}
 	@Override
-	public Camera<T>setPosition(Point p) {
+	public int[] getNativeResolution() {
+		return new int[]{nativeWidth,nativeHeight};
+	}
+//	public AbstractCamera() {
+////		System.out.println("Соотношение сторон: "+sideRatio);
+//	}
+//	public AbstractCamera(Point position) {
+//		this.position = position;
+////		System.out.println("Соотношение сторон: "+sideRatio);
+//	}
+	@Override
+	public Camera<T> setPosition(Point p) {
 		position = p;
 		return this;
 	}

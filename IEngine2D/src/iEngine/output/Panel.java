@@ -28,8 +28,11 @@ public class Panel extends JPanel {
 	@Override
 	public void setBounds(int x, int y, int w, int h) {
 		super.setBounds(x, y, w, h);
-		if (camera != null)
-			camera.setResolution(getWidth(), getHeight());
+		if (camera != null) {
+			camera.setResolution(w, h);
+			camera.setNativeResolution(w, h);
+		}
+			
 	}
 	@Override
 	public void paint(Graphics gr) {
