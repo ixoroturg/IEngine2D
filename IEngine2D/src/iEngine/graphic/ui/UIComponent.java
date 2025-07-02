@@ -41,14 +41,17 @@ public abstract class UIComponent<T> implements Comparable<UIComponent<T>> {
 	protected Model2D<T> model;
 	protected byte rowSize = 1;
 	protected byte columnSize = 1;
+	protected float scale;
+	public static float UIScale = 1;
 //	public static final byte 
 	protected float x = -1, y = -1, width = 0, height = 0;
-	protected float marginX = 0, marginY = 0, marginTop = 0, marginBottom = 0;
+	protected int paddingRight = 0, paddingLeft = 0, paddingTop = 0, paddingBottom = 0;
 	protected byte position = 0;
 	protected int zIndex = 0;
 	protected byte align = 1;
 	protected int gap = 0;
 	protected SortedSet<UIComponent<T>> children = new TreeSet<>();
+	protected int maxWidth = 0, maxHeight = 0;
 	
 	public UIComponent<T> setModel(Model2D<T> model) {
 		this.model = model;
@@ -56,6 +59,14 @@ public abstract class UIComponent<T> implements Comparable<UIComponent<T>> {
 	}
 	public Model2D<T> getModel() {
 		return model;
+	}
+	public UIComponent<T> setMaxWidth(int width) {
+		maxWidth = width;
+		return this;
+	}
+	public UIComponent<T> setMaxHeight(int height){
+		maxHeight = height;
+		return  this;
 	}
 	public UIComponent<T> setAlign(byte align) {
 		this.align = align;
@@ -95,6 +106,9 @@ public abstract class UIComponent<T> implements Comparable<UIComponent<T>> {
 	public UIComponent<T> setZIndex(int index) {
 		zIndex = index;
 		return this;
+	}
+	protected int doZoom(int value) {
+		return (int)(value * UIComponent.UIScale * scale);
 	}
 	public int getZIndex() {
 		return zIndex;
