@@ -21,7 +21,7 @@ public class MyCamera extends StandartJavaCamera implements Controlable {
 
 	@Override
 	public void onCreate() {
-
+		super.onCreate();
 		properties.add(Property.showHitbox, Color.RED.getRGB());
 
 		con.bind(Mouse.MOUSE_WHEEL, MOVE);

@@ -1,6 +1,6 @@
 package iEngine.output;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -12,8 +12,8 @@ public class Window extends JFrame {
 
 	private static final long serialVersionUID = 4170365226302678089L;
 	public Panel frame;
-	private boolean widthIsMain = true;
-	private int[] lastSize = new int[2];
+//	private boolean widthIsMain = true;
+//	private int[] lastSize = new int[2];
 //	private Dimension size = new Dimension(1,1);
 	public Window() {
 		setBounds(0, 0, 1920, 1080);
@@ -28,12 +28,12 @@ public class Window extends JFrame {
 		 * cam.getProperties().add(Property.showHitbox, new
 		 * Color(255,0,0).getRGB());
 		 */
-		JFrame me = this;
+//		JFrame me = this;
 		frame = new Panel();
 		frame.setBounds(0, 0, getWidth(), getHeight());
 		setUndecorated(false);
-		lastSize[0] = getWidth();
-		lastSize[1] = getHeight();
+//		lastSize[0] = getWidth();
+//		lastSize[1] = getHeight();
 		
 		addMouseMotionListener(null);
 
@@ -47,40 +47,29 @@ public class Window extends JFrame {
 				int h = e.getComponent().getHeight();
 //				System.out.println("Размеры: "+w+" "+h);
 //				if(w/h != frame.camera.getRatio()) {
-				if(w == lastSize[0] && h == lastSize[1])
-					return;
-					
-//					System.out.println(w+ " "+h);
-//					System.out.println(Arrays.toString(lastSize));
-					if(w == lastSize[0]) {
-//						System.out.println("Высота изменилась "+w+" "+h+" "+frame.camera.getRatio());
-//						System.out.println("Высота изменилась");
-						w = (int) (h * frame.camera.getRatio());
-//						System.out.println(w);
-					}
-					else if(h == lastSize[1]){
-//						System.out.println("Ширина изменилась изменилась");
-						h = (int) (w / frame.camera.getRatio());
-					} else {
-						if(widthIsMain)
-							h = (int) (w / frame.camera.getRatio());
-						else
-							w = (int) (h * frame.camera.getRatio());
-							
-					}
-						
-//				}
+//				if(w == lastSize[0] && h == lastSize[1])
+//					return;
+//					
+////					System.out.println(w+ " "+h);
+////					System.out.println(Arrays.toString(lastSize));
+//					if(w == lastSize[0]) {
+////						System.out.println("Высота изменилась "+w+" "+h+" "+frame.camera.getRatio());
+////						System.out.println("Высота изменилась");
+//						w = (int) (h * frame.camera.getRatio());
+////						System.out.println(w);
+//					}
+//					else if(h == lastSize[1]){
+////						System.out.println("Ширина изменилась изменилась");
+//						h = (int) (w / frame.camera.getRatio());
+//					} else {
+//						if(widthIsMain)
+//							h = (int) (w / frame.camera.getRatio());
+//						else
+//							w = (int) (h * frame.camera.getRatio());
+//							
+//					}
 				frame.camera.setResolution(w, h);
-				frame.setSize(w, h);
-				lastSize[0] = w;
-				lastSize[1] = h;
-//				final int w1 = w;
-//				final int h1 = h;
-				me.setSize(w,h);
-				EventQueue.invokeLater(()->{
-//					me.setSize(w1, h1);
-				});
-				
+				frame.setSize(w, h);		
 			}
 		});
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -115,7 +104,7 @@ public class Window extends JFrame {
 		frame.setFPS(fps);
 		return this;
 	}
-	public Window setCamera(Camera camera) {
+	public Window setCamera(Camera<Image> camera) {
 		frame.setCamera(camera);
 		return this;
 	}

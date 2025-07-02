@@ -8,10 +8,10 @@ import java.util.Iterator;
 /**
  * @see AbstractCamera
  */
-public abstract class BaseCamera extends AbstractCamera {
+public abstract class BaseCamera<T> extends AbstractCamera<T> {
 	protected Image frame;
 	@Override
-	public Image render() {
+	public T render() {
 		if (world == null)
 			return null;
 		renderStart();
@@ -31,7 +31,7 @@ public abstract class BaseCamera extends AbstractCamera {
 //	protected abstract void renderObject(Renderable2D renderObject, Model2D model2d);
 	protected abstract void draw(Image sprite, int width,int height,float[] matrix);
 
-	protected abstract Image renderComplete();
+	protected abstract T renderComplete();
 
 	protected void prepareRenderObject(Renderable2D renderObject, Model2D model) {
 
@@ -64,6 +64,8 @@ public abstract class BaseCamera extends AbstractCamera {
 		// как и выше вычисляем размеры
 		int w = (int) (((model.getWidth() / width) * frameWidth / 2));
 		int h = (int) (((model.getHeight() / height) * frameHeight / 2)) ;
+//		int w = (int)model.getWidth();
+//		int h = (int)model.getHeight();
 //		w *= frameWidth / frameHeight;
 //		h *= frameHeight / frameWidth;
 //		 * frameHeight / frameWidth

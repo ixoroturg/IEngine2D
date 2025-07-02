@@ -8,16 +8,16 @@ import iEngine.math.Point;
 public abstract class AbstractMouse implements Mouse {
 
 	protected Controller controller;
-	protected Camera camera;
+	protected Camera<?> camera;
 	protected Point position = new Point(0, 0);
 
 	@Override
-	public Mouse setCamera(Camera camera) {
+	public Mouse setCamera(Camera<?> camera) {
 		this.camera = camera;
 		return this;
 	}
 	@Override
-	public Camera getCamera() {
+	public Camera<?> getCamera() {
 		return camera;
 	}
 	@Override

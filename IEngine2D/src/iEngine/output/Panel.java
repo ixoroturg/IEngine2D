@@ -13,9 +13,9 @@ public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 4729727103360528872L;
 	private Timer fps = new Timer(true);
-	public Camera camera;
+	public Camera<Image> camera;
 
-	public Panel setCamera(Camera camera) {
+	public Panel setCamera(Camera<Image> camera) {
 		this.camera = camera;
 		camera.setResolution(getWidth(), getHeight());
 		return this;
@@ -27,23 +27,22 @@ public class Panel extends JPanel {
 	}
 	@Override
 	public void setBounds(int x, int y, int w, int h) {
-//		super.setBounds(x,y,w,h);
 		super.setBounds(x, y, w, h);
-		// super.setBounds(, y, width, height);
-//		System.out.println("Размеры");
 		if (camera != null)
-//			camera.setResolution(w, h);
 			camera.setResolution(getWidth(), getHeight());
 	}
 	@Override
 	public void paint(Graphics gr) {
 		super.paint(gr);
 		Image frame = camera.render();
-		gr.drawImage(frame, 0, 0, getWidth(), getHeight(), null);
+		if(frame == null)
+			return;
+		int offsetX = (frame.getWidth(null) - getWidth()) / 2;
+		int offsetY = (frame.getHeight(null) - getHeight()) / 2;
+		gr.drawImage(frame, -offsetX, -offsetY, null);
 	}
 
 	private TimerTask task = new TimerTask() {
-
 		@Override
 		public void run() {
 			repaint();

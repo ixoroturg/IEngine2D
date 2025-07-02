@@ -1,6 +1,6 @@
 package iEngine.graphic.camera;
 
-import java.awt.Image;
+//import java.awt.Image;
 import java.util.List;
 
 import iEngine.element.interfaces.World;
@@ -11,13 +11,13 @@ import iEngine.math.Vector;
 /**
  * Интерфейс для камеры
  */
-public interface Camera {
+public interface Camera<T> {
 	
-//	public Camera setSize(float width, float height);
-	public Camera setWidth(float width);
-	public Camera setHeight(float height);
+//	public Camera<T> setSize(float width, float height);
+	public Camera<T> setWidth(float width);
+	public Camera<T> setHeight(float height);
 	public float[] getSize();
-	public Camera setRatioLock(boolean lock);
+	public Camera<T> setRatioLock(boolean lock);
 	public boolean isRatioLock();
 	/**
 	 * Устанавливает позицию камеры в мире
@@ -26,7 +26,7 @@ public interface Camera {
 	 * 
 	 * @return this
 	 */
-	public Camera setPosition(Point p);
+	public Camera<T> setPosition(Point p);
 
 	/**
 	 * Получает текущую позицию камеры
@@ -42,7 +42,7 @@ public interface Camera {
 	 * 
 	 * @return this
 	 */
-	public Camera move(Vector v);
+	public Camera<T> move(Vector v);
 
 	/**
 	 * Устанавливает угол поворота камеры
@@ -51,7 +51,7 @@ public interface Camera {
 	 * 
 	 * @return this
 	 */
-	public Camera setAngle(double angle);
+	public Camera<T> setAngle(double angle);
 
 	/**
 	 * @return угол поворота камеры
@@ -66,7 +66,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera rotate(double angle);
+	public Camera<T> rotate(double angle);
 
 	/**
 	 * Устанавливает степень масштабирования камеры<br>
@@ -76,7 +76,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera setScale(float zoom);
+	public Camera<T> setScale(float zoom);
 
 	/**
 	 * @return текущую степень масштабирования
@@ -90,8 +90,8 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera addScale(float scale);
-//	public Camera setPreferSide(byte side);
+	public Camera<T> addScale(float scale);
+//	public Camera<T> setPreferSide(byte side);
 
 	/**
 	 * Умножает текущее масштабирование
@@ -100,7 +100,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera mulScale(float scale);
+	public Camera<T> mulScale(float scale);
 
 	/**
 	 * Устанавливает разрешение камеры
@@ -110,7 +110,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera setResolution(int width, int height);
+	public Camera<T> setResolution(int width, int height);
 
 	/**
 	 * @return разрешение камеры, [0] = width, [1] = height
@@ -124,7 +124,7 @@ public interface Camera {
 	 * 
 	 * @return this
 	 */
-	public Camera setWorld(World world);
+	public Camera<T> setWorld(World world);
 
 	/**
 	 * Устанавливает мир для текущей камеры<br>
@@ -135,7 +135,7 @@ public interface Camera {
 	 * 
 	 * @return this
 	 */
-	public Camera setWorld(World world, boolean synchronizeRenderList);
+	public Camera<T> setWorld(World world, boolean synchronizeRenderList);
 
 	/**
 	 * @return текущий мир камеры
@@ -150,7 +150,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera addRenderList(List<Renderable2D> list);
+	public Camera<T> addRenderList(List<Renderable2D> list);
 
 	/**
 	 * Добавляет список объектов для рендеринга с указанной группой
@@ -160,7 +160,7 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-//	public Camera removeRenderList(List<Renderable> list);
+//	public Camera<T> removeRenderList(List<Renderable> list);
 	/**
 	 * Устанавливает все списки объектов для рендеринга
 	 * 
@@ -168,14 +168,14 @@ public interface Camera {
 	 * 
 	 * @return
 	 */
-	public Camera setRenderList(List<Renderable2D> list);
+	public Camera<T> setRenderList(List<Renderable2D> list);
 
 	/**
 	 * Устанавливает список объектов для рендеринга из переданного мира
 	 * 
 	 * @return this
 	 */
-	public Camera setRenderList(World world);
+	public Camera<T> setRenderList(World world);
 
 	/**
 	 * Возвращает списки объектов для рендеринга
@@ -192,8 +192,9 @@ public interface Camera {
 	/**
 	 * @return Image, который был создан камерой
 	 */
-	public Image render();
+	public T render();
 
-	public Camera setRatio(float ratio);
+	public Camera<T> setRatio(float ratio);
 	public float getRatio();
+	
 }

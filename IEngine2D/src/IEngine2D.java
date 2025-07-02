@@ -1,7 +1,10 @@
 
+import java.awt.Image;
+
 import iEngine.element.interfaces.World;
 import iEngine.element.interfaces.baseInstance.BaseWorld;
 import iEngine.graphic.camera.Camera;
+import iEngine.graphic.camera.instances.StandartJavaCamera;
 import iEngine.input.instances.StandartJavaKeyboard;
 import iEngine.input.instances.StandartJavaMouse;
 import iEngine.input.interfaces.Keyboard;
@@ -40,7 +43,7 @@ public class IEngine2D {
 //		MouseFollower f = new MouseFollower2();
 //		f.getController().bind(KeyEvent.VK_SPACE, MouseFollower.FOLLOW);
 
-		Camera camera = ((Camera) new MyCamera())
+		MyCamera camera = (MyCamera) new MyCamera()
 //				.setResolution(1920, 1080)
 //				.setSize(1920, 1080)
 				.setWidth(1920)
@@ -69,10 +72,12 @@ public class IEngine2D {
 		
 		
 		world.initialize(m);
+		world.initialize(camera);
 		camera.setWorld(world);
 //		world.initialize(f);
 		// System.out.println("Установка тикрейта миру");
 		// world.setTickrate(100);
+//		System.out.println("До старта (Main)");
 		world.startTickrate();
 		window.setFPS(1000);
 

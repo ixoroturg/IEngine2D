@@ -1,6 +1,6 @@
 package iEngine.graphic.camera;
 
-import java.awt.Image;
+//import java.awt.Image;
 import java.util.List;
 
 //import iEngine.element.BaseGameObject;
@@ -20,14 +20,26 @@ import iEngine.math.Vector;
  * удалено)<br>
  * CameraProperty properties - свойства камеры
  */
-public abstract class AbstractCamera extends GameObject implements Camera {
+public abstract class AbstractCamera<T> extends GameObject implements Camera<T> {
 	protected boolean lockRatio = true;
 	protected Point position = new Point(0, 0);
 	protected float angle = 0;
 	protected float zoom = 1;
+	/**
+	 * Ширина камеры в мире
+	 */
 	protected float width = 1;
+	/**
+	 * Высота камеры в мире
+	 */
 	protected float height = 1;
+	/**
+	 * Соотношение сторон камеры
+	 */
 	protected float ratio = 16.0f/9;
+	/**
+	 * Разрешение внутреннего холста камеры
+	 */
 	protected int frameWidth = 0, frameHeight = 0;
 	protected List<Renderable2D> renderList = null;
 	protected CameraProperty properties = new CameraProperty();
@@ -43,7 +55,7 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 //		System.out.println("Соотношение сторон: "+sideRatio);
 	}
 	@Override
-	public Camera setPosition(Point p) {
+	public Camera<T>setPosition(Point p) {
 		position = p;
 		return this;
 	}
@@ -52,12 +64,12 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return position;
 	}
 	@Override
-	public Camera move(Vector v) {
+	public Camera<T>move(Vector v) {
 		position.add(v.x, -v.y);
 		return this;
 	}
 	@Override
-	public Camera setAngle(double angle) {
+	public Camera<T>setAngle(double angle) {
 		this.angle = (float) angle;
 		return this;
 	}
@@ -66,12 +78,12 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return angle;
 	}
 	@Override
-	public Camera rotate(double angle) {
+	public Camera<T>rotate(double angle) {
 		angle += (float) angle;
 		return this;
 	}
 	@Override
-	public Camera setScale(float scale) {
+	public Camera<T>setScale(float scale) {
 		this.zoom = scale;
 		return this;
 	}
@@ -80,23 +92,23 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return zoom;
 	}
 	@Override
-	public Camera addScale(float scale) {
+	public Camera<T>addScale(float scale) {
 		this.zoom += scale;
 		return this;
 	}
 	@Override
-	public Camera mulScale(float scale) {
+	public Camera<T>mulScale(float scale) {
 		this.zoom *= scale;
 		return this;
 	}
 	@Override
-	public AbstractCamera setWorld(World world) {
+	public AbstractCamera<T>setWorld(World world) {
 		this.world = world;
 		renderList = world.getStorage().getRenderList();
 		return this;
 	}
 	@Override
-	public Camera setWorld(World world, boolean synchronizeRenderList) {
+	public Camera<T>setWorld(World world, boolean synchronizeRenderList) {
 		this.world = world;
 		if (synchronizeRenderList)
 			renderList = world.getStorage().getRenderList();
@@ -107,17 +119,17 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return world;
 	}
 	@Override
-	public Camera addRenderList(List<Renderable2D> list) {
+	public Camera<T> addRenderList(List<Renderable2D> list) {
 		renderList.addAll(list);
 		return this;
 	}
 	@Override
-	public Camera setRenderList(List<Renderable2D> list) {
+	public Camera<T> setRenderList(List<Renderable2D> list) {
 		renderList = list;
 		return this;
 	}
 	@Override
-	public Camera setRenderList(World world) {
+	public Camera<T>setRenderList(World world) {
 		renderList = world.getStorage().getRenderList();
 		return this;
 	}
@@ -130,9 +142,11 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return properties;
 	}
 	@Override
-	public Camera setResolution(int w, int h) {
+	public Camera<T>setResolution(int w, int h) {
 		frameWidth = w;
 		frameHeight = h;
+//		System.out.println("AbstractCamera.setResolution()");
+//		System.out.println(w+" "+h);
 		return this;
 	}
 	@Override
@@ -141,7 +155,7 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		};
 	}
 //	@Override
-//	public Camera setSize(float width, float height) {
+//	public Camera<T>setSize(float width, float height) {
 //		this.width = width;
 //		this.height = height;
 //		return this;
@@ -151,7 +165,7 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return new float[] { width, height};
 	}
 	@Override
-	public Camera setRatio(float ratio) {
+	public Camera<T>setRatio(float ratio) {
 		this.ratio = ratio;
 		return this;
 	}
@@ -164,24 +178,20 @@ public abstract class AbstractCamera extends GameObject implements Camera {
 		return lockRatio;
 	}
 	@Override
-	public Camera setRatioLock(boolean lock) {
+	public Camera<T>setRatioLock(boolean lock) {
 		lockRatio = lock;
 		return this;
 	}
 	@Override
-	public Camera setWidth(float width) {
+	public Camera<T>setWidth(float width) {
 		this.width = width;
 		height = width / ratio;
 		return this;
 	}
 	@Override
-	public Camera setHeight(float height) {
+	public Camera<T>setHeight(float height) {
 		this.height = height;
 		width = height * ratio;
 		return this;
 	}
-	@Override
-	public abstract Image render();
-	
-
 }

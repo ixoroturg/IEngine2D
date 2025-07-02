@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import iEngine.graphic.Model2D;
 import iEngine.graphic.Renderable2D;
 import iEngine.graphic.camera.BaseCamera;
+import iEngine.graphic.camera.Camera;
 
 /**
  * Реализация камеры стандартными методами java.awt<br>
@@ -22,9 +23,13 @@ import iEngine.graphic.camera.BaseCamera;
  * @see iEngine.graphic.camera.AbstractCamera
  */
 
-public class StandartJavaCamera extends BaseCamera {
+public class StandartJavaCamera extends BaseCamera<Image> {
 	protected Graphics2D frameGr;
-
+	protected Image frame = null;
+	public StandartJavaCamera() {
+		
+	}
+	
 	@Override
 	protected void renderStart() {
 //		System.out.println("Разрешение окна: "+frameWidth+" "+frameHeight);
@@ -33,8 +38,10 @@ public class StandartJavaCamera extends BaseCamera {
 //
 //		int frameWidth = (int) (width * k);
 //		int frameHeight = (int) (height * k);
-
-		frame = new BufferedImage(frameWidth, frameHeight, BufferedImage.TYPE_INT_ARGB);
+		
+//		frame = new BufferedImage(frameWidth, frameHeight, BufferedImage.TYPE_INT_ARGB);
+//		if(frame == null)
+//			return;
 		frameGr = (Graphics2D) frame.getGraphics();
 
 		frameGr.setColor(new Color(100, 100, 100));
@@ -54,7 +61,23 @@ public class StandartJavaCamera extends BaseCamera {
 		return frame;
 	}
 	@Override
+	public Camera<Image> setResolution(int w, int h){
+		super.setResolution(w, h);
+		float currentRatio = (float)frameWidth / frameHeight;
+//		System.out.println(currentRatio + " "+ratio);
+		if(currentRatio > ratio) {
+			frameHeight = (int)(frameWidth / ratio);
+		} else {
+			frameWidth = (int)(frameHeight * ratio);
+		}
+//		System.out.println(frameWidth+" "+frameHeight);
+		frame = new BufferedImage(frameWidth, frameHeight, BufferedImage.TYPE_INT_ARGB);
+		return this;
+	}
+	@Override
 	public void onCreate() {
+//		System.err.println("Создание");
+		frame = new BufferedImage(frameWidth, frameHeight, BufferedImage.TYPE_INT_ARGB);
 	}
 	@Override
 	protected void draw(Image sprite, int width, int height, float[] matrix) {
